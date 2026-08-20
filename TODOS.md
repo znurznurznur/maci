@@ -1,5 +1,139 @@
 # TODOS
 
+## ZuGov / Governance restructure Phase 2+ follow-ups (from 2026-08-20 `/plan-eng-review`, Phase 1 scope)
+
+### Confirm MACI's `FULL` mode real semantics
+
+**What:** `EMode.FULL` (`packages/core/ts/Poll.ts`) appears, from a partial read during the terminology review, to involve unused-voice-credit refund behavior distinct from a plain quadratic/non-quadratic vote-counting rule — but this was never confirmed against the actual current protocol implementation in this repo, only inferred from a partial code read. Needs a real answer before `FULL` gets classified anywhere in the new `votingProtocolType`/decision-adapter vocabulary: is it a genuine 3rd voting protocol type, a substrate/circuit detail that doesn't belong in that enum at all, or something else entirely.
+
+**Why:** Explicitly flagged as unresolved, not confirmed, during both the 2026-08-20 governance-terminology review and the Phase 1 `/plan-eng-review` — founder's own call to track it separately rather than let it quietly ride along inside the broader "audit MACI's current protocol state" item below.
+
+**Effort:** S (a focused read of `Poll.ts`'s `FULL`-mode branches + whoever knows MACI's circuits)
+**Priority:** P2
+**Depends on:** None — informs the eventual `votingProtocolType` classification and decision-adapter capability declarations
+
+### Unified decision-adapter execution interface
+
+**What:** Phase 1's `decisionAdapterService.ts` is a backend capability registry only (which eligibility mechanisms an adapter supports, which decision-taking mechanisms/voting protocol types it offers) — the actual deploy/vote/tally execution stays adapter-specific frontend code (MACI's existing `useDeployPoll`/`useVote`/`useJoinPoll` hooks, refactored to read capabilities from the registry but not unified). Once a second adapter exists (Zupoll-style survey is the likely first), design a real shared execution interface across adapters.
+
+**Why:** Founder's explicit call during the 2026-08-20 governance-restructure review — designing a unified interface against only one real implementation (MACI) risks getting the shape wrong; better to validate against two.
+
+**Effort:** L
+**Priority:** P2
+**Depends on:** Phase 1 (decision-adapter registry) landing first; at least one non-MACI adapter existing to design against
+
+### Zupoll-style survey decision adapter
+
+**What:** Off-chain, Semaphore-group-proof survey/advisory-vote adapter, matching `julianapeace-zupoll`'s real `Ballot`/`Poll`/`Vote` model (`STRAWPOLL`/`ADVISORYVOTE` ballot types). Fills the "survey" decision-taking mechanism the governance-terminology glossary locked but Phase 1 doesn't build.
+
+**Why:** Confirmed real, planned decision adapter during the 2026-08-20 governance-terminology review, grounded in the actual knowledge-base repo.
+
+**Effort:** L
+**Priority:** P2
+**Depends on:** Decision-adapter architecture (Phase 1) landing first
+
+### Snapshot-style voting decision adapter
+
+**What:** Off-chain, public, signed-message voting adapter — matches the dominant real-world DAO tool (~96% of major DAOs). Would bring genuine "voting strategy" plurality (token-balance, NFT, delegation-based, mixable) into ZuGov, since Snapshot's own architecture cleanly separates voting _type_ (ballot format) from voting _strategy_ (weight computation) — the same split this glossary locked.
+
+**Why:** Researched during the 2026-08-20 governance-terminology review; strongest real-world precedent for the off-chain/public substrate combination.
+
+**Effort:** L
+**Priority:** P2
+**Depends on:** Decision-adapter architecture (Phase 1) landing first
+
+### Tally/Governor-style voting decision adapter
+
+**What:** On-chain, public, token-weighted (ERC20Votes) voting adapter with binding timelock execution — matches OpenZeppelin Governor / Tally. Realizes the already-stubbed-but-dead `MECHANISM_FAMILIES: "tokenWeighted"` wizard option for real.
+
+**Why:** Researched during the 2026-08-20 governance-terminology review; direct precedent already half-named in the codebase.
+
+**Effort:** L
+**Priority:** P2
+**Depends on:** Decision-adapter architecture (Phase 1) landing first
+
+### Voting strategy (voter-power computation)
+
+**What:** A new, currently-unmodeled concept: how much weight one voter's ballot carries — token-balance-based, NFT/credential-based, delegation-adjusted, uniform (today's implicit default), or a composed mix. Orthogonal to voting protocol type (ballot format). Matches Snapshot's real "strategies" concept exactly.
+
+**Why:** Locked in the 2026-08-20 governance-terminology glossary as a real, distinct axis — not built in Phase 1, which only carries forward MACI's existing flat/uniform weighting unchanged.
+
+**Effort:** L
+**Priority:** P2
+**Depends on:** Decision-adapter architecture (Phase 1) landing first; most naturally lands alongside a token-weighted adapter (Governor-style, above)
+
+### Delegation (vote/survey participation-right assignment)
+
+**What:** An eligible member assigns their voting/survey-participation right to another eligible member, scoped to one proposal or the whole community, revocable. Needs a real `delegations` table (delegator, delegate, scope, active/revoked) — today `canDelegate`/`canBeDelegatedTo` are declared tier flags with zero enforcement (`app/delegates/page.tsx` already says so explicitly).
+
+**Why:** Explicit founder requirement during the 2026-08-20 governance-terminology review; must apply to both voting and survey, not just MACI-voting.
+
+**Effort:** M
+**Priority:** P2
+**Depends on:** Proposal rename (Phase 1) landing first
+
+### Decision target/type post-proposal enactment automation
+
+**What:** Phase 1 adds a real `decisionTargetType` column (opinion/policy/person) to `proposals`, but doesn't build what happens after the decision is made. For a "person" (election) target: register the elected person on-chain or directly on the community page. For "policy": apply/execute the decided rule. "Opinion" needs no further action.
+
+**Why:** This is where "election"/"referendum" get real operational meaning per the locked glossary (post-proposal action stage) — Phase 1 only adds the classification, not the behavior it should drive.
+
+**Effort:** M (per target type — person-type enactment is the concrete, requested example)
+**Priority:** P2
+**Depends on:** Proposal rename + decisionTargetType column (Phase 1) landing first
+
+## ZuGov / Governance terminology follow-ups (from 2026-08-20 terminology review)
+
+### Correct "Zupass" in the deferred eligibility adapters list — it's built, just disconnected
+
+**What:** TODOS.md's own "8 deferred eligibility adapters" item lists Zupass as unbuilt. It isn't — `apps/zugov-backend/src/services/identity/zupassAdapter.ts` and `zkidAdapter.ts` are real, working `IdentityProvider` implementations, wired into `routes/credentials.ts`, storing verified/unverified/expired status in the `credentials` table. Neither is called by `eligibilityService.ts`. The fix is a thin `EligibilityAdapter.evaluate()` wrapper reading the already-cached `credentials` row (same shape as the existing `tier` adapter reading an already-stored membership row) — not new proof-verification work.
+
+**Why:** Caught during the 2026-08-20 governance-terminology review while researching the knowledge-base's zupass/zkid repos. zkID isn't on the original deferred list at all.
+
+**Effort:** S (wrapper adapters + list correction)
+**Priority:** P2
+**Depends on:** Eligibility adapters core (done, 2026-08-19)
+
+### Audit current in-repo MACI protocol state against ZuGov's app-layer assumptions
+
+**What:** `GovernanceActionsList.tsx`'s `TALLY_MECHANISM_TO_MODE` maps `"ranked"` to mode code `"3"` — MACI's `EMode` (`packages/core/ts/Poll.ts`) appeared to only have 3 values (`QV`/`NON_QV`/`FULL`, presumably 0/1/2) as read during this review, which would make `"3"` invalid; `"weighted"` maps to the same code as `"simple"`, collapsing two supposedly-distinct app-layer choices into one on-chain behavior. Founder's note: this read may reflect general/initial MACI documentation rather than the actual current state of this repo's MACI protocol, which may have moved ahead without docs catching up. Needs a real audit of `packages/core`/`packages/contracts`'s current capabilities (Mode enum, Policy types, anything newer) before treating the mapping as a confirmed bug or fixing it.
+
+**Why:** Surfaced during the 2026-08-20 governance-terminology review; explicitly downgraded from "confirmed bug" to "needs audit" per founder correction.
+
+**Effort:** S (audit) + M (fix, once scoped)
+**Priority:** P2
+**Depends on:** None — informs the eventual decision-adapter rename/rebuild work
+
+### clr.fund-style decision adapter (funding allocation) — on-chain and off-chain/public variants
+
+**What:** A decision adapter for the "funding allocation" decision target/type — quadratic funding distributing a shared matching pool across many proposals based on many small contributions, rather than a single yes/no or ranked choice on one proposal. Two variants: on-chain/privacy-preserving (composing MACI, matching the real clr.fund protocol), and an off-chain/public equivalent of the same mechanism.
+
+**Why:** Confirmed as a real, planned decision adapter during the 2026-08-20 governance-terminology review — real-world precedent researched (clr.fund integrates MACI for anti-collusion in quadratic funding rounds).
+
+**Effort:** L each variant (new decision-taking mechanism, not just a new adapter on an existing one)
+**Priority:** P3
+**Depends on:** Decision adapter architecture landing first (governance restructure, not yet built)
+
+### Holographic Consensus-style decision adapter — on-chain and off-chain/public variants
+
+**What:** A decision adapter combining token/reputation-weighted voting with a prediction-market-style "boosting" layer that filters which proposals get full-community attention vs. staying scoped to a smaller committee (DAOstack's Genesis Protocol model). Two variants: on-chain (matching the real DAOstack implementation), and an off-chain/public equivalent.
+
+**Why:** Confirmed as a real, planned decision adapter during the 2026-08-20 governance-terminology review.
+
+**Effort:** XL each variant (reputation system + prediction-market mechanics, exotic relative to anything else planned)
+**Priority:** P3
+**Depends on:** Decision adapter architecture landing first (governance restructure, not yet built)
+
+### Document decision adapters as real repo documentation, not just a planning glossary
+
+**What:** The decision-adapters table (MACI, Zupoll-style, Snapshot-style, Tally/Governor-style, clr.fund-style, Holographic-Consensus-style) currently only lives in a `/plan-eng-review`-adjacent glossary doc. Once the governance restructure locks an actual architecture, this belongs in the repo itself — an `ENGINEERING.md` section or a dedicated `docs/decision-adapters.md` — the same way `ENGINEERING.md` already documents the data model and core architectural principles.
+
+**Why:** Explicit founder ask during the 2026-08-20 governance-terminology review.
+
+**Effort:** S (once the architecture is locked — this is a docs task, not a design task)
+**Priority:** P3
+**Depends on:** Governance restructure `/plan-eng-review` landing first
+
 ## ZuGov / Eligibility adapters follow-ups (from 2026-08-19 `/plan-eng-review`)
 
 ### 8 deferred eligibility adapters (MerkleProof, EAS, GitcoinPassport, Zupass, Semaphore, AnonAadhaar, HatsProtocol, ERC20Votes)
