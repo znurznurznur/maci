@@ -12,6 +12,11 @@ import {
 } from "../db/schema.js";
 import { getRpcUrl } from "./chainRpc.js";
 
+// System 1 of 3 identity/eligibility vocabularies (see ENGINEERING.md's Decisions Log,
+// 2026-09-01) — governs community/tier JOIN eligibility. Distinct from SignUpPolicyType (poll
+// voter registration, apps/zugov-frontend/src/config.ts) and credential verification
+// (IdentityProvider.ts / credentialStore.ts). Independently redeclared (not imported) in
+// apps/zugov-frontend/src/services/eligibilityApi.ts — keep both in sync.
 export type EligibilityMechanism = "open" | "tier" | "erc20_token";
 
 export interface EligibilityContext {
