@@ -21,6 +21,15 @@ export class NotAuthorizedToCreateError extends Error {
   }
 }
 
+// Credential wedge (2026-08-29 /plan-eng-review, E0) — distinct from NotAuthorizedToCreateError so
+// a caller (and the frontend) can tell "wrong tier" apart from "right tier, but the required
+// credential isn't verified yet" and point the wallet at the verify flow instead of a dead end.
+export class CredentialRequiredError extends Error {
+  constructor() {
+    super("This tier requires a verified credential to create governance actions");
+  }
+}
+
 export class NonExecutableAxisCombinationError extends Error {
   constructor() {
     super("Axis combination not yet executable");
@@ -181,6 +190,14 @@ async function validateTierAndAxis(
   // axis-combination failure.
   if (!(await isAttached(communityId, decisionAdapterType))) {
     throw new NoDecisionAdapterAttachedError();
+  }
+
+  // Credential wedge (2026-08-29 /plan-eng-review, E0) — checked before the tier-permission check
+  // below, matching its own precedent (no-governance-configured is checked before permission so
+  // the caller sees the actual reason). Ships OFF by default: hasRequiredCredential returns true
+  // immediately for every tier until an admin explicitly sets requiresCredential on it.
+  if (!(await membershipService.hasRequiredCredential(communityId, creatorAddress))) {
+    throw new CredentialRequiredError();
   }
 
   if (!(await membershipService.hasTierPermission(communityId, creatorAddress, "canCreateProposals"))) {

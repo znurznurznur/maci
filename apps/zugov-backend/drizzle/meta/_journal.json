@@ -225,6 +225,13 @@
       "when": 1787921144496,
       "tag": "0031_organic_molten_man",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1788250860110,
+      "tag": "0032_overjoyed_titania",
+      "breakpoints": true
     }
   ]
 }

@@ -1377,3 +1377,50 @@ explicitly deferred as premature for the read-only wedge.
 depends on which path is chosen when this is picked up
 **Priority:** P3
 **Depends on:** Event detail page (2026-08-28) landing first
+
+## E0 credential wedge follow-ups (from 2026-08-29 `/office-hours` + `/plan-eng-review`)
+
+### Register ZuGov's own Zupass Generic Issuance pipeline
+
+**What:** Register a real Zupass Generic Issuance pipeline for ZuGov/Zukas 2026, populated with
+real Zukas ticket/credential data — replacing `ZUPASS_TICKET_CONFIG = ETHBERLIN04` (a bundled
+sample event with zero relation to Zukas), currently hardcoded identically in both
+`apps/zugov-backend/src/services/identity/zupassAdapter.ts` and
+`apps/zugov-frontend/src/hooks/useCredentialScan.ts`.
+
+**Why:** This is the actual gating dependency for the credential wedge (E0) to do anything correct
+at Zukas 2026 — not the engineering work, which is fast and low-risk by comparison. Until this
+pipeline is live, the verify flow has exactly two possible outcomes: fail for every real attendee
+(if left on), or pass for anyone holding an unrelated old ETHBerlin04 PCD. There is no third,
+correct outcome. Surfaced by the outside-voice review during E0's `/plan-eng-review` — previously
+buried in matching code comments on both files, never tracked as an action item.
+
+**Context:** E0 ships with the credential requirement OFF by default on every tier specifically
+because of this — activating it for a real Zukas tier is a separate, explicit decision gated on
+this pipeline actually being registered, not assumed to land alongside the code.
+
+**Effort:** Unknown — external coordination with Zupass/Personhood Foundation, not an engineering
+estimate.
+**Priority:** P0 (blocks E0 ever being safely activated for the live Zukas 2026 pilot, Sept 9-20)
+**Depends on:** None (external, should start immediately, independent of E0's code landing)
+
+### Verify the backend Zupass credential-verify path against a real proof
+
+**What:** `credentialStore`/`zupassAdapter.ts`'s backend verify path has never been confirmed
+against a real Zupass proof — `tests/credentials.test.ts`'s 8 passing tests mock `openac-sdk` (the
+**zkID** library) entirely, not Zupass's own verification path. The assumption that "Zupass already
+works" rests on adjacent green tests, not a direct check of this specific path.
+
+**Why:** Surfaced by the outside-voice review during E0's `/plan-eng-review`. `zkidAdapter.ts`
+calls the same `openac-sdk@0.3.0` package/version as the frontend's confirmed-broken zkID path
+(`OpenAC.init()` throws `WasmError` at runtime) — a real, verified problem for zkID specifically.
+Zupass uses a different library (`@pcd/zuauth`), so this isn't necessarily broken the same way, but
+nobody has actually exercised it against a real proof to confirm that.
+
+**Context:** Should happen before E0's credential requirement is ever activated on a real tier, not
+as a blocker to writing E0's code — matches the "ship OFF by default" decision's intent of
+decoupling "is the code correct" from "is the external verification path actually trustworthy."
+
+**Effort:** S — needs one real Zupass credential/PCD to test against, not new code.
+**Priority:** P1
+**Depends on:** None

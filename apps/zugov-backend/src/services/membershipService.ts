@@ -13,6 +13,8 @@ import {
 import type { TierBody } from "../validators/membershipSchema.js";
 import { evaluateEligibilityAcrossUnion } from "./eligibilityService.js";
 import { listAvailable as listAvailableDecisionAdapters } from "./decisionAdapterService.js";
+import { getCredential } from "./identity/credentialStore.js";
+import type { Protocol } from "./identity/IdentityProvider.js";
 
 export class TierChangesRequireVoteError extends Error {
   constructor() {
@@ -189,14 +191,37 @@ export async function hasTierPermission(
 export async function getMemberTier(
   communityId: string,
   walletAddress: string,
-): Promise<{ tierId: string; canVote: boolean } | null> {
+): Promise<{ tierId: string; canVote: boolean; requiresCredential: Protocol | null } | null> {
   const [row] = await db
-    .select({ tierId: memberships.tierId, canVote: membershipTiers.canVote })
+    .select({
+      tierId: memberships.tierId,
+      canVote: membershipTiers.canVote,
+      requiresCredential: membershipTiers.requiresCredential,
+    })
     .from(memberships)
     .innerJoin(membershipTiers, eq(memberships.tierId, membershipTiers.id))
     .where(and(eq(memberships.walletAddress, walletAddress), eq(memberships.communityId, communityId)))
     .limit(1);
   return row ?? null;
+}
+
+// Credential wedge (2026-08-29 /plan-eng-review, E0) — checks System 3 (identity/credentials, an
+// already-built, already-working verify-and-store system) against a tier's requiresCredential
+// flag, which defaults null (no gate) on every existing tier. Fails closed: a lookup error blocks
+// rather than silently permits, matching this app's standard auth-check posture. Called from
+// proposalService.ts's validateTierAndAxis — the single function shared by all 4 proposal-creation
+// entry points (createDraft, authorizeDirect, confirmDirect, createZupollProposal) — so the gate
+// can't be bypassed by any one of them the way a per-entry-point check could have been.
+export async function hasRequiredCredential(communityId: string, walletAddress: string): Promise<boolean> {
+  const tier = await getMemberTier(communityId, walletAddress);
+  if (!tier?.requiresCredential) return true;
+
+  try {
+    const credential = await getCredential(walletAddress, tier.requiresCredential);
+    return credential?.status === "verified";
+  } catch {
+    return false;
+  }
 }
 
 // formalize-communities epic, Child J (/plan-eng-review 2026-08-26, D6) — extracted from
@@ -374,6 +399,7 @@ export async function createTiersForCommunity(
     canBeDelegatedTo: tier.canBeDelegatedTo,
     canCreateEvents: tier.canCreateEvents,
     canPostDiscussions: tier.canPostDiscussions,
+    requiresCredential: tier.requiresCredential,
     createdAt: now,
   }));
   const inserted = await dbClient.insert(membershipTiers).values(rows).returning();

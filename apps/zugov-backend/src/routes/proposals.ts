@@ -10,6 +10,7 @@ import {
 import * as proposalService from "../services/proposalService.js";
 import {
   NotAuthorizedToCreateError,
+  CredentialRequiredError,
   NonExecutableAxisCombinationError,
   IneligibleTiersError,
   ProposalNotFoundError,
@@ -51,6 +52,7 @@ proposalsRouter.post("/:id/proposals", requireAuth, async (c) => {
     if (err instanceof DraftPathDisabledError) return c.json({ error: err.message }, 403);
     if (err instanceof NoDecisionAdapterAttachedError) return c.json({ error: err.message }, 403);
     if (err instanceof NotAuthorizedToCreateError) return c.json({ error: err.message }, 403);
+    if (err instanceof CredentialRequiredError) return c.json({ error: err.message }, 403);
     if (err instanceof NonExecutableAxisCombinationError) return c.json({ error: err.message }, 422);
     if (err instanceof IneligibleTiersError) {
       return c.json({ error: err.message, details: { invalidTierIds: err.invalidTierIds } }, 422);
@@ -77,6 +79,7 @@ proposalsRouter.post("/:id/proposals/direct/authorize", requireAuth, async (c) =
     if (err instanceof DirectDeploymentDisabledError) return c.json({ error: err.message }, 403);
     if (err instanceof NoDecisionAdapterAttachedError) return c.json({ error: err.message }, 403);
     if (err instanceof NotAuthorizedToCreateError) return c.json({ error: err.message }, 403);
+    if (err instanceof CredentialRequiredError) return c.json({ error: err.message }, 403);
     if (err instanceof NonExecutableAxisCombinationError) return c.json({ error: err.message }, 422);
     if (err instanceof IneligibleTiersError) {
       return c.json({ error: err.message, details: { invalidTierIds: err.invalidTierIds } }, 422);
@@ -103,6 +106,7 @@ proposalsRouter.post("/:id/proposals/direct/confirm", requireAuth, async (c) => 
     if (err instanceof DirectDeploymentDisabledError) return c.json({ error: err.message }, 403);
     if (err instanceof NoDecisionAdapterAttachedError) return c.json({ error: err.message }, 403);
     if (err instanceof NotAuthorizedToCreateError) return c.json({ error: err.message }, 403);
+    if (err instanceof CredentialRequiredError) return c.json({ error: err.message }, 403);
     if (err instanceof NonExecutableAxisCombinationError) return c.json({ error: err.message }, 422);
     if (err instanceof IneligibleTiersError) {
       return c.json({ error: err.message, details: { invalidTierIds: err.invalidTierIds } }, 422);

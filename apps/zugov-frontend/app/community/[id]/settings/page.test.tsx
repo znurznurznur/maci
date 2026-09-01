@@ -188,6 +188,7 @@ describe("CommunitySettingsPage tier removal cascade", () => {
     canVote: true,
     canManageMembership: false,
     canCreateEvents: true,
+    requiresCredential: null,
     isDefault: true,
   };
   const TIER_VIP = {
@@ -197,6 +198,7 @@ describe("CommunitySettingsPage tier removal cascade", () => {
     canVote: true,
     canManageMembership: false,
     canCreateEvents: true,
+    requiresCredential: null,
     isDefault: false,
   };
 

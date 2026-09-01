@@ -37,6 +37,7 @@ export const RESIDENT_ORGANIZER_TIERS: TierDraft[] = Object.freeze([
     canVote: true,
     canManageMembership: false,
     canCreateEvents: true,
+    requiresCredential: null,
   }),
   Object.freeze({
     label: "Organizer",
@@ -44,6 +45,7 @@ export const RESIDENT_ORGANIZER_TIERS: TierDraft[] = Object.freeze([
     canVote: true,
     canManageMembership: true,
     canCreateEvents: true,
+    requiresCredential: null,
   }),
 ]) as TierDraft[];
 
