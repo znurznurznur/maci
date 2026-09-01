@@ -1,14 +1,22 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { PollDeployConfig } from "@/src/config";
 import { CreateProposalModal } from "./CreateProposalModal";
 
 const getTiersMock = vi.fn();
 const listMembersMock = vi.fn();
+const getMembershipStatusMock = vi.fn();
 vi.mock("@/src/services/membershipApi", () => ({
   getTiers: (...args: unknown[]) => getTiersMock(...args),
   listMembers: (...args: unknown[]) => listMembersMock(...args),
+  getMembershipStatus: (...args: unknown[]) => getMembershipStatusMock(...args),
+}));
+
+const listCredentialsMock = vi.fn();
+vi.mock("@/src/services/credentialApi", () => ({
+  list: (...args: unknown[]) => listCredentialsMock(...args),
 }));
 
 const createDraftMock = vi.fn();
@@ -62,7 +70,11 @@ const POLL_DEPLOY_CONFIG: PollDeployConfig = {
 
 function renderWithProviders(ui: React.ReactElement) {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>{ui}</MemoryRouter>
+    </QueryClientProvider>,
+  );
 }
 
 async function fillCommonFields() {
@@ -73,19 +85,23 @@ async function fillCommonFields() {
 beforeEach(() => {
   getTiersMock.mockReset();
   listMembersMock.mockReset();
+  getMembershipStatusMock.mockReset();
+  listCredentialsMock.mockReset();
   createDraftMock.mockReset();
   authorizeDirectMock.mockReset();
   confirmDirectMock.mockReset();
   deployPollMock.mockReset();
   mockSignOut.mockReset();
   getTiersMock.mockResolvedValue([
-    { id: "tier-voter", label: "Voter", canVote: true, isDefault: false },
-    { id: "tier-guest", label: "Guest", canVote: false, isDefault: true },
+    { id: "tier-voter", label: "Voter", canVote: true, isDefault: false, requiresCredential: null },
+    { id: "tier-guest", label: "Guest", canVote: false, isDefault: true, requiresCredential: null },
   ]);
   listMembersMock.mockResolvedValue([
     { walletAddress: "0x1111111111111111111111111111111111111a", tierLabel: "Voter" },
     { walletAddress: "0x2222222222222222222222222222222222222b", tierLabel: "Voter" },
   ]);
+  getMembershipStatusMock.mockResolvedValue({ status: "member", tierLabel: "Voter" });
+  listCredentialsMock.mockResolvedValue([]);
 });
 
 describe("CreateProposalModal", () => {
@@ -361,6 +377,67 @@ describe("CreateProposalModal", () => {
       expect(screen.getByText(/on-chain deployment isn't linked/i)).toBeInTheDocument();
       expect(screen.queryByLabelText(/Title/)).not.toBeInTheDocument();
       expect(authorizeDirectMock).not.toHaveBeenCalled();
+    });
+  });
+
+  // Credential wedge (2026-08-29 /plan-eng-review, E0) — this is a display-only approximation of
+  // the backend's hasRequiredCredential check (the real security boundary); these tests cover the
+  // UI's three states, not the server-side gate (see proposals.test.ts/zupoll.test.ts for that).
+  describe("credential-blocked state (E0)", () => {
+    it("shows no warning and an enabled submit button when the tier has no requiresCredential", async () => {
+      renderWithProviders(<CreateProposalModal isOpen={true} onClose={() => {}} communityId="0xabc" />);
+
+      await waitFor(() => expect(screen.getByText(/Every voting-capable tier/)).toBeInTheDocument());
+
+      expect(screen.queryByText(/requires a verified/i)).not.toBeInTheDocument();
+      await fillCommonFields();
+      expect(screen.getByText("Create Draft")).not.toBeDisabled();
+    });
+
+    it("shows the blocked warning + verify link and disables submit when the tier requires a credential the caller lacks", async () => {
+      getTiersMock.mockResolvedValue([
+        { id: "tier-voter", label: "Voter", canVote: true, isDefault: false, requiresCredential: "zupass" },
+      ]);
+      getMembershipStatusMock.mockResolvedValue({ status: "member", tierLabel: "Voter" });
+      listCredentialsMock.mockResolvedValue([]);
+
+      renderWithProviders(<CreateProposalModal isOpen={true} onClose={() => {}} communityId="0xabc" />);
+
+      await waitFor(() => expect(screen.getByText(/requires a verified Zupass/i)).toBeInTheDocument());
+      expect(screen.getByRole("link", { name: /verify your credential/i })).toHaveAttribute("href", "/manage-profile");
+
+      await fillCommonFields();
+      expect(screen.getByText("Create Draft")).toBeDisabled();
+    });
+
+    it("clears the block and enables submit once the caller has a verified credential for the required protocol", async () => {
+      getTiersMock.mockResolvedValue([
+        { id: "tier-voter", label: "Voter", canVote: true, isDefault: false, requiresCredential: "zupass" },
+      ]);
+      getMembershipStatusMock.mockResolvedValue({ status: "member", tierLabel: "Voter" });
+      listCredentialsMock.mockResolvedValue([{ protocol: "zupass", status: "verified" }]);
+
+      renderWithProviders(<CreateProposalModal isOpen={true} onClose={() => {}} communityId="0xabc" />);
+
+      await waitFor(() => expect(screen.getByText(/Every voting-capable tier/)).toBeInTheDocument());
+      expect(screen.queryByText(/requires a verified/i)).not.toBeInTheDocument();
+
+      await fillCommonFields();
+      expect(screen.getByText("Create Draft")).not.toBeDisabled();
+    });
+
+    it("still blocks when a credential row exists for the protocol but isn't verified (unverified/expired)", async () => {
+      getTiersMock.mockResolvedValue([
+        { id: "tier-voter", label: "Voter", canVote: true, isDefault: false, requiresCredential: "zupass" },
+      ]);
+      getMembershipStatusMock.mockResolvedValue({ status: "member", tierLabel: "Voter" });
+      listCredentialsMock.mockResolvedValue([{ protocol: "zupass", status: "expired" }]);
+
+      renderWithProviders(<CreateProposalModal isOpen={true} onClose={() => {}} communityId="0xabc" />);
+
+      await waitFor(() => expect(screen.getByText(/requires a verified Zupass/i)).toBeInTheDocument());
+      await fillCommonFields();
+      expect(screen.getByText("Create Draft")).toBeDisabled();
     });
   });
 });

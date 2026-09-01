@@ -254,6 +254,11 @@ export const membershipTiers = pgTable("membership_tiers", {
   // of group order in the ruleset. Default 0 for every existing tier; only meaningful once a
   // community actually defines tier-targeting eligibility rules.
   rank: integer("rank").notNull().default(0),
+  // Credential wedge (2026-08-29 /plan-eng-review, E0) — nullable, defaults null on every
+  // existing tier (ships OFF everywhere until an admin explicitly opts a tier in). Distinct axis
+  // from the eligibility-mechanism/sign-up-policy vocabularies: this checks whether the wallet has
+  // a verified System 3 (identity/credentials) record, not a community-join or poll-signup rule.
+  requiresCredential: text("requires_credential").$type<Protocol>(),
   createdAt: integer("created_at").notNull(),
 });
 

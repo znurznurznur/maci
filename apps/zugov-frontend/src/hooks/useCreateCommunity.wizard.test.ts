@@ -91,6 +91,7 @@ describe("RESIDENT_ORGANIZER_TIERS", () => {
       canCreateProposals: false,
       canManageMembership: false,
       canCreateEvents: true,
+      requiresCredential: null,
     });
     expect(organizer).toEqual({
       label: "Organizer",
@@ -98,6 +99,7 @@ describe("RESIDENT_ORGANIZER_TIERS", () => {
       canCreateProposals: true,
       canManageMembership: true,
       canCreateEvents: true,
+      requiresCredential: null,
     });
   });
 });
@@ -146,8 +148,16 @@ describe("useCreateCommunity wizard flow", () => {
         canCreateProposals: false,
         canManageMembership: false,
         canCreateEvents: true,
+        requiresCredential: null,
       },
-      { label: "Steward", canVote: true, canCreateProposals: true, canManageMembership: true, canCreateEvents: true },
+      {
+        label: "Steward",
+        canVote: true,
+        canCreateProposals: true,
+        canManageMembership: true,
+        canCreateEvents: true,
+        requiresCredential: null,
+      },
     ];
 
     act(() => {

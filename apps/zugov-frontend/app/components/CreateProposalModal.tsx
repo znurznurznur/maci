@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useChainId } from "wagmi";
 import { X } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import * as membershipApi from "@/src/services/membershipApi";
 import * as proposalApi from "@/src/services/proposalApi";
+import * as credentialApi from "@/src/services/credentialApi";
 import type {
   ProposalDecisionTargetType,
   ProposalExecutionLocation,
@@ -93,6 +95,24 @@ export function CreateProposalModal({
     enabled: isOpen,
   });
   const votingTiers = tiers.filter((t) => t.canVote);
+
+  // Credential wedge (2026-08-29 /plan-eng-review, E0) — a display-only approximation of the
+  // backend's hasRequiredCredential check (which is the real security boundary, re-checked on
+  // submit), so the submit button and message match what the server will actually decide.
+  const { data: membershipStatus } = useQuery({
+    queryKey: ["membershipStatus", communityId],
+    queryFn: () => membershipApi.getMembershipStatus(communityId),
+    enabled: isOpen,
+  });
+  const myTier = tiers.find((t) => t.label === membershipStatus?.tierLabel);
+  const { data: myCredentials = [] } = useQuery({
+    queryKey: ["credentials"],
+    queryFn: () => credentialApi.list(),
+    enabled: isOpen,
+  });
+  const credentialBlocked =
+    !!myTier?.requiresCredential &&
+    myCredentials.find((c) => c.protocol === myTier.requiresCredential)?.status !== "verified";
 
   // Governance restructure Phase 2 (2026-08-20) — "person"-type (election) proposals are
   // direct-deploy only (see ENGINEERING.md's Decisions Log); the member picker they need only
@@ -291,6 +311,18 @@ export function CreateProposalModal({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="p-8 space-y-8">
+            {credentialBlocked && (
+              <div className="p-4 bg-amber-900/20 border border-amber-700/40 rounded-lg space-y-2">
+                <p className="text-sm text-amber-400">
+                  Your tier ({myTier?.label}) requires a verified{" "}
+                  {myTier?.requiresCredential === "zupass" ? "Zupass" : "zkID"} credential to create governance actions.
+                </p>
+                <Link to="/manage-profile" className="text-sm font-medium text-accent-hover hover:underline">
+                  Verify your credential →
+                </Link>
+              </div>
+            )}
+
             <div>
               <label htmlFor="governance-action-title" className="block text-sm font-semibold text-foreground mb-3">
                 Title *
@@ -551,7 +583,7 @@ export function CreateProposalModal({
               </button>
               <button
                 type="submit"
-                disabled={isSubmitting || !directModeReady}
+                disabled={isSubmitting || !directModeReady || credentialBlocked}
                 className="flex-1 px-6 py-3 bg-accent text-white rounded-lg font-semibold hover:bg-accent-hover disabled:opacity-60"
               >
                 {isSubmitting

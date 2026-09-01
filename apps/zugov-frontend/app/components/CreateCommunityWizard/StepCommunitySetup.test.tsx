@@ -41,6 +41,7 @@ describe("StepCommunitySetup — restores state across Back navigation", () => {
             canCreateProposals: false,
             canManageMembership: false,
             canCreateEvents: true,
+            requiresCredential: null,
           },
         ]}
         isSubmitting={false}

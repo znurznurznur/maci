@@ -36,6 +36,9 @@ export function TierEditor({ tiers, onChange, locked = false }: Props) {
         // Matches the backend's own tierBodySchema default (canCreateEvents: true) so a
         // blank tier added here behaves the same as one created without this field set at all.
         canCreateEvents: true,
+        // Matches the backend's own default (null, no gate) — this one ships OFF, unlike
+        // canCreateEvents above.
+        requiresCredential: null,
       },
     ]);
   }
@@ -106,6 +109,28 @@ export function TierEditor({ tiers, onChange, locked = false }: Props) {
                 />
                 Can create events
               </label>
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="flex items-center gap-1.5 text-sm text-gray-300">
+                <input
+                  type="checkbox"
+                  disabled={locked}
+                  checked={tier.requiresCredential !== null}
+                  onChange={(e) => updateTierField(i, { requiresCredential: e.target.checked ? "zupass" : null })}
+                />
+                Requires a verified credential
+              </label>
+              {tier.requiresCredential !== null && (
+                <select
+                  disabled={locked}
+                  value={tier.requiresCredential}
+                  onChange={(e) => updateTierField(i, { requiresCredential: e.target.value as "zupass" | "zkid" })}
+                  className="px-2 py-1 bg-gray-800 border border-gray-600 text-foreground rounded text-sm disabled:bg-gray-800/40 disabled:text-gray-500"
+                >
+                  <option value="zupass">Zupass</option>
+                  <option value="zkid">zkID</option>
+                </select>
+              )}
             </div>
           </div>
         ))}

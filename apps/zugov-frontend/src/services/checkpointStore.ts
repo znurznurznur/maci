@@ -1,6 +1,7 @@
 import type { Hex } from "viem";
 import type { SignUpPolicyArgs } from "@/src/config";
 import type { CommunityCategory } from "@/src/services/communityApi";
+import type { Protocol } from "@/src/services/credentialApi";
 
 export type DeployPhase = "deploy_sign_up_policy" | "deploy_maci" | "set_target" | "save_community";
 
@@ -12,6 +13,11 @@ export interface TierDraft {
   canVote: boolean;
   canManageMembership: boolean;
   canCreateEvents: boolean;
+  // Credential wedge (2026-08-29 /plan-eng-review, E0) — null (no gate) unless an admin
+  // explicitly opts a tier in. Unlike canCreateEvents, this has no "default true" posture: it
+  // ships OFF everywhere by default, since activating it depends on an external dependency (a
+  // real Zupass credential pipeline, see TODOS.md) outside this app's control.
+  requiresCredential: Protocol | null;
 }
 
 export interface MACIDeploymentConfig {

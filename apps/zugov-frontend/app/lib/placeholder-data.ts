@@ -5,12 +5,54 @@ import type { TierDraft } from "@/src/services/checkpointStore";
 // admin customizes from; also used as the fixed default for the "register existing community"
 // manual path, which doesn't build its own tier editor.
 export const DEFAULT_MEMBERSHIP_TIERS: TierDraft[] = [
-  { label: "Guest", canCreateProposals: false, canVote: false, canManageMembership: false, canCreateEvents: false },
-  { label: "Visitor", canCreateProposals: false, canVote: false, canManageMembership: false, canCreateEvents: false },
-  { label: "Regular", canCreateProposals: false, canVote: true, canManageMembership: false, canCreateEvents: true },
-  { label: "OG", canCreateProposals: true, canVote: true, canManageMembership: false, canCreateEvents: true },
-  { label: "Manager", canCreateProposals: true, canVote: true, canManageMembership: true, canCreateEvents: true },
-  { label: "Admin", canCreateProposals: true, canVote: true, canManageMembership: true, canCreateEvents: true },
+  {
+    label: "Guest",
+    canCreateProposals: false,
+    canVote: false,
+    canManageMembership: false,
+    canCreateEvents: false,
+    requiresCredential: null,
+  },
+  {
+    label: "Visitor",
+    canCreateProposals: false,
+    canVote: false,
+    canManageMembership: false,
+    canCreateEvents: false,
+    requiresCredential: null,
+  },
+  {
+    label: "Regular",
+    canCreateProposals: false,
+    canVote: true,
+    canManageMembership: false,
+    canCreateEvents: true,
+    requiresCredential: null,
+  },
+  {
+    label: "OG",
+    canCreateProposals: true,
+    canVote: true,
+    canManageMembership: false,
+    canCreateEvents: true,
+    requiresCredential: null,
+  },
+  {
+    label: "Manager",
+    canCreateProposals: true,
+    canVote: true,
+    canManageMembership: true,
+    canCreateEvents: true,
+    requiresCredential: null,
+  },
+  {
+    label: "Admin",
+    canCreateProposals: true,
+    canVote: true,
+    canManageMembership: true,
+    canCreateEvents: true,
+    requiresCredential: null,
+  },
 ];
 
 // Maps to EPolicy enum in @maci-protocol/core

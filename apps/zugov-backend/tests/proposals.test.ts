@@ -281,6 +281,137 @@ describe("POST /api/communities/:id/proposals (US1, FR-001/FR-002/FR-003)", () =
   });
 });
 
+// Credential wedge (2026-08-29 /plan-eng-review, E0) — the check lives inside
+// validateTierAndAxis, the ONE function shared by all 4 proposal-creation entry points
+// (createDraft, direct/authorize, direct/confirm, createZupollProposal — see zupoll.test.ts for
+// the 4th). This is the exact bug the outside-voice review caught: an earlier wording would have
+// left 3 of 4 entry points ungated. These tests prove createDraft, direct/authorize, and
+// direct/confirm are all gated identically, not just whichever path was implemented first.
+describe("credential gate (E0, requiresCredential)", () => {
+  const CREDENTIAL_TIER = {
+    label: "Creator",
+    canCreateProposals: true,
+    canVote: true,
+    canManageMembership: false,
+    requiresCredential: "zupass" as const,
+  };
+
+  // credentialStore keys on the exact-case wallet address session.address carries (no
+  // normalization anywhere in that subsystem — see routes/credentials.ts), so this must match
+  // CREATOR.address's casing exactly, not a lowercased form.
+  async function verifyCredentialFor(walletAddress: string) {
+    const now = Math.floor(Date.now() / 1000);
+    await testDb.insert(schema.credentials).values({
+      walletAddress,
+      protocol: "zupass",
+      status: "verified",
+      lastCheckedAt: now,
+      createdAt: now,
+    });
+  }
+
+  it("returns 403 from createDraft when the creator's tier requires a credential they don't have", async () => {
+    const cookie = await authCookieFor(CREATOR);
+    const { communityId, tierIds } = await createCommunityWithTiers(cookie, [CREDENTIAL_TIER, VOTER_TIER]);
+
+    const res = await app.request(`/api/communities/${communityId}/proposals`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Cookie: cookie },
+      body: JSON.stringify({ ...DRAFT_BODY, eligibleTierIds: [tierIds["Voter"]] }),
+    });
+    expect(res.status).toBe(403);
+    const body = (await res.json()) as { error: string };
+    expect(body.error).toMatch(/requires a verified credential/i);
+  });
+
+  it("allows createDraft once the creator has a verified credential for the required protocol", async () => {
+    const cookie = await authCookieFor(CREATOR);
+    const { communityId, tierIds } = await createCommunityWithTiers(cookie, [CREDENTIAL_TIER, VOTER_TIER]);
+    await verifyCredentialFor(CREATOR.address);
+
+    const res = await app.request(`/api/communities/${communityId}/proposals`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Cookie: cookie },
+      body: JSON.stringify({ ...DRAFT_BODY, eligibleTierIds: [tierIds["Voter"]] }),
+    });
+    expect(res.status).toBe(201);
+  });
+
+  it("returns 403 from direct/authorize for the same ungated tier", async () => {
+    const cookie = await authCookieFor(CREATOR);
+    const { communityId, tierIds } = await createCommunityWithTiers(cookie, [CREDENTIAL_TIER, VOTER_TIER]);
+    await enableDirectDeployment(cookie, communityId);
+
+    const res = await app.request(`/api/communities/${communityId}/proposals/direct/authorize`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Cookie: cookie },
+      body: JSON.stringify({ ...DRAFT_BODY, eligibleTierIds: [tierIds["Voter"]] }),
+    });
+    expect(res.status).toBe(403);
+    const body = (await res.json()) as { error: string };
+    expect(body.error).toMatch(/requires a verified credential/i);
+  });
+
+  it("allows direct/authorize once the creator has a verified credential", async () => {
+    const cookie = await authCookieFor(CREATOR);
+    const { communityId, tierIds } = await createCommunityWithTiers(cookie, [CREDENTIAL_TIER, VOTER_TIER]);
+    await enableDirectDeployment(cookie, communityId);
+    await verifyCredentialFor(CREATOR.address);
+
+    const res = await app.request(`/api/communities/${communityId}/proposals/direct/authorize`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Cookie: cookie },
+      body: JSON.stringify({ ...DRAFT_BODY, eligibleTierIds: [tierIds["Voter"]] }),
+    });
+    expect(res.status).toBe(200);
+  });
+
+  it("returns 403 from direct/confirm for the same ungated tier", async () => {
+    const cookie = await authCookieFor(CREATOR);
+    const { communityId, tierIds } = await createCommunityWithTiers(cookie, [CREDENTIAL_TIER, VOTER_TIER]);
+    await enableDirectDeployment(cookie, communityId);
+
+    const res = await app.request(`/api/communities/${communityId}/proposals/direct/confirm`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Cookie: cookie },
+      body: JSON.stringify({
+        ...DRAFT_BODY,
+        eligibleTierIds: [tierIds["Voter"]],
+        pollAddress: "0xPoll",
+        pollId: "0",
+        txHash: "0xTx",
+        pollStartDate: 1000,
+        pollEndDate: 2000,
+      }),
+    });
+    expect(res.status).toBe(403);
+    const body = (await res.json()) as { error: string };
+    expect(body.error).toMatch(/requires a verified credential/i);
+  });
+
+  it("allows direct/confirm once the creator has a verified credential", async () => {
+    const cookie = await authCookieFor(CREATOR);
+    const { communityId, tierIds } = await createCommunityWithTiers(cookie, [CREDENTIAL_TIER, VOTER_TIER]);
+    await enableDirectDeployment(cookie, communityId);
+    await verifyCredentialFor(CREATOR.address);
+
+    const res = await app.request(`/api/communities/${communityId}/proposals/direct/confirm`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Cookie: cookie },
+      body: JSON.stringify({
+        ...DRAFT_BODY,
+        eligibleTierIds: [tierIds["Voter"]],
+        pollAddress: "0xPoll",
+        pollId: "0",
+        txHash: "0xTx",
+        pollStartDate: 1000,
+        pollEndDate: 2000,
+      }),
+    });
+    expect(res.status).toBe(201);
+  });
+});
+
 describe("POST /api/communities/:id/proposals/:actionId/sponsor (US2, FR-004)", () => {
   it("dedupes a repeat sponsor without double-counting", async () => {
     const creatorCookie = await authCookieFor(CREATOR);

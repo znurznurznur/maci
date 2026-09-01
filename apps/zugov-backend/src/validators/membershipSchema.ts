@@ -13,6 +13,11 @@ export const tierBodySchema = z.object({
   // formalize-communities epic, Child J (/plan-eng-review 2026-08-26, D2) — same reasoning as
   // canCreateEvents above.
   canPostDiscussions: z.boolean().optional().default(true),
+  // Credential wedge (2026-08-29 /plan-eng-review, E0) — defaults null (no gate) on every tier,
+  // unlike canCreateEvents/canPostDiscussions' default-true posture: this ships OFF everywhere
+  // until an admin explicitly opts a tier in, since activating it depends on an external
+  // dependency (a real Zupass credential pipeline, see TODOS.md) outside this schema's control.
+  requiresCredential: z.enum(["zupass", "zkid"]).nullable().optional().default(null),
 });
 
 export type TierBody = z.infer<typeof tierBodySchema>;

@@ -81,6 +81,7 @@ export async function create(data: CreateUnionData): Promise<Community> {
         canBeDelegatedTo: false,
         canCreateEvents: false,
         canPostDiscussions: false,
+        requiresCredential: null,
       },
     ],
   });

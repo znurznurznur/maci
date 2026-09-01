@@ -9,6 +9,7 @@ import * as proposalService from "../services/proposalService.js";
 import {
   NoDecisionAdapterAttachedError,
   NotAuthorizedToCreateError,
+  CredentialRequiredError,
   NonExecutableAxisCombinationError,
   IneligibleTiersError,
 } from "../services/proposalService.js";
@@ -139,6 +140,7 @@ zupollCommunityRouter.post("/:id/zupoll/proposals", requireAuth, async (c) => {
   } catch (err) {
     if (err instanceof NoDecisionAdapterAttachedError) return c.json({ error: err.message }, 403);
     if (err instanceof NotAuthorizedToCreateError) return c.json({ error: err.message }, 403);
+    if (err instanceof CredentialRequiredError) return c.json({ error: err.message }, 403);
     if (err instanceof NonExecutableAxisCombinationError) return c.json({ error: err.message }, 422);
     if (err instanceof IneligibleTiersError) {
       return c.json({ error: err.message, details: { invalidTierIds: err.invalidTierIds } }, 422);

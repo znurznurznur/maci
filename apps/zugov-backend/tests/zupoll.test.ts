@@ -6,7 +6,7 @@ import { generateProof } from "@semaphore-protocol/proof";
 import { privateKeyToAccount } from "viem/accounts";
 import { SiweMessage } from "siwe";
 import { eq } from "drizzle-orm";
-import { testDb, clearCommunities } from "./helpers/testDb.js";
+import { testDb, clearCommunities, clearCredentials } from "./helpers/testDb.js";
 import * as schema from "../src/db/schema.js";
 import * as decisionAdapterService from "../src/services/decisionAdapterService.js";
 import * as proposalService from "../src/services/proposalService.js";
@@ -107,10 +107,12 @@ async function registerFreshIdentity(communityId: string, walletAddress: string)
 describe("zupollService", () => {
   beforeEach(async () => {
     await clearCommunities();
+    await clearCredentials();
   });
 
   afterAll(async () => {
     await clearCommunities();
+    await clearCredentials();
   });
 
   describe("decisionAdapterService — zupoll capability (US1)", () => {
@@ -211,6 +213,47 @@ describe("zupollService", () => {
           pollEndDate: now() + 3600,
         }),
       ).rejects.toBeInstanceOf(proposalService.NotAuthorizedToCreateError);
+    });
+
+    // Credential wedge (2026-08-29 /plan-eng-review, E0) — the credential check lives inside
+    // validateTierAndAxis, the ONE function shared by all 4 proposal-creation entry points
+    // (see proposals.test.ts for the other 3). This proves the zupoll path is gated too.
+    it("is rejected when the tier requires a credential the caller doesn't have", async () => {
+      const communityId = await insertCommunity();
+      await decisionAdapterService.attach(communityId, "zupoll");
+      const tierId = await insertTier(communityId, { requiresCredential: "zupass" });
+      await insertMember(communityId, CREATOR.address, tierId);
+
+      await expect(
+        proposalService.createZupollProposal(communityId, CREATOR.address, {
+          title: "Q",
+          options: ["A", "B"],
+          eligibleTierIds: [tierId],
+          pollEndDate: now() + 3600,
+        }),
+      ).rejects.toBeInstanceOf(proposalService.CredentialRequiredError);
+    });
+
+    it("succeeds once the caller has a verified credential for the required protocol", async () => {
+      const communityId = await insertCommunity();
+      await decisionAdapterService.attach(communityId, "zupoll");
+      const tierId = await insertTier(communityId, { requiresCredential: "zupass" });
+      await insertMember(communityId, CREATOR.address, tierId);
+      await testDb.insert(schema.credentials).values({
+        walletAddress: CREATOR.address,
+        protocol: "zupass",
+        status: "verified",
+        lastCheckedAt: now(),
+        createdAt: now(),
+      });
+
+      const proposal = await proposalService.createZupollProposal(communityId, CREATOR.address, {
+        title: "Q",
+        options: ["A", "B"],
+        eligibleTierIds: [tierId],
+        pollEndDate: now() + 3600,
+      });
+      expect(proposal.status).toBe("formalized");
     });
 
     it("HTTP: creation is rejected 422 for a duplicate option string", async () => {
