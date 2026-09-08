@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus, MapPin, MoreVertical, Pencil, Ban, Copy, ChevronDown, ChevronRight } from "lucide-react";
@@ -98,7 +98,21 @@ function EventRow({
   const [confirmingCancel, setConfirmingCancel] = useState(false);
   const [showDuplicate, setShowDuplicate] = useState(false);
   const [cancelError, setCancelError] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const { signOut } = useSiwe();
+
+  // Click-outside close — same pattern as WalletConnectButton.tsx. Without this the actions
+  // menu (Edit / Duplicate / Cancel) stays open until the trigger is clicked again.
+  useEffect(() => {
+    if (!showMenu) return;
+    function handleClick(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setShowMenu(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [showMenu]);
 
   const { rsvps, hasRsvped, rsvpPending, actionError, handleRsvpToggle } = useEventRowActions(
     communityId,
@@ -192,7 +206,7 @@ function EventRow({
                 {rsvpPending ? "..." : hasRsvped ? "Going ✓" : "RSVP"}
               </button>
               {canManage && (
-                <div className="relative">
+                <div className="relative" ref={menuRef}>
                   <button
                     onClick={() => setShowMenu((v) => !v)}
                     className="p-2 min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex items-center justify-center text-gray-400 hover:text-foreground hover:bg-gray-800 rounded-lg"

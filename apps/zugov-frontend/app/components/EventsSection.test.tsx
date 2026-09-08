@@ -182,6 +182,28 @@ describe("EventsSection", () => {
     expect(mockSignOut).toHaveBeenCalledTimes(1);
   });
 
+  it("closes the actions menu on an outside click", async () => {
+    renderWithProviders(<EventsSection communityId="0xabc" connected={true} walletAddress={WALLET_ADDRESS} />);
+
+    fireEvent.click(await screen.findByLabelText("Event actions"));
+    expect(screen.getByText("Duplicate")).toBeInTheDocument();
+
+    fireEvent.mouseDown(document.body);
+
+    await waitFor(() => expect(screen.queryByText("Duplicate")).not.toBeInTheDocument());
+  });
+
+  it("keeps the actions menu open on a click inside it", async () => {
+    renderWithProviders(<EventsSection communityId="0xabc" connected={true} walletAddress={WALLET_ADDRESS} />);
+
+    fireEvent.click(await screen.findByLabelText("Event actions"));
+    const duplicateItem = screen.getByText("Duplicate");
+
+    fireEvent.mouseDown(duplicateItem);
+
+    expect(screen.getByText("Duplicate")).toBeInTheDocument();
+  });
+
   // Events expansion (2026-08-26, Decision 7) — aria-pressed toggle, not role="tab".
   describe("upcoming/past toggle", () => {
     it("defaults to the upcoming tab pressed, and refetches with collection=past on click", async () => {
