@@ -2,6 +2,10 @@ import { parseErrorOr } from "@/src/services/httpClient";
 
 const BASE_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? "http://localhost:3001";
 
+// Mirrors apps/zugov-backend/src/services/eligibilityService.ts's EligibilityMechanism —
+// independently redeclared here, not imported (frontend/backend don't share types across the
+// wire). System 1 of 3 identity/eligibility vocabularies — see ENGINEERING.md's Decisions Log,
+// 2026-09-01.
 export type EligibilityMechanism = "open" | "tier" | "erc20_token";
 
 export interface OpenConfig {}

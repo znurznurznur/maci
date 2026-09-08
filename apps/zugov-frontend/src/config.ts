@@ -3,6 +3,10 @@ import type { Hex } from "viem";
 
 import * as sepoliaDeployment from "./generated/sepolia";
 
+// System 2 of 3 identity/eligibility vocabularies (see ENGINEERING.md's Decisions Log,
+// 2026-09-01) — governs MACI POLL VOTER REGISTRATION, frontend/on-chain only, never read by
+// backend authorization code. Distinct from EligibilityMechanism (community/tier join,
+// eligibilityService.ts) and credential verification (IdentityProvider.ts / credentialStore.ts).
 export type SignUpPolicyType =
   | "FreeForAll"
   | "Zupass"

@@ -1,6 +1,10 @@
 export type CredentialStatus = "verified" | "unverified" | "expired";
 export type Protocol = "zupass" | "zkid";
 
+// System 3 of 3 identity/eligibility vocabularies (see ENGINEERING.md's Decisions Log,
+// 2026-09-01) — VERIFIES a real-world credential (Zupass/zkID) against a wallet; storage lives
+// in the sibling credentialStore.ts. Distinct from EligibilityMechanism (community/tier join,
+// eligibilityService.ts) and SignUpPolicyType (poll voter registration, config.ts).
 export interface IdentityProvider {
   readonly protocol: Protocol;
   readonly trustModel: "zk-verified-offchain";
