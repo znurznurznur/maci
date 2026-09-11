@@ -162,4 +162,13 @@ jobs:
             # keeps its tag (isn't "dangling") even after superseded — plain `image prune -f`
             # would never reclaim them. `-a` is still safe: it only removes images with no
             # container referencing them, so the ones `up -d` just started are protected.
-            docker image prune -af
+            #
+            # timeout + `|| true`: run 32284681463 shows `up -d` completing (backend/coordinator
+            # recreated and started) but the deploy step still timing out — 4+ minutes of total
+            # silence right after, with `docker image prune -af` the only thing left in the
+            # script. Enumerating every image on this VPS's disk is apparently expensive right
+            # now (same symptom as `docker system df` hanging when checked directly), and
+            # cleanup blocking on that turned an already-successful deploy into a reported
+            # failure. Cleanup isn't time-critical; the deploy landing is — bound it so a slow
+            # disk here can no longer take the whole step down with it.
+            timeout 60s docker image prune -af || true
