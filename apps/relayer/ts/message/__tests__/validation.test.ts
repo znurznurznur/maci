@@ -1,4 +1,4 @@
-import { Keypair } from "@maci-protocol/domainobjs";
+import { Keypair } from "@extended-maci/domainobjs";
 
 import { PublicKeyValidator } from "../validation.js";
 

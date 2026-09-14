@@ -1,8 +1,8 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-underscore-dangle */
-import { EMode, MaciState } from "@maci-protocol/core";
-import { NOTHING_UP_MY_SLEEVE } from "@maci-protocol/crypto";
-import { Keypair, Message, VoteCommand, PublicKey, StateLeaf } from "@maci-protocol/domainobjs";
+import { EMode, MaciState } from "@extended-maci/core";
+import { NOTHING_UP_MY_SLEEVE } from "@extended-maci/crypto";
+import { Keypair, Message, VoteCommand, PublicKey, StateLeaf } from "@extended-maci/domainobjs";
 import { expect } from "chai";
 import { AbiCoder, decodeBase58, encodeBase58, getBytes, hexlify, type Signer, ZeroAddress } from "ethers";
 import { type EthereumProvider } from "hardhat/types";

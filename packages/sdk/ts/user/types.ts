@@ -1,7 +1,7 @@
 import { type LeanIMTMerkleProof } from "@zk-kit/lean-imt";
 
-import type { MACI, Poll } from "@maci-protocol/contracts/typechain-types";
-import type { PrivateKey, PublicKey } from "@maci-protocol/domainobjs";
+import type { MACI, Poll } from "@extended-maci/contracts/typechain-types";
+import type { PrivateKey, PublicKey } from "@extended-maci/domainobjs";
 import type { Signer } from "ethers";
 
 /**

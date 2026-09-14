@@ -1,5 +1,5 @@
 {
-  "name": "@maci-protocol/domainobjs",
+  "name": "@extended-maci/domainobjs",
   "version": "3.0.0",
   "private": false,
   "description": "Classes representing domain objects for MACI",
@@ -29,7 +29,7 @@
     "ts-mocha": "^11.1.0"
   },
   "dependencies": {
-    "@maci-protocol/crypto": "workspace:*"
+    "@extended-maci/crypto": "workspace:*"
   },
   "nyc": {
     "reporter": [

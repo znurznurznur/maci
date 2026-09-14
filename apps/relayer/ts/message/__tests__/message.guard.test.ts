@@ -1,6 +1,6 @@
+import { Keypair } from "@extended-maci/domainobjs";
+import { MACI__factory as MACIFactory, Poll__factory as PollFactory } from "@extended-maci/sdk";
 import { jest } from "@jest/globals";
-import { Keypair } from "@maci-protocol/domainobjs";
-import { MACI__factory as MACIFactory, Poll__factory as PollFactory } from "@maci-protocol/sdk";
 import { HttpException, type ExecutionContext } from "@nestjs/common";
 import { type Reflector } from "@nestjs/core";
 import dotenv from "dotenv";
@@ -10,7 +10,7 @@ import { MessageGuard, PUBLIC_METADATA_KEY, Public } from "../message.guard.js";
 
 dotenv.config();
 
-jest.mock("@maci-protocol/sdk", (): unknown => ({
+jest.mock("@extended-maci/sdk", (): unknown => ({
   getDefaultSigner: jest.fn(),
   MACI__factory: {
     connect: jest.fn(),

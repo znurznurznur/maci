@@ -1,4 +1,4 @@
-import { Keypair } from "@maci-protocol/domainobjs";
+import { Keypair } from "@extended-maci/domainobjs";
 import { expect } from "chai";
 import { type Signer, ZeroAddress, toBeArray } from "ethers";
 

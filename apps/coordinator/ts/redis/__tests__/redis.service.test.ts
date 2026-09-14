@@ -1,4 +1,4 @@
-import { ESupportedChains, EMode } from "@maci-protocol/sdk";
+import { ESupportedChains, EMode } from "@extended-maci/sdk";
 import { createClient, type RedisArgument, type RedisClientType } from "@redis/client";
 
 import { RedisService } from "../redis.service";

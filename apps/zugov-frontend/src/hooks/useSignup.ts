@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useAccount, useWalletClient } from "wagmi";
-import { signup } from "@maci-protocol/sdk/browser";
+import { signup } from "@extended-maci/sdk/browser";
 import { useMaci } from "../context/MaciContext";
 import { GovernanceTypes, type GovernanceType } from "../config";
 import { getSignerFromWalletClient } from "../services/wagmiSigner";

@@ -1,4 +1,4 @@
-import { sha256Hash, hashLeftRight, hash3, hash4, hash5, generateRandomSalt } from "@maci-protocol/crypto";
+import { sha256Hash, hashLeftRight, hash3, hash4, hash5, generateRandomSalt } from "@extended-maci/crypto";
 import { expect } from "chai";
 import { type BigNumberish } from "ethers";
 
@@ -40,7 +40,7 @@ describe("Hasher", () => {
     await hasherContract.deploymentTransaction()?.wait();
   });
 
-  it("@maci-protocol/crypto.sha256Hash should match hasher.sha256Hash", async () => {
+  it("@extended-maci/crypto.sha256Hash should match hasher.sha256Hash", async () => {
     const values: string[] = [];
     for (let i = 0; i < 5; i += 1) {
       values.push(generateRandomSalt().toString());
@@ -52,7 +52,7 @@ describe("Hasher", () => {
     }
   });
 
-  it("@maci-protocol/crypto.hashLeftRight should match hasher.hashLeftRight", async () => {
+  it("@extended-maci/crypto.hashLeftRight should match hasher.hashLeftRight", async () => {
     const left = generateRandomSalt();
     const right = generateRandomSalt();
     const hashed = hashLeftRight(left, right);
@@ -61,7 +61,7 @@ describe("Hasher", () => {
     expect(onChainHash.toString()).to.eq(hashed.toString());
   });
 
-  it("@maci-protocol/crypto.hash3 should match hasher.hash3", async () => {
+  it("@extended-maci/crypto.hash3 should match hasher.hash3", async () => {
     const values: BigNumberish[] = [];
     for (let i = 0; i < 3; i += 1) {
       values.push(generateRandomSalt().toString());
@@ -72,7 +72,7 @@ describe("Hasher", () => {
     expect(onChainHash.toString()).to.eq(hashed.toString());
   });
 
-  it("@maci-protocol/crypto.hash4 should match hasher.hash4", async () => {
+  it("@extended-maci/crypto.hash4 should match hasher.hash4", async () => {
     const values: BigNumberish[] = [];
 
     for (let i = 0; i < 4; i += 1) {
@@ -84,7 +84,7 @@ describe("Hasher", () => {
     expect(onChainHash.toString()).to.eq(hashed.toString());
   });
 
-  it("@maci-protocol/crypto.hash5 should match hasher.hash5", async () => {
+  it("@extended-maci/crypto.hash5 should match hasher.hash5", async () => {
     const values: BigNumberish[] = [];
 
     for (let i = 0; i < 5; i += 1) {

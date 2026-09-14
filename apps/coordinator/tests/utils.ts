@@ -1,4 +1,4 @@
-import { ESupportedChains } from "@maci-protocol/sdk";
+import { ESupportedChains } from "@extended-maci/sdk";
 import dotenv from "dotenv";
 import { getBytes, hashMessage, type Signer } from "ethers";
 import { createWalletClient, formatEther, type Hex, http, parseEther } from "viem";

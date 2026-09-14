@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { EMode, EPolicy } from "@maci-protocol/core";
+import { EMode, EPolicy } from "@extended-maci/core";
 import hre, { ethers, network } from "hardhat";
 
 import type { MACI, IBasePolicy } from "../typechain-types";

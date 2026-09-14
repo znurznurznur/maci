@@ -1,5 +1,5 @@
-import { generateRandomSalt } from "@maci-protocol/crypto";
-import { VoteCommand, Keypair } from "@maci-protocol/domainobjs";
+import { generateRandomSalt } from "@extended-maci/crypto";
+import { VoteCommand, Keypair } from "@extended-maci/domainobjs";
 import { expect } from "chai";
 import { type WitnessTester } from "circomkit";
 

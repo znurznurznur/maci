@@ -7,7 +7,7 @@ import { MessageBatchService } from "../messageBatch.service.js";
 
 import { defaultIpfsHash, defaultMessageBatches } from "./utils.js";
 
-jest.mock("@maci-protocol/sdk", (): unknown => ({
+jest.mock("@extended-maci/sdk", (): unknown => ({
   getDefaultSigner: jest.fn(),
   relayMessages: jest.fn(),
 }));

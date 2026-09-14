@@ -1,11 +1,11 @@
 /* eslint-disable no-await-in-loop */
-import { Deployment, EContracts, Prover, readProofs } from "@maci-protocol/contracts";
+import { Deployment, EContracts, Prover, readProofs } from "@extended-maci/contracts";
 import {
   Verifier__factory as VerifierFactory,
   VerifyingKeysRegistry__factory as VerifyingKeysRegistryFactory,
   type Verifier,
   type VerifyingKeysRegistry,
-} from "@maci-protocol/contracts/typechain-types";
+} from "@extended-maci/contracts/typechain-types";
 
 import fs from "fs";
 

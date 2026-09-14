@@ -1,5 +1,5 @@
-import { Keypair } from "@maci-protocol/domainobjs";
-import { isArm, joinPoll, signup, sleepUntil, ESupportedChains, ContractStorage } from "@maci-protocol/sdk";
+import { Keypair } from "@extended-maci/domainobjs";
+import { isArm, joinPoll, signup, sleepUntil, ESupportedChains, ContractStorage } from "@extended-maci/sdk";
 import { ValidationPipe, type INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import dotenv from "dotenv";

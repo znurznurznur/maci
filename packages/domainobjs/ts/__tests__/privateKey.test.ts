@@ -1,4 +1,4 @@
-import { SNARK_FIELD_SIZE, generatePrivateKey } from "@maci-protocol/crypto";
+import { SNARK_FIELD_SIZE, generatePrivateKey } from "@extended-maci/crypto";
 import { expect } from "chai";
 
 import { Keypair, PrivateKey } from "..";

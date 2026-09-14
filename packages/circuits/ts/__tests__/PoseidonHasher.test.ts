@@ -1,4 +1,4 @@
-import { hash5, hash4, hash3, hash2 } from "@maci-protocol/crypto";
+import { hash5, hash4, hash3, hash2 } from "@extended-maci/crypto";
 import { r } from "@zk-kit/baby-jubjub";
 import { type WitnessTester } from "circomkit";
 import fc from "fast-check";

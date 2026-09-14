@@ -1,6 +1,6 @@
-import { MAX_RANKED_VOTE_OPTIONS } from "@maci-protocol/core/build/ts/utils/constants";
-import { generateRandomSalt } from "@maci-protocol/crypto";
-import { Keypair } from "@maci-protocol/domainobjs";
+import { MAX_RANKED_VOTE_OPTIONS } from "@extended-maci/core/build/ts/utils/constants";
+import { generateRandomSalt } from "@extended-maci/crypto";
+import { Keypair } from "@extended-maci/domainobjs";
 import {
   getBlockTimestamp,
   getDefaultSigner,
@@ -23,7 +23,7 @@ import {
   type IMaciContracts,
   joinPoll,
   deployConstantInitialVoiceCreditProxyFactory,
-} from "@maci-protocol/sdk";
+} from "@extended-maci/sdk";
 
 import type { Signer } from "ethers";
 

@@ -50,7 +50,7 @@ const VOTING_PROTOCOL_TYPE_TO_MODE: Record<Proposal["votingProtocolType"], numbe
 const SEPOLIA_CHAIN_ID = 11155111;
 
 // Governance restructure Phase 2 (2026-08-20) — "person"-type (election) proposals only. Not a
-// full @maci-protocol/sdk dependency (zugov-backend doesn't otherwise depend on it) — a minimal
+// full @extended-maci/sdk dependency (zugov-backend doesn't otherwise depend on it) — a minimal
 // duck-typed shape matching the coordinator's real ITallyData.results.tally: string[] response
 // (packages/sdk/ts/tally/types.ts, confirmed against apps/coordinator/ts/proof/proof.controller.ts's
 // `submit(): Promise<ITallyData>`), same index order as `options`/`optionMemberAddresses`.

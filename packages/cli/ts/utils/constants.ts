@@ -1,4 +1,4 @@
-import { EMode, EPolicy } from "@maci-protocol/sdk";
+import { EMode, EPolicy } from "@extended-maci/sdk";
 
 import path from "path";
 

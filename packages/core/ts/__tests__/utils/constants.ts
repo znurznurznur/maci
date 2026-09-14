@@ -1,4 +1,4 @@
-import { Keypair } from "@maci-protocol/domainobjs";
+import { Keypair } from "@extended-maci/domainobjs";
 
 import { VOTE_OPTION_TREE_ARITY } from "../../utils/constants";
 

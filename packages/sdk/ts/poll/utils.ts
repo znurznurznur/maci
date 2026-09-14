@@ -3,7 +3,7 @@ import {
   MessageProcessor__factory as MessageProcessorFactory,
   Poll__factory as PollFactory,
   Tally__factory as TallyFactory,
-} from "@maci-protocol/contracts/typechain-types";
+} from "@extended-maci/contracts/typechain-types";
 import { ZeroAddress } from "ethers";
 
 import type { IGetPollArgs, IGetPollContractsData } from "./types";

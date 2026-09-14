@@ -1,4 +1,4 @@
-import { getPoll, isTallied } from "@maci-protocol/sdk";
+import { getPoll, isTallied } from "@extended-maci/sdk";
 import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import { SchedulerRegistry } from "@nestjs/schedule";
 

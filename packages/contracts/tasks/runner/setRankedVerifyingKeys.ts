@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { EMode } from "@maci-protocol/core";
-import { type IVerifyingKeyObjectParams, VerifyingKey } from "@maci-protocol/domainobjs";
+import { EMode } from "@extended-maci/core";
+import { type IVerifyingKeyObjectParams, VerifyingKey } from "@extended-maci/domainobjs";
 import { task } from "hardhat/config";
 
 import type { IVerifyingKeyStruct } from "../../ts/types";

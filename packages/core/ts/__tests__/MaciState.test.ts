@@ -1,4 +1,4 @@
-import { VoteCommand, type Message, Keypair } from "@maci-protocol/domainobjs";
+import { VoteCommand, type Message, Keypair } from "@extended-maci/domainobjs";
 import { expect } from "chai";
 
 import fs from "fs";

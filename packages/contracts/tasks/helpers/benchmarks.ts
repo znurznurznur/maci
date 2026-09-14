@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { type Message, type Keypair } from "@maci-protocol/domainobjs";
+import { type Message, type Keypair } from "@extended-maci/domainobjs";
 import { TransactionReceipt } from "ethers";
 
 import { error, logGreen, logRed, success } from "../../ts/logger";

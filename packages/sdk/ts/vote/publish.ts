@@ -1,4 +1,4 @@
-import { PrivateKey, PublicKey } from "@maci-protocol/domainobjs";
+import { PrivateKey, PublicKey } from "@extended-maci/domainobjs";
 
 import type { IPublishBatchArgs, IPublishBatchData, IPublishArgs, IPublishData } from "./types";
 

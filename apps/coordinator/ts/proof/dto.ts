@@ -1,4 +1,4 @@
-import { ESupportedChains, EMode } from "@maci-protocol/sdk";
+import { ESupportedChains, EMode } from "@extended-maci/sdk";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsEthereumAddress, IsInt, IsOptional, IsString, Max, Min } from "class-validator";
 

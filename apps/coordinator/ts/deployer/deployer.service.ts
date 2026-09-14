@@ -1,4 +1,4 @@
-import { VerifyingKey } from "@maci-protocol/domainobjs";
+import { VerifyingKey } from "@extended-maci/domainobjs";
 import {
   ContractStorage,
   EPolicies,
@@ -61,7 +61,7 @@ import {
   ESupportedChains,
   BaseChecker,
   ECheckers,
-} from "@maci-protocol/sdk";
+} from "@extended-maci/sdk";
 import { Injectable } from "@nestjs/common";
 import { BaseContract, Signer } from "ethers";
 import { type Hex } from "viem";

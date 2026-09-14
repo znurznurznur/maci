@@ -1,5 +1,5 @@
-import { type Signature } from "@maci-protocol/crypto";
-import { VoteCommand, type Message, Keypair, type PublicKey } from "@maci-protocol/domainobjs";
+import { type Signature } from "@extended-maci/crypto";
+import { VoteCommand, type Message, Keypair, type PublicKey } from "@extended-maci/domainobjs";
 
 import { MaciState } from "../../MaciState";
 import { type Poll } from "../../Poll";

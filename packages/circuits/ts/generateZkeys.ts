@@ -1,4 +1,4 @@
-import { cleanThreads } from "@maci-protocol/sdk";
+import { cleanThreads } from "@extended-maci/sdk";
 import { type CircomkitConfig, type CircuitConfig, Circomkit } from "circomkit";
 
 import fs from "fs";

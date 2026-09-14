@@ -1,4 +1,4 @@
-import type { PublicKey } from "@maci-protocol/domainobjs";
+import type { PublicKey } from "@extended-maci/domainobjs";
 import type { LeanIMT } from "@zk-kit/lean-imt";
 import type { Provider } from "ethers";
 

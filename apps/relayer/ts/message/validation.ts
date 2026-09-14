@@ -1,4 +1,4 @@
-import { PublicKey } from "@maci-protocol/domainobjs";
+import { PublicKey } from "@extended-maci/domainobjs";
 import { ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
 
 /**

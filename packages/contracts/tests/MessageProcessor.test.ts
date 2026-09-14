@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-import { EMode, MaciState, type Poll, type IProcessMessagesCircuitInputs } from "@maci-protocol/core";
-import { NOTHING_UP_MY_SLEEVE } from "@maci-protocol/crypto";
-import { Keypair, Message, PublicKey } from "@maci-protocol/domainobjs";
+import { EMode, MaciState, type Poll, type IProcessMessagesCircuitInputs } from "@extended-maci/core";
+import { NOTHING_UP_MY_SLEEVE } from "@extended-maci/crypto";
+import { Keypair, Message, PublicKey } from "@extended-maci/domainobjs";
 import { expect } from "chai";
 import { type Signer, ZeroAddress } from "ethers";
 import { type EthereumProvider } from "hardhat/types";

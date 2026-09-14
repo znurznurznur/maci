@@ -1,4 +1,4 @@
-import { EMode, EPolicy } from "@maci-protocol/core";
+import { EMode, EPolicy } from "@extended-maci/core";
 import { type ContractFactory, type Signer, type BaseContract, type BigNumberish } from "ethers";
 import { type HardhatRuntimeEnvironment } from "hardhat/types";
 

@@ -1,5 +1,5 @@
-import { EMode } from "@maci-protocol/contracts";
-import { ESupportedChains } from "@maci-protocol/sdk";
+import { EMode } from "@extended-maci/contracts";
+import { ESupportedChains } from "@extended-maci/sdk";
 import dotenv from "dotenv";
 import { JsonRpcProvider } from "ethers";
 import { zeroAddress } from "viem";

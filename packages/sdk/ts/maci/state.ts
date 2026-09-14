@@ -2,14 +2,14 @@ import {
   MACI__factory as MACIFactory,
   Poll__factory as PollFactory,
   generateMaciStateFromContract,
-} from "@maci-protocol/contracts";
-import { Keypair, PrivateKey } from "@maci-protocol/domainobjs";
+} from "@extended-maci/contracts";
+import { Keypair, PrivateKey } from "@extended-maci/domainobjs";
 import { JsonRpcProvider } from "ethers";
 
 import fs from "fs";
 
 import type { IGenerateMaciStateArgs } from "./types";
-import type { MaciState } from "@maci-protocol/core";
+import type { MaciState } from "@extended-maci/core";
 
 import { contractExists } from "../utils/contracts";
 

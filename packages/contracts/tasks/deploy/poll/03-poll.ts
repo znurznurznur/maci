@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { EMode } from "@maci-protocol/core";
-import { type IVerifyingKeyObjectParams, PublicKey, VerifyingKey } from "@maci-protocol/domainobjs";
+import { EMode } from "@extended-maci/core";
+import { type IVerifyingKeyObjectParams, PublicKey, VerifyingKey } from "@extended-maci/domainobjs";
 import { ZeroAddress, toUtf8Bytes } from "ethers";
 
 import type { IVerifyingKeyStruct } from "../../../ts/types";

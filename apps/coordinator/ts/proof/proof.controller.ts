@@ -3,7 +3,7 @@ import { Body, Controller, Get, HttpException, HttpStatus, Logger, Post } from "
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import type { IGenerateData, IMergeArgs } from "./types";
-import type { ITallyData } from "@maci-protocol/sdk";
+import type { ITallyData } from "@extended-maci/sdk";
 
 import { mapErrorToHttpStatus } from "../common/http";
 import { FileService } from "../file/file.service";

@@ -1,4 +1,4 @@
-import { Message } from "@maci-protocol/domainobjs";
+import { Message } from "@extended-maci/domainobjs";
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import {

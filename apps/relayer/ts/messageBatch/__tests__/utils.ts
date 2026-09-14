@@ -1,4 +1,4 @@
-import { Keypair } from "@maci-protocol/domainobjs";
+import { Keypair } from "@extended-maci/domainobjs";
 import { ZeroAddress } from "ethers";
 
 import { Message } from "../../message/message.schema.js";

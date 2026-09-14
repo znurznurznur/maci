@@ -1,4 +1,4 @@
-import type { IMessageContractParams, Keypair, Message, PrivateKey, PublicKey } from "@maci-protocol/domainobjs";
+import type { IMessageContractParams, Keypair, Message, PrivateKey, PublicKey } from "@extended-maci/domainobjs";
 import type { Signer } from "ethers";
 
 /**

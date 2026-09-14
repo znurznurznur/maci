@@ -1,4 +1,4 @@
-import { Keypair } from "@maci-protocol/domainobjs";
+import { Keypair } from "@extended-maci/domainobjs";
 import {
   getBlockTimestamp,
   getDefaultSigner,
@@ -14,8 +14,8 @@ import {
   generateMaciStateTreeWithEndKey,
   deployConstantInitialVoiceCreditProxyFactory,
   EPolicy,
-} from "@maci-protocol/sdk";
-import { joinPoll as joinPollBrowser } from "@maci-protocol/sdk/browser";
+} from "@extended-maci/sdk";
+import { joinPoll as joinPollBrowser } from "@extended-maci/sdk/browser";
 import { expect } from "chai";
 import { type Signer } from "ethers";
 

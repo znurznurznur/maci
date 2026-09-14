@@ -1,3 +1,3 @@
-import { generateKeypair } from "@maci-protocol/crypto";
+import { generateKeypair } from "@extended-maci/crypto";
 
 generateKeypair();

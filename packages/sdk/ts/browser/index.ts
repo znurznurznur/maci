@@ -28,6 +28,6 @@ export type {
   IVerifyingKeyStruct,
   SnarkProof,
   IIpfsMessage,
-} from "@maci-protocol/contracts";
+} from "@extended-maci/contracts";
 
-export * from "@maci-protocol/contracts/typechain-types";
+export * from "@extended-maci/contracts/typechain-types";

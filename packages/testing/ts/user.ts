@@ -1,4 +1,4 @@
-import { Keypair, type PrivateKey } from "@maci-protocol/domainobjs";
+import { Keypair, type PrivateKey } from "@extended-maci/domainobjs";
 
 import type { IVote } from "./types";
 

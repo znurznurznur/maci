@@ -19,23 +19,23 @@ export default defineConfig({
         __dirname,
         "node_modules/vite-plugin-node-polyfills/shims/process",
       ),
-      // @maci-protocol/contracts/typechain-types is used by the SDK browser bundle.
+      // @extended-maci/contracts/typechain-types is used by the SDK browser bundle.
       // Redirect to a local shim that provides the factories actually used at runtime.
-      "@maci-protocol/contracts/typechain-types": resolve(__dirname, "src/poll-factory-shim.ts"),
-      // @maci-protocol/contracts pulls in hardhat + native .node binaries.
+      "@extended-maci/contracts/typechain-types": resolve(__dirname, "src/poll-factory-shim.ts"),
+      // @extended-maci/contracts pulls in hardhat + native .node binaries.
       // Redirect to a browser-safe shim that only exports ABI factories + enums.
-      "@maci-protocol/contracts": resolve(__dirname, "src/maci-contracts-browser-shim.js"),
-      // Dynamic require("hardhat") inside @maci-protocol/contracts/ts/utils.js
+      "@extended-maci/contracts": resolve(__dirname, "src/maci-contracts-browser-shim.js"),
+      // Dynamic require("hardhat") inside @extended-maci/contracts/ts/utils.js
       // would crash the browser. Redirect to an empty stub.
       hardhat: resolve(__dirname, "src/hardhat-stub.js"),
     },
   },
   optimizeDeps: {
-    // @maci-protocol/sdk's bare entry point (e.g. generateEmptyBallotRoots, used by
+    // @extended-maci/sdk's bare entry point (e.g. generateEmptyBallotRoots, used by
     // useCreateCommunity.ts) is CJS and wasn't being pre-bundled — only the /browser subpath
     // was, so the browser received the raw CommonJS file directly and failed to parse it as
     // ESM ("does not provide an export named ..."), crashing every page that imports it.
-    include: ["@maci-protocol/domainobjs", "@maci-protocol/crypto", "@maci-protocol/sdk", "@maci-protocol/sdk/browser"],
+    include: ["@extended-maci/domainobjs", "@extended-maci/crypto", "@extended-maci/sdk", "@extended-maci/sdk/browser"],
     exclude: ["hardhat", "@nomicfoundation/solidity-analyzer"],
   },
   build: {

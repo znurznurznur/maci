@@ -7,9 +7,9 @@ import {
   FreeForAllPolicyFactory__factory as FreeForAllPolicyFactoryFactory,
   MACI__factory as MACIFactory,
   IBasePolicy__factory as SignUpPolicyFactory,
-} from "@maci-protocol/contracts";
-import { VOTE_OPTION_TREE_ARITY } from "@maci-protocol/core";
-import { PublicKey } from "@maci-protocol/domainobjs";
+} from "@extended-maci/contracts";
+import { VOTE_OPTION_TREE_ARITY } from "@extended-maci/core";
+import { PublicKey } from "@extended-maci/domainobjs";
 
 import type { IDeployPollArgs, IPollContractsData } from "./types";
 

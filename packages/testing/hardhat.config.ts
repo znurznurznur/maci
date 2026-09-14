@@ -31,8 +31,8 @@ const config: HardhatUserConfig = {
     },
   },
   paths: {
-    sources: "./node_modules/@maci-protocol/sdk/node_modules/@maci-protocol/contracts/contracts",
-    artifacts: "./node_modules/@maci-protocol/sdk/node_modules/@maci-protocol/contracts/artifacts",
+    sources: "./node_modules/@extended-maci/sdk/node_modules/@extended-maci/contracts/contracts",
+    artifacts: "./node_modules/@extended-maci/sdk/node_modules/@extended-maci/contracts/artifacts",
   },
 };
 

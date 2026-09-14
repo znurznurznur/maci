@@ -1,4 +1,4 @@
-import { MACI__factory as MACIFactory, Poll__factory as PollFactory } from "@maci-protocol/sdk";
+import { MACI__factory as MACIFactory, Poll__factory as PollFactory } from "@extended-maci/sdk";
 import {
   Logger,
   type CanActivate,

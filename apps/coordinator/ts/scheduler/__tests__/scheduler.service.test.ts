@@ -1,4 +1,4 @@
-import { EMode, ESupportedChains, getPoll, isTallied } from "@maci-protocol/sdk";
+import { EMode, ESupportedChains, getPoll, isTallied } from "@extended-maci/sdk";
 import { SchedulerRegistry } from "@nestjs/schedule";
 
 import type { IScheduledPoll } from "../../redis/types";
@@ -25,8 +25,8 @@ const scheduledPoll: IScheduledPoll = {
   proofsGenerated: false,
 };
 
-jest.mock("@maci-protocol/sdk", (): unknown => ({
-  ...jest.requireActual("@maci-protocol/sdk"),
+jest.mock("@extended-maci/sdk", (): unknown => ({
+  ...jest.requireActual("@extended-maci/sdk"),
   getPoll: jest.fn().mockResolvedValue({
     address: "0x123",
     endDate: 1752534000,

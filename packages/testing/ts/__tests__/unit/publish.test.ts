@@ -1,5 +1,5 @@
-import { SNARK_FIELD_SIZE } from "@maci-protocol/crypto";
-import { Keypair } from "@maci-protocol/domainobjs";
+import { SNARK_FIELD_SIZE } from "@extended-maci/crypto";
+import { Keypair } from "@extended-maci/domainobjs";
 import {
   getBlockTimestamp,
   getDefaultSigner,
@@ -16,7 +16,7 @@ import {
   deployConstantInitialVoiceCreditProxy,
   Poll__factory as PollFactory,
   deployConstantInitialVoiceCreditProxyFactory,
-} from "@maci-protocol/sdk";
+} from "@extended-maci/sdk";
 import { expect } from "chai";
 
 import type { Signer } from "ethers";

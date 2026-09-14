@@ -1,4 +1,4 @@
-import { ESupportedChains } from "@maci-protocol/sdk";
+import { ESupportedChains } from "@extended-maci/sdk";
 import { zeroAddress } from "viem";
 
 import { HealthController } from "../health.controller";

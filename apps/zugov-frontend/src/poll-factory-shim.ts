@@ -11,7 +11,7 @@ import {
   CONSTANT_VOICE_CREDIT_PROXY_FACTORY_ABI,
 } from "./generated/abis";
 
-// Browser-safe replacement for @maci-protocol/contracts/typechain-types (see vite.config.ts).
+// Browser-safe replacement for @extended-maci/contracts/typechain-types (see vite.config.ts).
 // ABIs are copied from the real compiled artifacts by packages/contracts/scripts/syncFrontendAbis.ts
 // rather than hand-typed, so they can't drift from what's actually deployed. Only MACI needs
 // bytecode — everything else here is only ever `.connect()`-ed to an already-deployed contract.

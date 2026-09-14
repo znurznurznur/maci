@@ -72,15 +72,15 @@ vi.mock("ethers", async () => {
   return { ...actual, ContractFactory: MockContractFactory, Contract: MockContract };
 });
 
-vi.mock("@maci-protocol/contracts/typechain-types", () => ({
+vi.mock("@extended-maci/contracts/typechain-types", () => ({
   MACI__factory: { abi: [], bytecode: "0x" },
 }));
 
-vi.mock("@maci-protocol/sdk", () => ({
+vi.mock("@extended-maci/sdk", () => ({
   generateEmptyBallotRoots: () => [0n, 0n, 0n, 0n, 0n],
 }));
 
-vi.mock("@maci-protocol/domainobjs", () => ({
+vi.mock("@extended-maci/domainobjs", () => ({
   PublicKey: class {
     serialize() {
       return "macipk.test";

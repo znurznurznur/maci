@@ -1,4 +1,4 @@
-import { EMode, ESupportedChains } from "@maci-protocol/sdk";
+import { EMode, ESupportedChains } from "@extended-maci/sdk";
 import { Injectable } from "@nestjs/common";
 import { formatEther } from "ethers";
 import { zeroAddress } from "viem";

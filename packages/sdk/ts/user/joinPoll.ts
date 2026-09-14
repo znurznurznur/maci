@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-import { MACI__factory as MACIFactory, Poll__factory as PollFactory } from "@maci-protocol/contracts/typechain-types";
-import { poseidon } from "@maci-protocol/crypto";
-import { Keypair, PrivateKey } from "@maci-protocol/domainobjs";
+import { MACI__factory as MACIFactory, Poll__factory as PollFactory } from "@extended-maci/contracts/typechain-types";
+import { poseidon } from "@extended-maci/crypto";
+import { Keypair, PrivateKey } from "@extended-maci/domainobjs";
 
 import type { IJoinPollData, IJoinPollArgs } from "./types";
 import type { TCircuitInputs } from "../utils/types";

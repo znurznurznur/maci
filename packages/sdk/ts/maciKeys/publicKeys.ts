@@ -1,5 +1,5 @@
-import { generatePublicKey } from "@maci-protocol/crypto";
-import { PrivateKey, PublicKey } from "@maci-protocol/domainobjs";
+import { generatePublicKey } from "@extended-maci/crypto";
+import { PrivateKey, PublicKey } from "@extended-maci/domainobjs";
 
 /**
  * Generate a new Maci Public key from a private key

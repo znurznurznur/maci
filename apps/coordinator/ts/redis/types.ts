@@ -1,4 +1,4 @@
-import type { EMode, ESupportedChains } from "@maci-protocol/sdk";
+import type { EMode, ESupportedChains } from "@extended-maci/sdk";
 
 /**
  * Interface of the minimal properties to identify a scheduled poll

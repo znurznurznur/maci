@@ -1,5 +1,5 @@
-import { poseidon } from "@maci-protocol/crypto";
-import { Keypair, type Message, PrivateKey, type PublicKey, VoteCommand } from "@maci-protocol/domainobjs";
+import { poseidon } from "@extended-maci/crypto";
+import { Keypair, type Message, PrivateKey, type PublicKey, VoteCommand } from "@extended-maci/domainobjs";
 import { expect } from "chai";
 import { AbiCoder, type Signer, type TransactionReceipt } from "ethers";
 import hardhat from "hardhat";

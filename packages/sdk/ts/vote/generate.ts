@@ -1,5 +1,5 @@
-import { generateRandomSalt } from "@maci-protocol/crypto";
-import { Keypair, VoteCommand } from "@maci-protocol/domainobjs";
+import { generateRandomSalt } from "@extended-maci/crypto";
+import { Keypair, VoteCommand } from "@extended-maci/domainobjs";
 
 import type { IGenerateVoteArgs, IVote } from "./types";
 

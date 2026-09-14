@@ -1,4 +1,4 @@
-import { EMode, ESupportedChains, type ITallyData } from "@maci-protocol/sdk";
+import { EMode, ESupportedChains, type ITallyData } from "@extended-maci/sdk";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 

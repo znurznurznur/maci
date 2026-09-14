@@ -1,4 +1,4 @@
-import { PublicKey } from "@maci-protocol/domainobjs";
+import { PublicKey } from "@extended-maci/domainobjs";
 import { Injectable, Logger } from "@nestjs/common";
 import { validate } from "class-validator";
 import flatten from "lodash/flatten.js";
@@ -101,7 +101,7 @@ export class MessageBatchService {
       "maciContractAddress",
     );
 
-    const { getDefaultSigner, relayMessages } = await import("@maci-protocol/sdk");
+    const { getDefaultSigner, relayMessages } = await import("@extended-maci/sdk");
     const signer = await getDefaultSigner();
 
     const bytes32IpfsHash = await this.ipfsService.cidToBytes32(ipfsHash);

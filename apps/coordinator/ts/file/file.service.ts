@@ -1,4 +1,4 @@
-import { EMode } from "@maci-protocol/sdk";
+import { EMode } from "@extended-maci/sdk";
 import { Injectable, Logger } from "@nestjs/common";
 import low from "lowdb";
 import FileSync from "lowdb/adapters/FileSync";

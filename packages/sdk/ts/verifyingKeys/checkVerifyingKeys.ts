@@ -1,4 +1,4 @@
-import { EMode } from "@maci-protocol/contracts";
+import { EMode } from "@extended-maci/contracts";
 
 import fs from "fs";
 

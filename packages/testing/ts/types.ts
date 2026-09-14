@@ -6,7 +6,7 @@ import {
   type FreeForAllPolicy,
   type ConstantInitialVoiceCreditProxy,
   type IIpfsMessage,
-} from "@maci-protocol/sdk";
+} from "@extended-maci/sdk";
 
 import type { User } from "./user";
 import type { Signer } from "ethers";

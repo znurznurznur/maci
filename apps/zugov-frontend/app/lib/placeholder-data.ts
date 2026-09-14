@@ -55,7 +55,7 @@ export const DEFAULT_MEMBERSHIP_TIERS: TierDraft[] = [
   },
 ];
 
-// Maps to EPolicy enum in @maci-protocol/core
+// Maps to EPolicy enum in @extended-maci/core
 export const ALLOWED_POLICIES = [
   { id: "1", name: "Free For All" },
   { id: "4", name: "Ethereum Attestation Service (EAS)" },
@@ -70,7 +70,7 @@ export const ALLOWED_POLICIES = [
   { id: "10", name: "Hats Protocol" },
 ];
 
-// Maps to EMode enum in @maci-protocol/core
+// Maps to EMode enum in @extended-maci/core
 export const VOTING_MODES = [
   { id: "0", name: "Quadratic Voting (QV)" },
   { id: "1", name: "Non-Quadratic Voting (NON_QV)" },

@@ -1,5 +1,5 @@
 {
-  "name": "@maci-protocol/sdk",
+  "name": "@extended-maci/sdk",
   "version": "1.0.0",
   "private": false,
   "description": "MACI's SDK",
@@ -45,10 +45,10 @@
   "dependencies": {
     "@zk-kit/lean-imt": "^2.2.3",
     "ethers": "^6.15.0",
-    "@maci-protocol/contracts": "workspace:*",
-    "@maci-protocol/core": "workspace:*",
-    "@maci-protocol/crypto": "workspace:*",
-    "@maci-protocol/domainobjs": "workspace:*",
+    "@extended-maci/contracts": "workspace:*",
+    "@extended-maci/core": "workspace:*",
+    "@extended-maci/crypto": "workspace:*",
+    "@extended-maci/domainobjs": "workspace:*",
     "multiformats": "9.9.0",
     "snarkjs": "^0.7.5"
   },

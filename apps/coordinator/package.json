@@ -1,5 +1,5 @@
 {
-  "name": "@maci-protocol/coordinator",
+  "name": "@extended-maci/coordinator",
   "version": "1.0.0",
   "private": false,
   "description": "Coordinator service for MACI",
@@ -32,11 +32,11 @@
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "^0.97.1",
-    "@maci-protocol/contracts": "workspace:*",
-    "@maci-protocol/crypto": "workspace:*",
-    "@maci-protocol/domainobjs": "workspace:*",
-    "@maci-protocol/sdk": "workspace:*",
-    "@maci-protocol/subgraph": "workspace:*",
+    "@extended-maci/contracts": "workspace:*",
+    "@extended-maci/crypto": "workspace:*",
+    "@extended-maci/domainobjs": "workspace:*",
+    "@extended-maci/sdk": "workspace:*",
+    "@extended-maci/subgraph": "workspace:*",
     "@nestjs/common": "^11.1.5",
     "@nestjs/core": "^11.1.5",
     "@nestjs/platform-express": "^11.1.6",

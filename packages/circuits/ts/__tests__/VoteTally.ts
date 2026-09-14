@@ -1,6 +1,6 @@
-import { EMode, MaciState, type Poll } from "@maci-protocol/core";
-import { poseidon } from "@maci-protocol/crypto";
-import { Keypair, VoteCommand, type Message } from "@maci-protocol/domainobjs";
+import { EMode, MaciState, type Poll } from "@extended-maci/core";
+import { poseidon } from "@extended-maci/crypto";
+import { Keypair, VoteCommand, type Message } from "@extended-maci/domainobjs";
 import { type WitnessTester } from "circomkit";
 
 import { type IVoteTallyInputs } from "../types";

@@ -1,4 +1,4 @@
-import { getDefaultSigner, timeTravel } from "@maci-protocol/sdk";
+import { getDefaultSigner, timeTravel } from "@extended-maci/sdk";
 import { expect } from "chai";
 
 describe("timeTravel", () => {

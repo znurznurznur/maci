@@ -1,7 +1,7 @@
-import { VOTE_OPTION_TREE_ARITY, packRankedVotesTo50Bits } from "@maci-protocol/core";
-import { MAX_RANKED_VOTE_OPTIONS } from "@maci-protocol/core/build/ts/utils/constants";
-import { generateRandomSalt } from "@maci-protocol/crypto";
-import { Keypair } from "@maci-protocol/domainobjs";
+import { VOTE_OPTION_TREE_ARITY, packRankedVotesTo50Bits } from "@extended-maci/core";
+import { MAX_RANKED_VOTE_OPTIONS } from "@extended-maci/core/build/ts/utils/constants";
+import { generateRandomSalt } from "@extended-maci/crypto";
+import { Keypair } from "@extended-maci/domainobjs";
 import {
   generateVote,
   getDefaultSigner,
@@ -24,7 +24,7 @@ import {
   type IMaciContracts,
   joinPoll,
   deployConstantInitialVoiceCreditProxyFactory,
-} from "@maci-protocol/sdk";
+} from "@extended-maci/sdk";
 import { expect } from "chai";
 
 import type { Signer } from "ethers";

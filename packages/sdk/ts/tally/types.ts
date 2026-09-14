@@ -1,4 +1,4 @@
-import type { EMode } from "@maci-protocol/core";
+import type { EMode } from "@extended-maci/core";
 import type { Signer } from "ethers";
 
 /**

@@ -1,5 +1,5 @@
 {
-  "name": "@maci-protocol/subgraph",
+  "name": "@extended-maci/subgraph",
   "version": "3.0.0",
   "description": "A subgraph to index data from MACI protocol to serve as data layer for frontend integration",
   "private": false,

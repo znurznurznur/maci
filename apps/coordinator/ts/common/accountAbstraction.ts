@@ -1,4 +1,4 @@
-import { ESupportedChains } from "@maci-protocol/sdk";
+import { ESupportedChains } from "@extended-maci/sdk";
 import { deserializePermissionAccount } from "@zerodev/permissions";
 import { toECDSASigner } from "@zerodev/permissions/signers";
 import { createKernelAccountClient } from "@zerodev/sdk";
