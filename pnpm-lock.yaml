@@ -113,9 +113,6 @@ importers:
       '@extended-maci/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@extended-maci/subgraph':
-        specifier: workspace:*
-        version: link:../subgraph
       '@graphprotocol/graph-cli':
         specifier: ^0.97.1
         version: 0.97.1(@types/node@24.2.0)(bufferutil@4.1.0)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@3.25.76)
