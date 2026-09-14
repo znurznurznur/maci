@@ -1,4 +1,3 @@
-import { MACI__factory as MACIFactory, Poll__factory as PollFactory } from "@extended-maci/sdk";
 import {
   Logger,
   type CanActivate,
@@ -10,6 +9,7 @@ import {
   HttpStatus,
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
+import { MACI__factory as MACIFactory, Poll__factory as PollFactory } from "@znurznurznur/extended-maci-sdk";
 import { validate } from "class-validator";
 import hardhat from "hardhat";
 import flatMap from "lodash/flatMap.js";

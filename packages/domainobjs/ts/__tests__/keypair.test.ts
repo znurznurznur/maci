@@ -1,4 +1,4 @@
-import { generateKeypair, generatePrivateKey } from "@extended-maci/crypto";
+import { generateKeypair, generatePrivateKey } from "@znurznurznur/extended-maci-crypto";
 import { expect } from "chai";
 
 import { Keypair, PrivateKey } from "..";

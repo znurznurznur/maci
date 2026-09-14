@@ -1,4 +1,4 @@
-import { hash5, hashLeftRight, IncrementalQuinTree } from "@extended-maci/crypto";
+import { hash5, hashLeftRight, IncrementalQuinTree } from "@znurznurznur/extended-maci-crypto";
 
 import assert from "assert";
 

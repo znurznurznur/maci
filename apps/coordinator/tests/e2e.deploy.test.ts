@@ -1,7 +1,14 @@
-import { Keypair } from "@extended-maci/domainobjs";
-import { isArm, joinPoll, signup, sleepUntil, ESupportedChains, ContractStorage } from "@extended-maci/sdk";
 import { ValidationPipe, type INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
+import { Keypair } from "@znurznurznur/extended-maci-domainobjs";
+import {
+  isArm,
+  joinPoll,
+  signup,
+  sleepUntil,
+  ESupportedChains,
+  ContractStorage,
+} from "@znurznurznur/extended-maci-sdk";
 import dotenv from "dotenv";
 import { type Signer } from "ethers";
 import { type Socket, io } from "socket.io-client";

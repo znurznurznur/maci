@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { useAccount, useWalletClient } from "wagmi";
 import { JsonRpcProvider } from "ethers";
-import { generateVote, submitVote, getCoordinatorPublicKey } from "@extended-maci/sdk/browser";
+import { generateVote, submitVote, getCoordinatorPublicKey } from "@znurznurznur/extended-maci-sdk/browser";
 import { useMaci } from "../context/MaciContext";
 import { GovernanceTypes, type GovernanceType } from "../config";
 import { MACI__factory } from "../poll-factory-shim";

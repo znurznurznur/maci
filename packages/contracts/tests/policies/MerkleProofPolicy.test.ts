@@ -1,5 +1,5 @@
-import { Keypair } from "@extended-maci/domainobjs";
 import { type StandardMerkleTree } from "@openzeppelin/merkle-tree";
+import { Keypair } from "@znurznurznur/extended-maci-domainobjs";
 import { expect } from "chai";
 import { AbiCoder, type Signer, ZeroAddress, encodeBytes32String } from "ethers";
 

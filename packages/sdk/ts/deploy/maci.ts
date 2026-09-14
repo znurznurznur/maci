@@ -9,7 +9,7 @@ import {
   deployVerifier,
   EMode,
   EPolicy,
-} from "@extended-maci/contracts";
+} from "@znurznurznur/extended-maci-contracts";
 
 import type { IDeployMaciArgs, IMaciContracts } from "./types";
 
@@ -33,7 +33,7 @@ export const deployMaci = async ({
   owner,
   // Computed as default-parameter expressions (evaluated when deployMaci is actually called),
   // not module-level constants — some bundlers (e.g. Vite, via a circular import between
-  // @extended-maci/contracts and this package) evaluate this module before EMode/EPolicy are
+  // @znurznurznur/extended-maci-contracts and this package) evaluate this module before EMode/EPolicy are
   // defined, and Object.values(undefined) at module load time crashes the whole bundle even for
   // callers that never invoke deployMaci at all.
   initialSupportedModes = Object.values(EMode).filter((value): value is EMode => typeof value === "number"),

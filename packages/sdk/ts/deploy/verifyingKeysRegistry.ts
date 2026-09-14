@@ -1,4 +1,4 @@
-import { deployVerifyingKeysRegistry } from "@extended-maci/contracts";
+import { deployVerifyingKeysRegistry } from "@znurznurznur/extended-maci-contracts";
 
 import type { IDeployVerifyingKeyRegistryArgs } from "./types";
 

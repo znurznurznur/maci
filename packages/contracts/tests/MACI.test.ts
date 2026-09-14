@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import { EMode, MaciState, EPolicy } from "@extended-maci/core";
-import { MAX_RANKED_VOTE_OPTIONS } from "@extended-maci/core/build/ts/utils/constants";
-import { NOTHING_UP_MY_SLEEVE } from "@extended-maci/crypto";
-import { Keypair, PublicKey, Message } from "@extended-maci/domainobjs";
+import { EMode, MaciState, EPolicy } from "@znurznurznur/extended-maci-core";
+import { MAX_RANKED_VOTE_OPTIONS } from "@znurznurznur/extended-maci-core/build/ts/utils/constants";
+import { NOTHING_UP_MY_SLEEVE } from "@znurznurznur/extended-maci-crypto";
+import { Keypair, PublicKey, Message } from "@znurznurznur/extended-maci-domainobjs";
 import { expect } from "chai";
 import { AbiCoder, type BigNumberish, type Signer, ZeroAddress } from "ethers";
 

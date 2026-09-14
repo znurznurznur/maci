@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import { MACI__factory as MACIFactory } from "@extended-maci/contracts/typechain-types";
-import { hashLeanIMT, hashLeftRight, PAD_KEY_HASH } from "@extended-maci/crypto";
-import { PublicKey } from "@extended-maci/domainobjs";
 import { LeanIMT, type LeanIMTHashFunction } from "@zk-kit/lean-imt";
+import { MACI__factory as MACIFactory } from "@znurznurznur/extended-maci-contracts/typechain-types";
+import { hashLeanIMT, hashLeftRight, PAD_KEY_HASH } from "@znurznurznur/extended-maci-crypto";
+import { PublicKey } from "@znurznurznur/extended-maci-domainobjs";
 
 import type { IGenerateSignUpTreeArgs, IGenerateSignUpTree, IGenerateSignUpTreeWithEndKeyArgs } from "./types";
 

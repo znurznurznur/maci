@@ -1,7 +1,7 @@
-import { Keypair } from "@extended-maci/domainobjs";
+import { Keypair } from "@znurznurznur/extended-maci-domainobjs";
 import { type Provider, type Signer, ZeroAddress } from "ethers";
 
-import type { IIpfsMessage } from "@extended-maci/contracts";
+import type { IIpfsMessage } from "@znurznurznur/extended-maci-contracts";
 
 import {
   getRelayedMessages,

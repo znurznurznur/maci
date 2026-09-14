@@ -1,4 +1,4 @@
-import { ContractStorage, Deployment, type EContracts } from "@extended-maci/sdk";
+import { ContractStorage, Deployment, type EContracts } from "@znurznurznur/extended-maci-sdk";
 
 import fs from "fs";
 

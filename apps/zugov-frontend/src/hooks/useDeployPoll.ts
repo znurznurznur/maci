@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { useAccount } from "wagmi";
 import { Contract, ZeroAddress, toUtf8Bytes, getAddress, type Log, type Interface } from "ethers";
-import { PublicKey } from "@extended-maci/domainobjs";
+import { PublicKey } from "@znurznurznur/extended-maci-domainobjs";
 import { MACI__factory, Poll__factory, ConstantVoiceCreditProxyFactory__factory } from "../poll-factory-shim";
 import { GovernanceTypes, PolicyType, type GovernanceType, type PollDeployConfig } from "../config";
 import { SET_TARGET_ABI } from "../services/policyDeploy";

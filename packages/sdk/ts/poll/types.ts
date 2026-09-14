@@ -1,4 +1,4 @@
-import type { Poll, MessageProcessor, Tally, MACI } from "@extended-maci/contracts/typechain-types";
+import type { Poll, MessageProcessor, Tally, MACI } from "@znurznurznur/extended-maci-contracts/typechain-types";
 import type { BigNumberish, Provider, Signer } from "ethers";
 
 /**

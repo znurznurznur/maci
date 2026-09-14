@@ -1,5 +1,5 @@
-import { ESupportedChains } from "@extended-maci/sdk";
 import { Injectable, Logger } from "@nestjs/common";
+import { ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 
 import childProcess from "child_process";
 import fs from "fs";

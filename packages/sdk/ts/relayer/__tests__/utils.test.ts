@@ -1,8 +1,8 @@
-import { type IIpfsMessage, IpfsService } from "@extended-maci/contracts";
-import { Keypair } from "@extended-maci/domainobjs";
+import { type IIpfsMessage, IpfsService } from "@znurznurznur/extended-maci-contracts";
+import { Keypair } from "@znurznurznur/extended-maci-domainobjs";
 import { ZeroAddress, type Provider } from "ethers";
 
-import type { Poll } from "@extended-maci/contracts/typechain-types";
+import type { Poll } from "@znurznurznur/extended-maci-contracts/typechain-types";
 
 import { parseIpfsHashAddedEvents } from "../utils";
 

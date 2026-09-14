@@ -1,4 +1,4 @@
-import { EPolicies } from "@extended-maci/contracts";
+import { EPolicies } from "@znurznurznur/extended-maci-contracts";
 import {
   MACI__factory as MACIFactory,
   IBasePolicy__factory as SignUpPolicyFactory,
@@ -12,7 +12,7 @@ import {
   MerkleProofChecker__factory as MerkleProofCheckerFactory,
   ERC20Checker__factory as ERC20CheckerFactory,
   ERC20VotesChecker__factory as ERC20VotesCheckerFactory,
-} from "@extended-maci/contracts/typechain-types";
+} from "@znurznurznur/extended-maci-contracts/typechain-types";
 
 import type {
   IGetPolicyTraitArgs,

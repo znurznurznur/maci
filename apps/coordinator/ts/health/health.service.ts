@@ -1,5 +1,5 @@
-import { EMode, ESupportedChains } from "@extended-maci/sdk";
 import { Injectable } from "@nestjs/common";
+import { EMode, ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 import { formatEther } from "ethers";
 import { zeroAddress } from "viem";
 

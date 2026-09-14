@@ -19,23 +19,28 @@ export default defineConfig({
         __dirname,
         "node_modules/vite-plugin-node-polyfills/shims/process",
       ),
-      // @extended-maci/contracts/typechain-types is used by the SDK browser bundle.
+      // @znurznurznur/extended-maci-contracts/typechain-types is used by the SDK browser bundle.
       // Redirect to a local shim that provides the factories actually used at runtime.
-      "@extended-maci/contracts/typechain-types": resolve(__dirname, "src/poll-factory-shim.ts"),
-      // @extended-maci/contracts pulls in hardhat + native .node binaries.
+      "@znurznurznur/extended-maci-contracts/typechain-types": resolve(__dirname, "src/poll-factory-shim.ts"),
+      // @znurznurznur/extended-maci-contracts pulls in hardhat + native .node binaries.
       // Redirect to a browser-safe shim that only exports ABI factories + enums.
-      "@extended-maci/contracts": resolve(__dirname, "src/maci-contracts-browser-shim.js"),
-      // Dynamic require("hardhat") inside @extended-maci/contracts/ts/utils.js
+      "@znurznurznur/extended-maci-contracts": resolve(__dirname, "src/maci-contracts-browser-shim.js"),
+      // Dynamic require("hardhat") inside @znurznurznur/extended-maci-contracts/ts/utils.js
       // would crash the browser. Redirect to an empty stub.
       hardhat: resolve(__dirname, "src/hardhat-stub.js"),
     },
   },
   optimizeDeps: {
-    // @extended-maci/sdk's bare entry point (e.g. generateEmptyBallotRoots, used by
+    // @znurznurznur/extended-maci-sdk's bare entry point (e.g. generateEmptyBallotRoots, used by
     // useCreateCommunity.ts) is CJS and wasn't being pre-bundled — only the /browser subpath
     // was, so the browser received the raw CommonJS file directly and failed to parse it as
     // ESM ("does not provide an export named ..."), crashing every page that imports it.
-    include: ["@extended-maci/domainobjs", "@extended-maci/crypto", "@extended-maci/sdk", "@extended-maci/sdk/browser"],
+    include: [
+      "@znurznurznur/extended-maci-domainobjs",
+      "@znurznurznur/extended-maci-crypto",
+      "@znurznurznur/extended-maci-sdk",
+      "@znurznurznur/extended-maci-sdk/browser",
+    ],
     exclude: ["hardhat", "@nomicfoundation/solidity-analyzer"],
   },
   build: {

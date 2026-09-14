@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { PublicKey } from "@extended-maci/domainobjs";
+import { PublicKey } from "@znurznurznur/extended-maci-domainobjs";
 import hre, { ethers, network } from "hardhat";
 
 import type { ZuGovRegistry } from "../typechain-types";

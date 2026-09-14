@@ -1,5 +1,5 @@
-import type { IIpfsMessage } from "@extended-maci/contracts";
-import type { Poll } from "@extended-maci/contracts/typechain-types";
+import type { IIpfsMessage } from "@znurznurznur/extended-maci-contracts";
+import type { Poll } from "@znurznurznur/extended-maci-contracts/typechain-types";
 import type { Provider, Signer } from "ethers";
 
 /**

@@ -1,4 +1,4 @@
-import { Keypair, type VerifyingKey } from "@extended-maci/domainobjs";
+import { Keypair, type VerifyingKey } from "@znurznurznur/extended-maci-domainobjs";
 import {
   EMode,
   EPolicy,
@@ -14,7 +14,7 @@ import {
   type IProveOnChainArgs,
   type ITimeTravelArgs,
   type IDeployMaciArgs,
-} from "@extended-maci/sdk";
+} from "@znurznurznur/extended-maci-sdk";
 
 import { homedir } from "os";
 import path from "path";

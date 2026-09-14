@@ -101,16 +101,16 @@ importers:
 
   apps/coordinator:
     dependencies:
-      '@extended-maci/contracts':
+      '@znurznurznur/extended-maci-contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
-      '@extended-maci/crypto':
+      '@znurznurznur/extended-maci-crypto':
         specifier: workspace:*
         version: link:../../packages/crypto
-      '@extended-maci/domainobjs':
+      '@znurznurznur/extended-maci-domainobjs':
         specifier: workspace:*
         version: link:../../packages/domainobjs
-      '@extended-maci/sdk':
+      '@znurznurznur/extended-maci-sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       '@graphprotocol/graph-cli':
@@ -252,13 +252,13 @@ importers:
 
   apps/relayer:
     dependencies:
-      '@extended-maci/domainobjs':
+      '@znurznurznur/extended-maci-domainobjs':
         specifier: ^3.0.0
         version: link:../../packages/domainobjs
-      '@extended-maci/sdk':
+      '@znurznurznur/extended-maci-sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
-      '@extended-maci/testing':
+      '@znurznurznur/extended-maci-testing':
         specifier: ^1.0.0
         version: link:../../packages/testing
       '@helia/json':
@@ -550,19 +550,19 @@ importers:
 
   apps/zugov-frontend:
     dependencies:
-      '@extended-maci/contracts':
+      '@znurznurznur/extended-maci-contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
-      '@extended-maci/core':
+      '@znurznurznur/extended-maci-core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@extended-maci/crypto':
+      '@znurznurznur/extended-maci-crypto':
         specifier: workspace:*
         version: link:../../packages/crypto
-      '@extended-maci/domainobjs':
+      '@znurznurznur/extended-maci-domainobjs':
         specifier: workspace:*
         version: link:../../packages/domainobjs
-      '@extended-maci/sdk':
+      '@znurznurznur/extended-maci-sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       '@pcd/passport-interface':
@@ -650,16 +650,16 @@ importers:
 
   packages/circuits:
     dependencies:
-      '@extended-maci/core':
+      '@znurznurznur/extended-maci-core':
         specifier: ^3.0.0
         version: link:../core
-      '@extended-maci/crypto':
+      '@znurznurznur/extended-maci-crypto':
         specifier: ^3.0.0
         version: link:../crypto
-      '@extended-maci/domainobjs':
+      '@znurznurznur/extended-maci-domainobjs':
         specifier: ^3.0.0
         version: link:../domainobjs
-      '@extended-maci/sdk':
+      '@znurznurznur/extended-maci-sdk':
         specifier: ^1.0.0
         version: link:../sdk
       '@zk-kit/circuits':
@@ -720,10 +720,10 @@ importers:
       '@commander-js/extra-typings':
         specifier: ^14.0.0
         version: 14.0.0(commander@14.0.0)
-      '@extended-maci/domainobjs':
+      '@znurznurznur/extended-maci-domainobjs':
         specifier: ^3.0.0
         version: link:../domainobjs
-      '@extended-maci/sdk':
+      '@znurznurznur/extended-maci-sdk':
         specifier: ^1.0.0
         version: link:../sdk
       '@nomicfoundation/hardhat-toolbox':
@@ -793,13 +793,13 @@ importers:
       '@excubiae/contracts':
         specifier: ^0.11.0
         version: 0.11.0
-      '@extended-maci/core':
+      '@znurznurznur/extended-maci-core':
         specifier: workspace:*
         version: link:../core
-      '@extended-maci/crypto':
+      '@znurznurznur/extended-maci-crypto':
         specifier: workspace:*
         version: link:../crypto
-      '@extended-maci/domainobjs':
+      '@znurznurznur/extended-maci-domainobjs':
         specifier: workspace:*
         version: link:../domainobjs
       '@nomicfoundation/hardhat-ethers':
@@ -908,10 +908,10 @@ importers:
 
   packages/core:
     dependencies:
-      '@extended-maci/crypto':
+      '@znurznurznur/extended-maci-crypto':
         specifier: workspace:*
         version: link:../crypto
-      '@extended-maci/domainobjs':
+      '@znurznurznur/extended-maci-domainobjs':
         specifier: workspace:*
         version: link:../domainobjs
       '@zk-kit/lean-imt':
@@ -1003,7 +1003,7 @@ importers:
 
   packages/domainobjs:
     dependencies:
-      '@extended-maci/crypto':
+      '@znurznurznur/extended-maci-crypto':
         specifier: workspace:*
         version: link:../crypto
     devDependencies:
@@ -1031,16 +1031,16 @@ importers:
 
   packages/sdk:
     dependencies:
-      '@extended-maci/contracts':
+      '@znurznurznur/extended-maci-contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@extended-maci/core':
+      '@znurznurznur/extended-maci-core':
         specifier: workspace:*
         version: link:../core
-      '@extended-maci/crypto':
+      '@znurznurznur/extended-maci-crypto':
         specifier: workspace:*
         version: link:../crypto
-      '@extended-maci/domainobjs':
+      '@znurznurznur/extended-maci-domainobjs':
         specifier: workspace:*
         version: link:../domainobjs
       '@zk-kit/lean-imt':
@@ -1083,22 +1083,22 @@ importers:
 
   packages/testing:
     dependencies:
-      '@extended-maci/circuits':
+      '@znurznurznur/extended-maci-circuits':
         specifier: ^3.0.0
         version: link:../circuits
-      '@extended-maci/cli':
+      '@znurznurznur/extended-maci-cli':
         specifier: ^3.0.0
         version: link:../cli
-      '@extended-maci/core':
+      '@znurznurznur/extended-maci-core':
         specifier: ^3.0.0
         version: link:../core
-      '@extended-maci/crypto':
+      '@znurznurznur/extended-maci-crypto':
         specifier: ^3.0.0
         version: link:../crypto
-      '@extended-maci/domainobjs':
+      '@znurznurznur/extended-maci-domainobjs':
         specifier: ^3.0.0
         version: link:../domainobjs
-      '@extended-maci/sdk':
+      '@znurznurznur/extended-maci-sdk':
         specifier: ^1.0.0
         version: link:../sdk
       '@nomicfoundation/hardhat-toolbox':

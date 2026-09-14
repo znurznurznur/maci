@@ -5,15 +5,15 @@ import {
   type Poll,
   type IProcessMessagesCircuitInputs,
   type IVoteTallyCircuitInputs,
-} from "@extended-maci/core";
+} from "@znurznurznur/extended-maci-core";
 import {
   generateTreeCommitment,
   generateTreeProof,
   hashLeftRight,
   NOTHING_UP_MY_SLEEVE,
   poseidon,
-} from "@extended-maci/crypto";
-import { Keypair, Message, PublicKey } from "@extended-maci/domainobjs";
+} from "@znurznurznur/extended-maci-crypto";
+import { Keypair, Message, PublicKey } from "@znurznurznur/extended-maci-domainobjs";
 import { expect } from "chai";
 import { AbiCoder, type BigNumberish, type Signer, ZeroAddress } from "ethers";
 import { type EthereumProvider } from "hardhat/types";

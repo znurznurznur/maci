@@ -16,7 +16,7 @@ import {
   EPolicyFactories,
   ESupportedChains,
   ECheckers,
-} from "@extended-maci/sdk";
+} from "@znurznurznur/extended-maci-sdk";
 import dotenv from "dotenv";
 import { type Signer } from "ethers";
 import { zeroAddress } from "viem";
@@ -30,8 +30,8 @@ import { testMaciDeploymentConfig, testPollDeploymentConfig } from "./utils";
 
 dotenv.config();
 
-jest.mock("@extended-maci/sdk", (): unknown => ({
-  ...jest.requireActual("@extended-maci/sdk"),
+jest.mock("@znurznurznur/extended-maci-sdk", (): unknown => ({
+  ...jest.requireActual("@znurznurznur/extended-maci-sdk"),
   ContractStorage: {
     getInstance: jest.fn(),
   },

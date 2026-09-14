@@ -1,5 +1,5 @@
-import { stringifyBigInts } from "@extended-maci/crypto";
-import { type IVerifyingKeyObjectParams } from "@extended-maci/domainobjs";
+import { stringifyBigInts } from "@znurznurznur/extended-maci-crypto";
+import { type IVerifyingKeyObjectParams } from "@znurznurznur/extended-maci-domainobjs";
 import { groth16, type PublicSignals, type Groth16Proof, zKey } from "snarkjs";
 
 import childProcess from "child_process";

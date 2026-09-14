@@ -5,7 +5,7 @@ import {
   extractVerifyingKey,
   generateProofSnarkjs,
   formatProofForVerifierContract,
-} from "@extended-maci/contracts";
+} from "@znurznurznur/extended-maci-contracts";
 
 import type { TCircuitInputs } from "./types";
 

@@ -1,5 +1,5 @@
 import type { PublicKey } from "./publicKey";
-import type { G1Point, G2Point } from "@extended-maci/crypto";
+import type { G1Point, G2Point } from "@znurznurznur/extended-maci-crypto";
 
 /**
  * @notice An interface representing a zk-SNARK proof

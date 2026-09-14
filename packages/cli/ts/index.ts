@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from "@commander-js/extra-typings";
-import { PublicKey, type VerifyingKey } from "@extended-maci/domainobjs";
+import { PublicKey, type VerifyingKey } from "@znurznurznur/extended-maci-domainobjs";
 import {
   generateTallyCommitments,
   getPollParams,
@@ -44,7 +44,7 @@ import {
   generateEmptyBallotRoots,
   FreeForAllCheckerFactory__factory as FreeForAllCheckerFactoryFactory,
   FreeForAllPolicyFactory__factory as FreeForAllPolicyFactoryFactory,
-} from "@extended-maci/sdk";
+} from "@znurznurznur/extended-maci-sdk";
 import { ZeroAddress, type Signer } from "ethers";
 
 import fs from "fs";
@@ -72,7 +72,8 @@ const { description, version, name } = JSON.parse(
 const program = new Command();
 program.name(name).description(description).version(version);
 
-const getSigner = async (): Promise<Signer> => import("@extended-maci/sdk").then((m) => m.getDefaultSigner());
+const getSigner = async (): Promise<Signer> =>
+  import("@znurznurznur/extended-maci-sdk").then((m) => m.getDefaultSigner());
 
 // add the commands
 program

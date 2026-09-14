@@ -1,5 +1,5 @@
-import { ESupportedChains } from "@extended-maci/sdk";
 import { ApiProperty } from "@nestjs/swagger";
+import { ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 import { IsEnum, IsEthereumAddress, IsInt, IsString, Matches, MaxLength, Min, MinLength } from "class-validator";
 
 /**

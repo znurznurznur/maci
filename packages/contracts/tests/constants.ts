@@ -1,6 +1,6 @@
-import { type ITreeDepths, STATE_TREE_ARITY } from "@extended-maci/core";
-import { G1Point, G2Point } from "@extended-maci/crypto";
-import { VerifyingKey } from "@extended-maci/domainobjs";
+import { type ITreeDepths, STATE_TREE_ARITY } from "@znurznurznur/extended-maci-core";
+import { G1Point, G2Point } from "@znurznurznur/extended-maci-crypto";
+import { VerifyingKey } from "@znurznurznur/extended-maci-domainobjs";
 import { type AddressLike } from "ethers";
 
 export interface ExtContractsStruct {

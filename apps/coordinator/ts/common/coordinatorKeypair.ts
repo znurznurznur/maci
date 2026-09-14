@@ -1,4 +1,4 @@
-import { Keypair, PrivateKey } from "@extended-maci/domainobjs";
+import { Keypair, PrivateKey } from "@znurznurznur/extended-maci-domainobjs";
 
 /**
  * Instantiate the MACI Coordinator keypair.

@@ -1,6 +1,6 @@
-import { STATE_TREE_ARITY } from "@extended-maci/core";
-import { IncrementalQuinTree, hash2 } from "@extended-maci/crypto";
-import { Ballot } from "@extended-maci/domainobjs";
+import { STATE_TREE_ARITY } from "@znurznurznur/extended-maci-core";
+import { IncrementalQuinTree, hash2 } from "@znurznurznur/extended-maci-crypto";
+import { Ballot } from "@znurznurznur/extended-maci-domainobjs";
 
 /**
  * Generate empty ballot roots for a given state tree depth

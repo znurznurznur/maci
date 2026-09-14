@@ -1,5 +1,5 @@
-import { ESupportedChains, EMode } from "@extended-maci/sdk";
 import { createClient, type RedisArgument, type RedisClientType } from "@redis/client";
+import { ESupportedChains, EMode } from "@znurznurznur/extended-maci-sdk";
 
 import { RedisService } from "../redis.service";
 import { type IScheduledPoll } from "../types";

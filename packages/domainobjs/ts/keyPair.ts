@@ -1,4 +1,9 @@
-import { type EcdhSharedKey, generateEcdhSharedKey, generateKeypair, generatePublicKey } from "@extended-maci/crypto";
+import {
+  type EcdhSharedKey,
+  generateEcdhSharedKey,
+  generateKeypair,
+  generatePublicKey,
+} from "@znurznurznur/extended-maci-crypto";
 
 import assert from "assert";
 

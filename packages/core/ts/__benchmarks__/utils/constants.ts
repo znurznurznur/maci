@@ -1,4 +1,4 @@
-import { Keypair } from "@extended-maci/domainobjs";
+import { Keypair } from "@znurznurznur/extended-maci-domainobjs";
 
 export const VOICE_CREDIT_BALANCE = 100n;
 export const DURATION = 30;

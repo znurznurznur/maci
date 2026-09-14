@@ -1,4 +1,4 @@
-import { hash12 } from "@extended-maci/crypto";
+import { hash12 } from "@znurznurznur/extended-maci-crypto";
 
 import assert from "assert";
 

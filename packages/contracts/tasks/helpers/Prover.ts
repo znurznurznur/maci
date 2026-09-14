@@ -1,7 +1,7 @@
 /* eslint-disable no-console, no-await-in-loop */
-import { STATE_TREE_ARITY } from "@extended-maci/core";
-import { G1Point, G2Point, generateTreeProof } from "@extended-maci/crypto";
-import { VerifyingKey } from "@extended-maci/domainobjs";
+import { STATE_TREE_ARITY } from "@znurznurznur/extended-maci-core";
+import { G1Point, G2Point, generateTreeProof } from "@znurznurznur/extended-maci-crypto";
+import { VerifyingKey } from "@znurznurznur/extended-maci-domainobjs";
 
 import type { IVerifyingKeyStruct, Proof } from "../../ts/types";
 import type { MACI, MessageProcessor, Poll, Tally, Verifier, VerifyingKeysRegistry } from "../../typechain-types";

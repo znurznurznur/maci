@@ -1,5 +1,5 @@
-import { IncrementalQuinTree, hash5 } from "@extended-maci/crypto";
 import { r } from "@zk-kit/baby-jubjub";
+import { IncrementalQuinTree, hash5 } from "@znurznurznur/extended-maci-crypto";
 import chai, { expect } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { type WitnessTester } from "circomkit";

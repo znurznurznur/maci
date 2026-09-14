@@ -1,5 +1,5 @@
-import { ESupportedChains } from "@extended-maci/sdk";
 import { Test } from "@nestjs/testing";
+import { ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 import { zeroAddress } from "viem";
 
 import { ErrorCodes } from "../../common";

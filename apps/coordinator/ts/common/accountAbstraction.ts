@@ -1,8 +1,8 @@
-import { ESupportedChains } from "@extended-maci/sdk";
 import { deserializePermissionAccount } from "@zerodev/permissions";
 import { toECDSASigner } from "@zerodev/permissions/signers";
 import { createKernelAccountClient } from "@zerodev/sdk";
 import { getEntryPoint, KERNEL_V3_1 } from "@zerodev/sdk/constants";
+import { ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 import dotenv from "dotenv";
 import { createPublicClient, http, type Hex } from "viem";
 import { createBundlerClient } from "viem/account-abstraction";

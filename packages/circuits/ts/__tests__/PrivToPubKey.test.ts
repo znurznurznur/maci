@@ -1,5 +1,5 @@
-import { Keypair, PrivateKey, PublicKey } from "@extended-maci/domainobjs";
 import { Base8, inCurve, mulPointEscalar, r } from "@zk-kit/baby-jubjub";
+import { Keypair, PrivateKey, PublicKey } from "@znurznurznur/extended-maci-domainobjs";
 import { expect } from "chai";
 import { type WitnessTester } from "circomkit";
 import fc from "fast-check";

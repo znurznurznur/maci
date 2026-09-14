@@ -1,5 +1,5 @@
 {
-  "name": "@extended-maci/circuits",
+  "name": "@znurznurznur/extended-maci-circuits",
   "version": "3.0.0",
   "private": false,
   "description": "zk-SNARK circuits for MACI",
@@ -53,10 +53,10 @@
     "@zk-kit/circuits": "^0.4.0",
     "circomkit": "^0.3.4",
     "circomlib": "^2.0.5",
-    "@extended-maci/core": "^3.0.0",
-    "@extended-maci/crypto": "^3.0.0",
-    "@extended-maci/domainobjs": "^3.0.0",
-    "@extended-maci/sdk": "^1.0.0"
+    "@znurznurznur/extended-maci-core": "^3.0.0",
+    "@znurznurznur/extended-maci-crypto": "^3.0.0",
+    "@znurznurznur/extended-maci-domainobjs": "^3.0.0",
+    "@znurznurznur/extended-maci-sdk": "^1.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.3.11",

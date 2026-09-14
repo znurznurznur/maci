@@ -1,6 +1,6 @@
-import { type Verifier, type TAbi } from "@extended-maci/contracts";
-import { type EPolicy, type EMode } from "@extended-maci/core";
-import { type PublicKey } from "@extended-maci/domainobjs";
+import { type Verifier, type TAbi } from "@znurznurznur/extended-maci-contracts";
+import { type EPolicy, type EMode } from "@znurznurznur/extended-maci-core";
+import { type PublicKey } from "@znurznurznur/extended-maci-domainobjs";
 
 import type { Signer } from "ethers";
 

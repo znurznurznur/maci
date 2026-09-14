@@ -1,4 +1,4 @@
-import { generateRandomSalt } from "@extended-maci/crypto";
+import { generateRandomSalt } from "@znurznurznur/extended-maci-crypto";
 import { expect } from "chai";
 
 import { VoteCommand, Keypair } from "..";

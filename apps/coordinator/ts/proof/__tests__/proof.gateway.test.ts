@@ -1,5 +1,5 @@
-import { type ITallyData, type IGenerateProofsOptions, EMode, ESupportedChains } from "@extended-maci/sdk";
 import { Test } from "@nestjs/testing";
+import { type ITallyData, type IGenerateProofsOptions, EMode, ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 import { type Server } from "socket.io";
 
 import type { IGenerateArgs, IGenerateData } from "../types";

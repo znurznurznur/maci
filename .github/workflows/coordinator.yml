@@ -28,7 +28,7 @@ env:
   SUBGRAPH_NAME: "maci-coordinator-subgraph"
   SUBGRAPH_PROVIDER_URL: "https://api.studio.thegraph.com/deploy/"
   SUBGRAPH_DEPLOY_KEY: "subgraph-deploy-key"
-  SUBGRAPH_FOLDER: "./node_modules/@extended-maci/subgraph"
+  SUBGRAPH_FOLDER: "./node_modules/@znurznurznur/extended-maci-subgraph"
   ZERODEV_BUNDLER_RPC_OP_SEPOLIA: "https://rpc.zerodev.app/api/v3"
   MNEMONIC: "test test test test test test test test test test test junk"
 

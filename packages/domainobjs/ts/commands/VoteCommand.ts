@@ -9,7 +9,7 @@ import {
   type EcdhSharedKey,
   type Point,
   poseidonDecryptWithoutCheck,
-} from "@extended-maci/crypto";
+} from "@znurznurznur/extended-maci-crypto";
 
 import assert from "assert";
 

@@ -1,4 +1,4 @@
-import { PublicKey, padKey } from "@extended-maci/domainobjs";
+import { PublicKey, padKey } from "@znurznurznur/extended-maci-domainobjs";
 
 import type { GraphQLResponse } from "./types";
 

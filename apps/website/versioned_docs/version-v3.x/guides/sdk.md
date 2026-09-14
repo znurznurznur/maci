@@ -10,18 +10,18 @@ In this guide we will be looking at how to use the MACI SDK to interact with the
 ## Installation
 
 ```bash
-npm install @extended-maci/sdk
+npm install @znurznurznur/extended-maci-sdk
 ```
 
 ## Browser compatibility
 
-As the SDK imports functions from the `@extended-maci/contracts` package which uses hardhat, certain functionality is not browser compatible.
-However, all it takes to use browser compatible functions is to import from `@extended-maci/sdk/browser`.
+As the SDK imports functions from the `@znurznurznur/extended-maci-contracts` package which uses hardhat, certain functionality is not browser compatible.
+However, all it takes to use browser compatible functions is to import from `@znurznurznur/extended-maci-sdk/browser`.
 
-As an example, we can import the `signUp` function from the `@extended-maci/sdk/browser` package.
+As an example, we can import the `signUp` function from the `@znurznurznur/extended-maci-sdk/browser` package.
 
 ```typescript
-import { signUp } from "@extended-maci/sdk/browser";
+import { signUp } from "@znurznurznur/extended-maci-sdk/browser";
 ```
 
 Let's take a look at an example of how to use the `joinPoll` function to register a user to a poll.
@@ -39,14 +39,14 @@ This step is required to register a user to a specific poll for which they want 
 
 **How to use the SDK for this?**
 
-> This example is browser specific, as it uses the `@extended-maci/sdk/browser` package and WASM for witness generation
+> This example is browser specific, as it uses the `@znurznurznur/extended-maci-sdk/browser` package and WASM for witness generation
 
-Option 1: Use the `joinPoll` function from the `@extended-maci/sdk/browser` package.
+Option 1: Use the `joinPoll` function from the `@znurznurznur/extended-maci-sdk/browser` package.
 
 1. Download the `pollJoining` zk artifacts using [downloadPollJoiningArtifactsBrowser](https://github.com/privacy-scaling-explorations/maci/blob/main/packages/sdk/ts/proof/download.ts#L46)
 
 ```typescript
-import { downloadPollJoiningArtifactsBrowser } from "@extended-maci/sdk/browser";
+import { downloadPollJoiningArtifactsBrowser } from "@znurznurznur/extended-maci-sdk/browser";
 
 const artifacts = await downloadPollJoiningArtifactsBrowser({
   testing: true,
@@ -57,7 +57,7 @@ const artifacts = await downloadPollJoiningArtifactsBrowser({
 2. Use the `joinPoll` function to join the poll
 
 ```typescript
-import { joinPoll } from "@extended-maci/sdk/browser";
+import { joinPoll } from "@znurznurznur/extended-maci-sdk/browser";
 
 const joinedPollData = await joinPoll({
   maciAddress: PUBLIC_MACI_ADDRESS,
@@ -81,7 +81,7 @@ Option 2: Fetch the MACI keys using a subgraph and reconstruct the state tree lo
 2. Fetch the MACI keys
 
 ```typescript
-import { MaciSubgraph } from "@extended-maci/sdk/browser";
+import { MaciSubgraph } from "@znurznurznur/extended-maci-sdk/browser";
 
 const subgraph = new MaciSubgraph("https://api.studio.thegraph.com/query/x/maci/version/latest");
 
@@ -91,7 +91,7 @@ const keys = await subgraph.getKeys();
 3. Generate the merkle tree
 
 ```typescript
-import { generateSignUpTreeFromKeys } from "@extended-maci/sdk/browser";
+import { generateSignUpTreeFromKeys } from "@znurznurznur/extended-maci-sdk/browser";
 
 const signUpTree = generateSignUpTreeFromKeys(keys);
 ```
@@ -105,7 +105,7 @@ const inclusionProof = signUpTree.generateProof(publicKeyIndex);
 5. Generate the zk-SNARK proof and join the poll
 
 ```typescript
-import { joinPoll } from "@extended-maci/sdk/browser";
+import { joinPoll } from "@znurznurznur/extended-maci-sdk/browser";
 
 const joinedPollData = await joinPoll({
   maciAddress: PUBLIC_MACI_ADDRESS,

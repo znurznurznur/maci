@@ -1,5 +1,5 @@
-import type { PublicKey } from "@extended-maci/domainobjs";
 import type { LeanIMT } from "@zk-kit/lean-imt";
+import type { PublicKey } from "@znurznurznur/extended-maci-domainobjs";
 import type { Provider } from "ethers";
 
 /**

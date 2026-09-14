@@ -1,6 +1,6 @@
-import { MaciState, type Poll, STATE_TREE_ARITY, EMode } from "@extended-maci/core";
-import { IncrementalQuinTree, hash2, poseidon } from "@extended-maci/crypto";
-import { PrivateKey, Keypair, VoteCommand, Message, Ballot, PublicKey } from "@extended-maci/domainobjs";
+import { MaciState, type Poll, STATE_TREE_ARITY, EMode } from "@znurznurznur/extended-maci-core";
+import { IncrementalQuinTree, hash2, poseidon } from "@znurznurznur/extended-maci-crypto";
+import { PrivateKey, Keypair, VoteCommand, Message, Ballot, PublicKey } from "@znurznurznur/extended-maci-domainobjs";
 import { expect } from "chai";
 import { type WitnessTester } from "circomkit";
 

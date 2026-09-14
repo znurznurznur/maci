@@ -1,4 +1,4 @@
-import { logRed, logYellow } from "@extended-maci/sdk";
+import { logRed, logYellow } from "@znurznurznur/extended-maci-sdk";
 
 /**
  * Print a nice MACI banner

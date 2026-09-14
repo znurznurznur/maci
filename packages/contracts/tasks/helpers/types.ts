@@ -1,9 +1,9 @@
-import { EPolicy } from "@extended-maci/core";
+import { EPolicy } from "@znurznurznur/extended-maci-core";
 
 import type { AASigner, Proof } from "../../ts/types";
 import type { MACI, MessageProcessor, Poll, Tally, Verifier, VerifyingKeysRegistry } from "../../typechain-types";
-import type { EMode, Poll as PollWrapper } from "@extended-maci/core";
-import type { Keypair, PrivateKey } from "@extended-maci/domainobjs";
+import type { EMode, Poll as PollWrapper } from "@znurznurznur/extended-maci-core";
+import type { Keypair, PrivateKey } from "@znurznurznur/extended-maci-domainobjs";
 import type {
   BaseContract,
   BigNumberish,

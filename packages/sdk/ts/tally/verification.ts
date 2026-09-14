@@ -1,5 +1,8 @@
-import { Tally__factory as TallyFactory, MACI__factory as MACIFactory } from "@extended-maci/contracts/typechain-types";
-import { EMode } from "@extended-maci/core";
+import {
+  Tally__factory as TallyFactory,
+  MACI__factory as MACIFactory,
+} from "@znurznurznur/extended-maci-contracts/typechain-types";
+import { EMode } from "@znurznurznur/extended-maci-core";
 
 import type { IVerifyArgs } from "./types";
 

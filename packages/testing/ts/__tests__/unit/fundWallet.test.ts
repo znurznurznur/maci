@@ -1,4 +1,4 @@
-import { getDefaultSigner, fundWallet } from "@extended-maci/sdk";
+import { getDefaultSigner, fundWallet } from "@znurznurznur/extended-maci-sdk";
 import { expect } from "chai";
 import { ZeroAddress } from "ethers";
 

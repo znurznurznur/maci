@@ -1,6 +1,6 @@
-import { generatePrivateKey, generatePublicKey } from "@extended-maci/crypto";
-import { Keypair, PrivateKey, PublicKey } from "@extended-maci/domainobjs";
-import { Poll__factory as PollFactory, type Poll, getDefaultSigner } from "@extended-maci/sdk";
+import { generatePrivateKey, generatePublicKey } from "@znurznurznur/extended-maci-crypto";
+import { Keypair, PrivateKey, PublicKey } from "@znurznurznur/extended-maci-domainobjs";
+import { Poll__factory as PollFactory, type Poll, getDefaultSigner } from "@znurznurznur/extended-maci-sdk";
 import { expect } from "chai";
 
 import type { Signer } from "ethers";

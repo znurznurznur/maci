@@ -20,14 +20,14 @@ FROM base AS deps
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 COPY apps/zugov-backend/package.json apps/zugov-backend/package.json
 COPY apps/subgraph/package.json apps/subgraph/package.json
-# Neither @zugov/backend nor @extended-maci/subgraph has a workspace:* dependency, so
+# Neither @zugov/backend nor @znurznurznur/extended-maci-subgraph has a workspace:* dependency, so
 # these three manifests are all pnpm needs to resolve the filtered install below.
 # The cache mount persists pnpm's downloaded-package store across builds, independent of
 # whether this layer itself is a Docker cache hit — without it, any lockfile change (routine)
 # forces every dependency to be re-fetched from the registry from scratch every deploy, even
 # ones already downloaded in a previous build. See ENGINEERING.md's Decisions Log.
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-    pnpm install --frozen-lockfile --filter @zugov/backend... --filter @extended-maci/subgraph...
+    pnpm install --frozen-lockfile --filter @zugov/backend... --filter @znurznurznur/extended-maci-subgraph...
 
 # Backend and subgraph both branch from `deps` (not from each other) so BuildKit builds
 # them concurrently, and a source change in one no longer busts the other's build cache.
@@ -48,7 +48,7 @@ FROM deps AS subgraph-build
 # devDependency here.
 COPY apps/subgraph apps/subgraph
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-    pnpm --filter @extended-maci/subgraph deploy --legacy /prod/subgraph
+    pnpm --filter @znurznurznur/extended-maci-subgraph deploy --legacy /prod/subgraph
 
 FROM node:22-alpine AS runtime
 # pnpm stays in the runtime image: apps/zugov-backend/src/services/subgraphDeployService.ts

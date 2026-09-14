@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Keypair, VoteCommand } from "@extended-maci/domainobjs";
+import { Keypair, VoteCommand } from "@znurznurznur/extended-maci-domainobjs";
 import { task } from "hardhat/config";
 
 import { logMagenta, logRed } from "../../ts/logger";

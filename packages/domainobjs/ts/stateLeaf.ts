@@ -1,4 +1,4 @@
-import { generateRandomSalt, hash3 } from "@extended-maci/crypto";
+import { generateRandomSalt, hash3 } from "@znurznurznur/extended-maci-crypto";
 
 import type { IJsonStateLeaf, IStateLeaf, IStateLeafContractParams } from "./types";
 

@@ -1,5 +1,5 @@
 {
-  "name": "@extended-maci/crypto",
+  "name": "@znurznurznur/extended-maci-crypto",
   "version": "3.0.0",
   "description": "A package containing cryptography utilities for MACI",
   "private": false,

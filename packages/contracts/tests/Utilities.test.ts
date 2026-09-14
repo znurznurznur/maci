@@ -1,4 +1,4 @@
-import { StateLeaf, Keypair, Message, PublicKey } from "@extended-maci/domainobjs";
+import { StateLeaf, Keypair, Message, PublicKey } from "@znurznurznur/extended-maci-domainobjs";
 import { expect } from "chai";
 import { type BigNumberish, ZeroAddress } from "ethers";
 

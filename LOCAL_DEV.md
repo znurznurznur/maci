@@ -23,7 +23,7 @@ both dev servers, and both test suites, all passing. This doc covers `apps/zugov
 git clone <repo-url> && cd maci
 nvm use 20   # or otherwise ensure Node 20 is active
 
-# Scoped install: pulls in zugov-backend, zugov-frontend, and the @extended-maci/* workspace
+# Scoped install: pulls in zugov-backend, zugov-frontend, and the @znurznurznur/extended-maci-* workspace
 # packages the frontend depends on via workspace:* (contracts, core, crypto, domainobjs, sdk) —
 # skips the unrelated circuits/cli/testing/coordinator/relayer/website packages, which is
 # significantly lighter than a full-workspace `pnpm install` and is all either app needs.
@@ -31,17 +31,17 @@ pnpm install --filter "@zugov/backend..." --filter "zugov..."
 ```
 
 `zugov-backend` has no workspace-package dependencies (self-contained); `zugov-frontend` depends
-on 5 `@extended-maci/*` packages via `workspace:*`.
+on 5 `@znurznurznur/extended-maci-*` packages via `workspace:*`.
 
 ## 2. Build the workspace packages the frontend imports
 
 `zugov-frontend` imports compiled output (`build/`) from its workspace dependencies, not their
 TypeScript source directly — a plain `pnpm install` alone leaves those `build/` directories
-missing (you'll see `tsc` fail with `Cannot find module '@extended-maci/domainobjs'` etc., and/or
+missing (you'll see `tsc` fail with `Cannot find module '@znurznurznur/extended-maci-domainobjs'` etc., and/or
 `pnpm install` printing `WARN Failed to create bin ... ENOENT` for `maci-sdk`/`maci-contracts`).
 
 ```bash
-pnpm exec lerna run build --scope "@extended-maci/sdk" --include-dependencies
+pnpm exec lerna run build --scope "@znurznurznur/extended-maci-sdk" --include-dependencies
 ```
 
 This builds `crypto → core → domainobjs → contracts (includes a real Solidity compile via
@@ -151,7 +151,7 @@ uncommitted scratch files there.
 
 ## Troubleshooting
 
-- **`tsc`/`vitest` complaining a `@extended-maci/*` module can't be found** → you skipped or need
+- **`tsc`/`vitest` complaining a `@znurznurznur/extended-maci-*` module can't be found** → you skipped or need
   to re-run step 2 (workspace packages must be built, not just installed).
 - **pnpm crashes with `ERR_UNKNOWN_BUILTIN_MODULE: node:sqlite` or warns
   `This version of pnpm requires at least Node.js v22.13`** → you're running a pnpm version newer

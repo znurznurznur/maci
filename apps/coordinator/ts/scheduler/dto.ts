@@ -1,5 +1,5 @@
-import { EMode, ESupportedChains } from "@extended-maci/sdk";
 import { ApiProperty } from "@nestjs/swagger";
+import { EMode, ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 import { IsEnum, IsEthereumAddress, IsInt, IsOptional, IsString, Min } from "class-validator";
 
 import type { Hex } from "viem";

@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { useAccount, useSignMessage } from "wagmi";
 import { keccak256, type Hex } from "viem";
-import { Keypair, PrivateKey } from "@extended-maci/domainobjs";
+import { Keypair, PrivateKey } from "@znurznurznur/extended-maci-domainobjs";
 import { SIGNATURE_MESSAGE } from "../constants";
 
 interface MaciContextValue {

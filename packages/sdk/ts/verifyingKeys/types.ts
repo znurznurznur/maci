@@ -1,5 +1,5 @@
-import type { EMode } from "@extended-maci/contracts";
-import type { IVerifyingKeyContractParams, VerifyingKey } from "@extended-maci/domainobjs";
+import type { EMode } from "@znurznurznur/extended-maci-contracts";
+import type { IVerifyingKeyContractParams, VerifyingKey } from "@znurznurznur/extended-maci-domainobjs";
 import type { Signer } from "ethers";
 
 /**

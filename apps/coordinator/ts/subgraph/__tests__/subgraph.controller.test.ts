@@ -1,6 +1,6 @@
-import { ESupportedChains } from "@extended-maci/sdk";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
+import { ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 
 import type { IDeploySubgraphArgs, IDeploySubgraphReturn } from "../types";
 

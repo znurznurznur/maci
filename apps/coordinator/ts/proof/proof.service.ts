@@ -1,4 +1,5 @@
-import { PublicKey } from "@extended-maci/domainobjs";
+import { Logger, Injectable } from "@nestjs/common";
+import { PublicKey } from "@znurznurznur/extended-maci-domainobjs";
 import {
   Deployment,
   EContracts,
@@ -7,9 +8,8 @@ import {
   getPoll,
   mergeSignups,
   EMode,
-} from "@extended-maci/sdk";
-import { IProof, ITallyData, generateProofs, proveOnChain } from "@extended-maci/sdk";
-import { Logger, Injectable } from "@nestjs/common";
+} from "@znurznurznur/extended-maci-sdk";
+import { IProof, ITallyData, generateProofs, proveOnChain } from "@znurznurznur/extended-maci-sdk";
 import hre from "hardhat";
 
 import fs from "fs";

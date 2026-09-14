@@ -1,5 +1,5 @@
-import { EMode } from "@extended-maci/core";
-import { type IVerifyingKeyObjectParams, VerifyingKey } from "@extended-maci/domainobjs";
+import { EMode } from "@znurznurznur/extended-maci-core";
+import { type IVerifyingKeyObjectParams, VerifyingKey } from "@znurznurznur/extended-maci-domainobjs";
 
 import type { IVerifyingKeyStruct } from "../../../ts/types";
 import type { VerifyingKeysRegistry } from "../../../typechain-types";

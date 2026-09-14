@@ -1,5 +1,5 @@
-import { ESupportedChains } from "@extended-maci/sdk";
 import { createKernelAccount, createKernelAccountClient } from "@zerodev/sdk";
+import { ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 import dotenv from "dotenv";
 import { zeroAddress } from "viem";
 

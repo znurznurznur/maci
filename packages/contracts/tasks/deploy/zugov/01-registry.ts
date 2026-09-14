@@ -1,4 +1,4 @@
-import { PublicKey } from "@extended-maci/domainobjs";
+import { PublicKey } from "@znurznurznur/extended-maci-domainobjs";
 
 import type { ZuGovRegistry } from "../../../typechain-types";
 

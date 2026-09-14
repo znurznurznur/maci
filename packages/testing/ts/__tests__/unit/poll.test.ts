@@ -13,7 +13,7 @@ import {
   deployMaci,
   deployConstantInitialVoiceCreditProxyFactory,
   EPolicy,
-} from "@extended-maci/sdk";
+} from "@znurznurznur/extended-maci-sdk";
 import { expect } from "chai";
 
 import type { Signer } from "ethers";

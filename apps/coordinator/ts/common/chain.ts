@@ -1,4 +1,4 @@
-import { ESupportedChains } from "@extended-maci/sdk";
+import { ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 import { type HDNodeWallet, type Signer, JsonRpcProvider, Wallet } from "ethers";
 
 import { ErrorCodes } from "./errors";

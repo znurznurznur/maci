@@ -1,4 +1,4 @@
-import { Keypair } from "@extended-maci/domainobjs";
+import { Keypair } from "@znurznurznur/extended-maci-domainobjs";
 import { ZeroAddress } from "ethers";
 
 import type { ICreateMessages } from "../types.js";

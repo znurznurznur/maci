@@ -1,4 +1,4 @@
-import type { ITallyData, IProof, EMode, ESupportedChains } from "@extended-maci/sdk";
+import type { ITallyData, IProof, EMode, ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 import type { Hex } from "viem";
 
 /**

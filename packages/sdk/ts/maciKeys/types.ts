@@ -1,4 +1,4 @@
-import { type IG1ContractParams } from "@extended-maci/domainobjs";
+import { type IG1ContractParams } from "@znurznurznur/extended-maci-domainobjs";
 
 /**
  * Interface for the arguments for generate keypair command

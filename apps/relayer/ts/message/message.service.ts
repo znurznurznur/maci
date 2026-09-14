@@ -1,7 +1,11 @@
-import { PublicKey } from "@extended-maci/domainobjs";
-import { getDefaultSigner, MACI__factory as MACIFactory, Poll__factory as PollFactory } from "@extended-maci/sdk";
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
+import { PublicKey } from "@znurznurznur/extended-maci-domainobjs";
+import {
+  getDefaultSigner,
+  MACI__factory as MACIFactory,
+  Poll__factory as PollFactory,
+} from "@znurznurznur/extended-maci-sdk";
 
 import type { PublishMessagesDto } from "./message.dto.js";
 

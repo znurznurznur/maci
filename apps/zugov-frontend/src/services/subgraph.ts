@@ -1,4 +1,4 @@
-import type { Keypair } from "@extended-maci/domainobjs";
+import type { Keypair } from "@znurznurznur/extended-maci-domainobjs";
 import { GovernanceTypes, type GovernanceType } from "../config";
 
 /** Formats a MACI public key as the space-separated subgraph User ID used for signups. */

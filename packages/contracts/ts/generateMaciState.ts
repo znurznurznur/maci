@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import { MaciState } from "@extended-maci/core";
-import { PublicKey, Message } from "@extended-maci/domainobjs";
+import { MaciState } from "@znurznurznur/extended-maci-core";
+import { PublicKey, Message } from "@znurznurznur/extended-maci-domainobjs";
 
 import assert from "assert";
 import fs from "fs";

@@ -1,6 +1,6 @@
-import { EMode, ESupportedChains, type ITallyData } from "@extended-maci/sdk";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
+import { EMode, ESupportedChains, type ITallyData } from "@znurznurznur/extended-maci-sdk";
 
 import type { IGetPublicKeyData } from "../../file/types";
 import type { IGenerateArgs, IGenerateData, IMergeArgs } from "../types";

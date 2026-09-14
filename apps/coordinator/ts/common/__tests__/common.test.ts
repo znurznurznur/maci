@@ -1,4 +1,4 @@
-import { ESupportedChains } from "@extended-maci/sdk";
+import { ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 import {
   mainnet,
   sepolia,

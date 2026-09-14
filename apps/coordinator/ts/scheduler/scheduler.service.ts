@@ -1,6 +1,6 @@
-import { getPoll, isTallied } from "@extended-maci/sdk";
 import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import { SchedulerRegistry } from "@nestjs/schedule";
+import { getPoll, isTallied } from "@znurznurznur/extended-maci-sdk";
 
 import type {
   IIsPollScheduledResponse,

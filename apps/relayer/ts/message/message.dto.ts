@@ -1,5 +1,5 @@
-import { Message } from "@extended-maci/domainobjs";
 import { ApiProperty } from "@nestjs/swagger";
+import { Message } from "@znurznurznur/extended-maci-domainobjs";
 import { Type } from "class-transformer";
 import {
   IsEthereumAddress,

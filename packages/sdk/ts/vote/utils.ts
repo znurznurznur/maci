@@ -1,6 +1,6 @@
-import { Poll__factory as PollFactory } from "@extended-maci/contracts/typechain-types";
-import { SNARK_FIELD_SIZE } from "@extended-maci/crypto";
-import { PublicKey } from "@extended-maci/domainobjs";
+import { Poll__factory as PollFactory } from "@znurznurznur/extended-maci-contracts/typechain-types";
+import { SNARK_FIELD_SIZE } from "@znurznurznur/extended-maci-crypto";
+import { PublicKey } from "@znurznurznur/extended-maci-domainobjs";
 
 import type { Signer } from "ethers";
 

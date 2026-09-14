@@ -31,7 +31,7 @@ COPY packages/testing/package.json packages/testing/package.json
 # whether this layer itself is a Docker cache hit — without it, any lockfile change (routine)
 # forces every dependency to be re-fetched from the registry from scratch every deploy, even
 # ones already downloaded in a previous build. See ENGINEERING.md's Decisions Log.
-# NOT --filter-scoped: a scoped `pnpm install --filter "@extended-maci/coordinator..."` was
+# NOT --filter-scoped: a scoped `pnpm install --filter "@znurznurznur/extended-maci-coordinator..."` was
 # tried and reproducibly left packages/crypto and packages/core with no node_modules at all
 # (their own dependencies never linked, even though present in the pnpm store) on this
 # Dockerfile's node:20-alpine/linux-amd64 combination specifically — did not reproduce on a
@@ -42,20 +42,20 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
     pnpm install
 
 # Now bring in the full source and build. Scoped to coordinator's actual dependency chain
-# (verify with `pnpm exec lerna list --scope "@extended-maci/coordinator" --include-dependencies`)
+# (verify with `pnpm exec lerna list --scope "@znurznurznur/extended-maci-coordinator" --include-dependencies`)
 # — the old unscoped `pnpm run build` also built totally unrelated apps (zugov-frontend,
 # zugov-backend, relayer, website, circuits, cli, testing), which was both the main source of
 # build slowness and, once zugov-frontend's build broke for unrelated reasons, a hard failure
 # blocking every coordinator deploy even though coordinator never imports it.
 COPY . .
-RUN pnpm exec lerna run build --scope "@extended-maci/coordinator" --include-dependencies
+RUN pnpm exec lerna run build --scope "@znurznurznur/extended-maci-coordinator" --include-dependencies
 
 # Self-contained, coordinator-only production output instead of copying the entire unscoped
 # /builder (all 15 workspace packages' node_modules, ~3.32GB) into the runtime image below.
 # --prod is required, not optional: plain `pnpm deploy` leaves symlinks for workspace deps
 # pointing back into /builder (e.g. sdk -> ../../../../builder/packages/sdk), which don't
 # resolve once only /prod/coordinator is copied into the runner stage.
-RUN pnpm --filter "@extended-maci/coordinator" deploy --prod /prod/coordinator
+RUN pnpm --filter "@znurznurznur/extended-maci-coordinator" deploy --prod /prod/coordinator
 
 WORKDIR /builder/apps/coordinator
 

@@ -5,7 +5,7 @@ import {
   type EInitialVoiceCreditProxiesFactories,
   type ESupportedChains,
   type ECheckers,
-} from "@extended-maci/sdk";
+} from "@znurznurznur/extended-maci-sdk";
 import { type SendUserOperationParameters } from "viem/account-abstraction";
 
 import type { Abi, Hex } from "viem";

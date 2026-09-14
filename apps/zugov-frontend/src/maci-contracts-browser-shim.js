@@ -1,7 +1,7 @@
-import { IncrementalQuinTree, hash2 } from "@extended-maci/crypto";
-import { Ballot } from "@extended-maci/domainobjs";
+import { IncrementalQuinTree, hash2 } from "@znurznurznur/extended-maci-crypto";
+import { Ballot } from "@znurznurznur/extended-maci-domainobjs";
 
-// Browser-safe replacement for @extended-maci/contracts.
+// Browser-safe replacement for @znurznurznur/extended-maci-contracts.
 // Only provides what the browser SDK actually needs at runtime.
 // Enums and server-side utilities are intentionally omitted.
 
@@ -19,7 +19,7 @@ export const currentBlockTimestamp = async (provider) => {
 };
 
 // generateEmptyBallotRoots — inlined from contracts/ts/generateEmptyBallotRoots.ts to avoid
-// pulling in @extended-maci/core's full barrel export just for the STATE_TREE_ARITY constant.
+// pulling in @znurznurznur/extended-maci-core's full barrel export just for the STATE_TREE_ARITY constant.
 const STATE_TREE_ARITY = 2;
 
 export const generateEmptyBallotRoots = (stateTreeDepth) => {
@@ -35,7 +35,7 @@ export const generateEmptyBallotRoots = (stateTreeDepth) => {
   return roots;
 };
 
-// @extended-maci/sdk's policy.ts reads this enum at module-evaluation time (a top-level object
+// @znurznurznur/extended-maci-sdk's policy.ts reads this enum at module-evaluation time (a top-level object
 // literal keyed by it), not lazily — omitting it isn't safe once the bare sdk entry point is
 // actually loaded in the browser (see vite.config.ts's optimizeDeps comment). Values copied
 // verbatim from packages/contracts/tasks/helpers/types.ts's EPolicies enum.

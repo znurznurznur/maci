@@ -1,6 +1,6 @@
-import { hash5, IncrementalQuinTree, poseidon, PAD_KEY_HASH, hashLeanIMT } from "@extended-maci/crypto";
-import { VoteCommand, Keypair, blankStateLeafHash } from "@extended-maci/domainobjs";
 import { LeanIMT, type LeanIMTHashFunction } from "@zk-kit/lean-imt";
+import { hash5, IncrementalQuinTree, poseidon, PAD_KEY_HASH, hashLeanIMT } from "@znurznurznur/extended-maci-crypto";
+import { VoteCommand, Keypair, blankStateLeafHash } from "@znurznurznur/extended-maci-domainobjs";
 import { expect } from "chai";
 
 import { MaciState } from "../MaciState";

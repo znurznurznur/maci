@@ -1,5 +1,5 @@
-import { G1Point, G2Point } from "@extended-maci/crypto";
-import { VerifyingKey } from "@extended-maci/domainobjs";
+import { G1Point, G2Point } from "@znurznurznur/extended-maci-crypto";
+import { VerifyingKey } from "@znurznurznur/extended-maci-domainobjs";
 import { expect } from "chai";
 
 import type { IVerifyingKeyStruct } from "../ts/types";

@@ -1,6 +1,6 @@
-import { VOTE_OPTION_TREE_ARITY } from "@extended-maci/core";
-import { generateRandomSalt } from "@extended-maci/crypto";
-import { Keypair } from "@extended-maci/domainobjs";
+import { VOTE_OPTION_TREE_ARITY } from "@znurznurznur/extended-maci-core";
+import { generateRandomSalt } from "@znurznurznur/extended-maci-crypto";
+import { Keypair } from "@znurznurznur/extended-maci-domainobjs";
 import {
   generateVote,
   getDefaultSigner,
@@ -23,7 +23,7 @@ import {
   deployConstantInitialVoiceCreditProxy,
   joinPoll,
   deployConstantInitialVoiceCreditProxyFactory,
-} from "@extended-maci/sdk";
+} from "@znurznurznur/extended-maci-sdk";
 import { expect } from "chai";
 
 import type { Signer } from "ethers";

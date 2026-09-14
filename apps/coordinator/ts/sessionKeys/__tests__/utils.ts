@@ -1,10 +1,10 @@
-import { ESupportedChains } from "@extended-maci/sdk";
 import { signerToEcdsaValidator } from "@zerodev/ecdsa-validator";
 import { type Policy, serializePermissionAccount, toPermissionValidator } from "@zerodev/permissions";
 import { toSudoPolicy, toTimestampPolicy } from "@zerodev/permissions/policies";
 import { toECDSASigner } from "@zerodev/permissions/signers";
 import { addressToEmptyAccount, createKernelAccount, type CreateKernelAccountReturnType } from "@zerodev/sdk";
 import { getEntryPoint, KERNEL_V3_1 } from "@zerodev/sdk/constants";
+import { ESupportedChains } from "@znurznurznur/extended-maci-sdk";
 import dotenv from "dotenv";
 import { type Hex } from "viem";
 import { privateKeyToAccount } from "viem/accounts";

@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { useAccount, useWalletClient } from "wagmi";
 import type { BrowserProvider } from "ethers";
 import { getSignerFromWalletClient } from "../services/wagmiSigner";
-import { joinPoll } from "@extended-maci/sdk/browser";
+import { joinPoll } from "@znurznurznur/extended-maci-sdk/browser";
 import { Poll__factory } from "../poll-factory-shim";
 import { useMaci } from "../context/MaciContext";
 import { GovernanceTypes, type GovernanceType } from "../config";

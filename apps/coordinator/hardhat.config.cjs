@@ -49,12 +49,12 @@ module.exports = {
     sources: path.resolve(
       __dirname,
       parentDir,
-      "./node_modules/@extended-maci/sdk/node_modules/@extended-maci/contracts/contracts",
+      "./node_modules/@znurznurznur/extended-maci-sdk/node_modules/@znurznurznur/extended-maci-contracts/contracts",
     ),
     artifacts: path.resolve(
       __dirname,
       parentDir,
-      "./node_modules/@extended-maci/sdk/node_modules/@extended-maci/contracts/artifacts",
+      "./node_modules/@znurznurznur/extended-maci-sdk/node_modules/@znurznurznur/extended-maci-contracts/artifacts",
     ),
   },
 };

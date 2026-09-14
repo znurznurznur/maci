@@ -19,7 +19,7 @@ The MACI smart contracts handle the on-chain aspects - both the functionality an
 
 The MACI smart contracts are written in [Solidity](https://soliditylang.org/).
 
-Contracts are released through the [`@extended-maci/contracts`](https://www.npmjs.com/package/@extended-maci/contracts) NPM package.
+Contracts are released through the [`@znurznurznur/extended-maci-contracts`](https://www.npmjs.com/package/@znurznurznur/extended-maci-contracts) NPM package.
 
 [Learn more about MACI contracts](/docs/technical-references/smart-contracts/)
 
@@ -29,12 +29,12 @@ The TypeScript libraries manage the business logic between the smart contracts a
 
 The MACI [TypeScript](https://www.typescriptlang.org/) libraries are released through the following NPM packages:
 
-- [`@extended-maci/cli`](https://www.npmjs.com/package/@extended-maci/cli)
-- [`@extended-maci/core`](https://www.npmjs.com/package/@extended-maci/core)
-- [`@extended-maci/crypto`](https://www.npmjs.com/package/@extended-maci/crypto)
-- [`@extended-maci/domainobjs`](https://www.npmjs.com/package/@extended-maci/domainobjs)
-- [`@extended-maci/integrationtests`](https://www.npmjs.com/package/@extended-maci/integrationtests)
-- [`@extended-maci/sdk`](https://www.npmjs.com/package/@extended-maci/sdk)
+- [`@znurznurznur/extended-maci-cli`](https://www.npmjs.com/package/@znurznurznur/extended-maci-cli)
+- [`@znurznurznur/extended-maci-core`](https://www.npmjs.com/package/@znurznurznur/extended-maci-core)
+- [`@znurznurznur/extended-maci-crypto`](https://www.npmjs.com/package/@znurznurznur/extended-maci-crypto)
+- [`@znurznurznur/extended-maci-domainobjs`](https://www.npmjs.com/package/@znurznurznur/extended-maci-domainobjs)
+- [`@znurznurznur/extended-maci-integrationtests`](https://www.npmjs.com/package/@znurznurznur/extended-maci-integrationtests)
+- [`@znurznurznur/extended-maci-sdk`](https://www.npmjs.com/package/@znurznurznur/extended-maci-sdk)
 
 ## Circuits
 
@@ -43,6 +43,6 @@ MACI has multiple circuits that ensure all off-chain computation is completed co
 The circuits for these zero-knowledge proofs are written
 in [Circom](https://iden3.io/circom).
 
-The MACI circuits are released through the [`@extended-maci/circuits`](https://www.npmjs.com/package/@extended-maci/circuits) NPM package.
+The MACI circuits are released through the [`@znurznurznur/extended-maci-circuits`](https://www.npmjs.com/package/@znurznurznur/extended-maci-circuits) NPM package.
 
 [Learn more about MACI circuits](/docs/technical-references/zk-snark-circuits/)
