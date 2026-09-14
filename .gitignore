@@ -1,3 +1,13 @@
+# apps/{coordinator,zugov-backend,zugov-frontend,subgraph}/ and deploy/ moved to the nomadia
+# repo — this just re-protects whatever local build/dev artifacts (private.key, .env, etc.)
+# are still sitting in these paths on disk, now that git rm removed their own nested
+# .gitignore files along with everything else tracked here.
+apps/coordinator/
+apps/zugov-backend/
+apps/zugov-frontend/
+apps/subgraph/
+deploy/
+
 packages/circuits/params/*
 packages/cli/proofs
 packages/cli/proofs.json
@@ -6,13 +16,6 @@ packages/cli/maci_keys.tar.gz
 *.zkey
 *.r1cs
 *.sym
-# apps/zugov-frontend/public/*.wasm ships fine (nothing above matches *.wasm), but its paired
-# proving key needs an explicit carve-out from the blanket *.zkey rule above, or a fresh
-# checkout (exactly what CI does) never has it — voters' in-browser poll-joining proof
-# generation needs both files together; shipping the .wasm without the .zkey silently breaks
-# it (the missing file's request falls through to the SPA's index.html instead of a real 404).
-!apps/zugov-frontend/public/PollJoining_10_test.0.zkey
-
 
 solc
 *.ptau
@@ -52,8 +55,6 @@ circuit.json
 input.json
 *.proof.json
 *.publicSignals.json
-subgraph/config/*.json
-!subgraph/config/network.json
 
 .vscode/
 
@@ -126,13 +127,7 @@ typings/
 .env
 .env.test
 
-# per-service env files on deploy hosts (e.g. deploy/coordinator.env) — /opt/zugov on the
-# deploy VPS is a git checkout of this repo (see .github/workflows/deploy-backend.yml), so
-# anything holding real secrets there needs to be excluded by pattern, not just the bare
-# ".env" name above, or it's one `git add -A` away from landing in a commit.
-deploy/*.env
-
-# generated secrets (coordinator keypairs, etc.) — never commit
+# generated secrets — never commit
 *.secret.json
 
 # parcel-bundler cache (https://parceljs.org/)
@@ -176,9 +171,6 @@ inputs.json
 
 .vercel
 .env*.local
-
-apps/zugov-frontend/dist/*
-apps/zugov-backend/dist/
 
 .claude
 specs

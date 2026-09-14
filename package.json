@@ -27,7 +27,6 @@
     "test:hardhat": "lerna run test:hardhat --scope \"@znurznurznur/extended-maci-contracts\"",
     "test": "lerna run test --ignore \"@znurznurznur/extended-maci-testing\"",
     "test:relayer": "lerna run test --scope \"@znurznurznur/extended-maci-relayer\"",
-    "test:coordinator": "lerna run test --scope \"@znurznurznur/extended-maci-coordinator\"",
     "types": "lerna run types",
     "docs": "lerna run docs",
     "prepare": "is-ci || husky",

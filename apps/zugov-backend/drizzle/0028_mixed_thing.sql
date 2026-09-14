@@ -1,1 +1,0 @@
-CREATE INDEX IF NOT EXISTS "community_discussions_community_idx" ON "community_discussions" USING btree ("community_id");

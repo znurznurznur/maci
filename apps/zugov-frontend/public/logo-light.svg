@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48">
-  <rect width="48" height="48" rx="10" fill="#FFFFFF" stroke="#DDD0BC"/>
-  <path d="M9,9 L39,9 L39,16.5 L21,31.5 L39,31.5 L39,39 L9,39 L9,31.5 L27,16.5 L9,16.5 Z" fill="#9C4A28"/>
-  <text x="62" y="33" font-family="'IBM Plex Sans', sans-serif" font-weight="600" font-size="28" fill="#241A10">ZuGov</text>
-</svg>

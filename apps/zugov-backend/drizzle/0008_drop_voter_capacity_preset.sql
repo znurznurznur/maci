@@ -1,1 +1,0 @@
-ALTER TABLE "communities" DROP COLUMN IF EXISTS "voter_capacity_preset";

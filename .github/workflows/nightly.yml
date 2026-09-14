@@ -107,11 +107,6 @@ jobs:
           pnpm build:circuits-c -- --outPath ../../zkeys
           pnpm setup:zkeys -- --outPath ../../zkeys
 
-      - name: Generate RSA Keypair
-        working-directory: apps/coordinator
-        run: |
-          pnpm run generate-keypair
-
       - name: ${{ matrix.command }}
         run: pnpm run ${{ matrix.command }}
 

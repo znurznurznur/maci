@@ -15,9 +15,5 @@ apps/website/.docusaurus/
 apps/website/versioned_docs/**/technical-references/smart-contracts/solidity-docs/
 **/deployed-contracts.json
 **/deploy-config.json
-apps/subgraph/generated
-apps/zugov-frontend/src/generated
-apps/subgraph/templates/*.yaml
-apps/subgraph/subgraph.yaml
 **/zkeys
 **/typedoc

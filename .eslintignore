@@ -5,6 +5,3 @@ build
 typechain-types
 .eslintrc.js
 commitlint.config.js
-apps/subgraph/generated
-apps/zugov-frontend
-apps/zugov-backend

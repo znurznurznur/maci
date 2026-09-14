@@ -1,1 +1,0 @@
-ALTER TABLE "union_memberships" ADD COLUMN "left_at" integer;
