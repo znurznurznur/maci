@@ -1,0 +1,47 @@
+name: Publish Packages
+
+on:
+  push:
+    tags: ["extended-maci-v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@a15d269cd4658e1107c09f1fabf4cbd7bd1f308a # v4.4.0
+
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # Dependency order matters here (unlike the workspace:* rewrite itself, which only
+      # reads the local version field): a consumer installing @znurznurznur/extended-maci-sdk
+      # needs contracts/core/crypto/domainobjs already resolvable on the registry, or the
+      # install fails with "package not found".
+      - name: Build
+        run: pnpm exec lerna run build --scope "@znurznurznur/extended-maci-sdk" --include-dependencies
+
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+          for pkg in crypto domainobjs core contracts sdk; do
+            pnpm --filter "@znurznurznur/extended-maci-$pkg" publish --no-git-checks
+          done

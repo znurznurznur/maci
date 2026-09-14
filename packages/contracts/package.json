@@ -31,7 +31,8 @@
     "CHANGELOG.md"
   ],
   "publishConfig": {
-    "access": "public"
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
   },
   "scripts": {
     "watch": "tsc --watch",
@@ -269,5 +270,9 @@
     "sinon": "^21.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.9.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/znurznurznur/maci.git"
   }
 }

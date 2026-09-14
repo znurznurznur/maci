@@ -11,7 +11,8 @@
     "CHANGELOG.md"
   ],
   "publishConfig": {
-    "access": "public"
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
   },
   "scripts": {
     "watch": "tsc --watch",
@@ -65,5 +66,9 @@
     "functions": ">90%",
     "statements": ">90%",
     "check-coverage": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/znurznurznur/maci.git"
   }
 }

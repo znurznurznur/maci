@@ -2,7 +2,7 @@
   "name": "maci",
   "version": "3.0.0",
   "description": "Minimal Anti-Collusion Infrastructure",
-  "repository": "https://github.com/privacy-scaling-explorations/maci",
+  "repository": "https://github.com/znurznurznur/maci",
   "license": "MIT",
   "scripts": {
     "benchmarks": "lerna run benchmarks",

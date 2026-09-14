@@ -2,7 +2,10 @@ name: Release
 
 on:
   push:
-    tags: ["*"]
+    # Excludes extended-maci-v* (published to GitHub Packages by publish-packages.yml
+    # instead) -- this job publishes to the real npmjs.org registry via NPM_TOKEN, which
+    # isn't configured in this fork and isn't the intended target for this fork's packages.
+    tags: ["v*"]
 
 jobs:
   draft-release:
