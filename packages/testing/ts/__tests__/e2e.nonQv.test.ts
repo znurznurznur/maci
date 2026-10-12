@@ -4,12 +4,12 @@ import { generateRandomSalt } from "@maci-protocol/crypto";
 import { Keypair } from "@maci-protocol/domainobjs";
 import {
   generateVote,
-  getBlockTimestamp,
   signup,
   mergeSignups,
   verify,
   setVerifyingKeys,
   EMode,
+  EPolicy,
   proveOnChain,
   publish,
   deployPoll,
@@ -56,7 +56,7 @@ import {
   testPollJoiningWitnessPath,
   DEFAULT_IVCP_DATA,
 } from "../constants";
-import { clean, getBackupFilenames, relayTestMessages } from "../utils";
+import { clean, getBackupFilenames, getPollStartTimestamp, relayTestMessages } from "../utils";
 
 /**
  Test scenarios:
@@ -144,7 +144,7 @@ describe("e2e tests with non quadratic voting", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -157,6 +157,11 @@ describe("e2e tests with non quadratic voting", function test() {
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
         mode: EMode.NON_QV,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
     });
 
@@ -261,7 +266,7 @@ describe("e2e tests with non quadratic voting", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -274,6 +279,11 @@ describe("e2e tests with non quadratic voting", function test() {
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
         mode: EMode.NON_QV,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
     });
 
@@ -391,7 +401,7 @@ describe("e2e tests with non quadratic voting", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -404,6 +414,11 @@ describe("e2e tests with non quadratic voting", function test() {
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
         mode: EMode.NON_QV,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
     });
 
@@ -521,7 +536,7 @@ describe("e2e tests with non quadratic voting", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -534,6 +549,11 @@ describe("e2e tests with non quadratic voting", function test() {
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
         mode: EMode.NON_QV,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
     });
 
@@ -677,7 +697,7 @@ describe("e2e tests with non quadratic voting", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -690,6 +710,11 @@ describe("e2e tests with non quadratic voting", function test() {
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
         mode: EMode.NON_QV,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
     });
 

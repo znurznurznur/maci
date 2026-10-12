@@ -35,21 +35,27 @@ export const getPollContracts = async ({
     throw new Error("MACI contract does not exist");
   }
 
-  const pollContracts = await maci.polls(id);
+  let contracts: Awaited<ReturnType<typeof maci.getPoll>>["contracts"];
 
-  if (pollContracts.poll === ZeroAddress) {
+  try {
+    ({ contracts } = await maci.getPoll(id));
+  } catch {
     throw new Error(`MACI contract doesn't have any deployed poll ${id}`);
   }
 
-  const isPollExists = await contractExists(signer?.provider || provider!, pollContracts.poll);
+  if (contracts.poll === ZeroAddress) {
+    throw new Error(`MACI contract doesn't have any deployed poll ${id}`);
+  }
+
+  const isPollExists = await contractExists(signer?.provider || provider!, contracts.poll);
 
   if (!isPollExists) {
     throw new Error("Poll contract does not exist");
   }
 
-  const poll = PollFactory.connect(pollContracts.poll, signer ?? provider);
-  const messageProcessor = MessageProcessorFactory.connect(pollContracts.messageProcessor, signer ?? provider);
-  const tally = TallyFactory.connect(pollContracts.tally, signer ?? provider);
+  const poll = PollFactory.connect(contracts.poll, signer ?? provider);
+  const messageProcessor = MessageProcessorFactory.connect(contracts.messageProcessor, signer ?? provider);
+  const tally = TallyFactory.connect(contracts.tally, signer ?? provider);
 
   return {
     id,

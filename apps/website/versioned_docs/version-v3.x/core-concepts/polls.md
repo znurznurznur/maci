@@ -11,7 +11,7 @@ Currently, you can configure the following parameters for a poll:
 
 - Poll duration, in the form of a unix timestamp for start and end times. This allows polls to be scheduled to start at a certain time, and run for a certain amount of time.
 - Vote option - how many vote options are allowed for a poll.
-- Vote mode - quadratic, non quadratic, full credits voting. One should be aware that the only distinction between them happens when messages are processed and votes tallied.
+- Vote mode - quadratic, non quadratic, full credits, and ranked choice voting. One should be aware that the only distinction between them happens when messages are processed and votes tallied.
 - Policy - the Excubiae policy that will be used to gate access to the poll.
 - Initial voice credit proxy - the initial voice credit proxy that will be used to assign voice credits to voters.
 - Relayer - the list of addresses that will be able to relay messages on behalf of other users (for now this is recommended to be the coordinator only)

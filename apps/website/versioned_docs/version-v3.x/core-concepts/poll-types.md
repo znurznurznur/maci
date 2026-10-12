@@ -5,7 +5,7 @@ sidebar_label: Poll types
 sidebar_position: 9
 ---
 
-MACI allows to conduct polls in both a quadratic voting and non quadratic voting fashion. One should be aware that the only distinction between the two happens when messages are processed and votes tallied. On top of that, the Tally smart contract has been split into two different ones, with the non quadratic voting version one being slightly smaller, due to the need of one less function. Additionally, there is a variation of non quadratic voting that allows participants to cast their entire voice credit balance for a single option only.
+MACI allows to conduct polls in quadratic voting, non quadratic voting, full credits voting, and ranked choice voting modes. One should be aware that the only distinction between these modes happens when messages are processed and votes tallied. On top of that, the Tally smart contract has been split into different ones, with the non quadratic voting versions being slightly smaller, due to the need of fewer functions. Additionally, there is a variation of non quadratic voting that allows participants to cast their entire voice credit balance for a single option only.
 
 This document will explain how to use each of these options. Hardhat tasks are the currently recommended way to deploy contracts and run polls but you can also use the MACI cli.
 
@@ -72,6 +72,35 @@ In the deploy-config.json file set the `mode` value to **full**.
     "pollDuration": 604800,
     "coordinatorPublicKey": "macipk",
     "mode": "full"
+}
+```
+
+Then run the task to create a poll:
+
+```bash
+pnpm deploy-poll:NETWORK
+```
+
+## Ranked Choice Voting
+
+Ranked Choice Voting is a new feature introduced in MACI. This voting mode allows participants to rank vote options in order of preference, rather than allocating voice credits. Voters can specify their first choice, second choice, and so on up to a maximum of 12 options.
+
+To run a poll with ranked choice voting, the coordinator must set the `mode` parameter to `ranked` when creating the Poll instance. This will make the Poll instance use specialized ranked choice circuits for processing and tallying.
+
+**Important Limitations:**
+
+- Maximum of 12 vote options per poll
+- Vote options are limited to ensure circuit performance and verification efficiency
+
+### Using Hardhat tasks
+
+In the deploy-config.json file set the `mode` value to **ranked**.
+
+```json
+"Poll": {
+    "pollDuration": 604800,
+    "coordinatorPublicKey": "macipk",
+    "mode": "ranked"
 }
 ```
 

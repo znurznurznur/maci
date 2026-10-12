@@ -41,8 +41,8 @@ export class MessageService {
     const signer = await getDefaultSigner();
 
     const maciContract = MACIFactory.connect(args.maciContractAddress, signer);
-    const pollAddresses = await maciContract.polls(args.poll);
-    const pollContract = PollFactory.connect(pollAddresses.poll, signer);
+    const { contracts } = await maciContract.getPoll(args.poll);
+    const pollContract = PollFactory.connect(contracts.poll, signer);
 
     const hashes = await Promise.all(
       args.messages.map(({ data, publicKey }) =>

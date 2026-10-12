@@ -95,8 +95,8 @@ export class MessageGuard implements CanActivate {
     try {
       const [signer] = await hardhat.ethers.getSigners();
       const maciContract = MACIFactory.connect(dto.maciContractAddress, signer);
-      const pollAddresses = await maciContract.polls(dto.poll);
-      const pollContract = PollFactory.connect(pollAddresses.poll, signer);
+      const { contracts } = await maciContract.getPoll(dto.poll);
+      const pollContract = PollFactory.connect(contracts.poll, signer);
 
       const isValid = await pollContract.verifyJoinedPollProof(dto.stateLeafIndex, dto.proof);
 

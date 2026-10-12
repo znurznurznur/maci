@@ -2,6 +2,7 @@ import { VerifyingKey } from "@maci-protocol/domainobjs";
 import {
   ContractStorage,
   EPolicies,
+  EPolicy,
   VerifyingKeysRegistry__factory as VerifyingKeysRegistryFactory,
   Verifier__factory as VerifierFactory,
   MessageProcessor__factory as MessageProcessorFactory,
@@ -86,6 +87,20 @@ import {
   IVerifyingKeysRegistryArgs,
   IDeployPolicyConfig,
 } from "./types";
+
+const EPOLICIES_TO_EPOLICY: Record<EPolicies, EPolicy> = {
+  [EPolicies.FreeForAll]: EPolicy.FreeForAll,
+  [EPolicies.Token]: EPolicy.Token,
+  [EPolicies.EAS]: EPolicy.EAS,
+  [EPolicies.GitcoinPassport]: EPolicy.GitcoinPassport,
+  [EPolicies.Hats]: EPolicy.Hats,
+  [EPolicies.Zupass]: EPolicy.Zupass,
+  [EPolicies.Semaphore]: EPolicy.Semaphore,
+  [EPolicies.MerkleProof]: EPolicy.MerkleProof,
+  [EPolicies.AnonAadhaar]: EPolicy.AnonAadhaar,
+  [EPolicies.ERC20Votes]: EPolicy.ERC20Votes,
+  [EPolicies.ERC20]: EPolicy.ERC20,
+};
 
 /**
  * DeployerService is responsible for deploying contracts.
@@ -714,6 +729,11 @@ export class DeployerService {
       stateTreeDepth: config.pollStateTreeDepth,
       coordinatorPublicKey: coordinatorKeypair.publicKey,
       mode: config.mode,
+      policy: EPOLICIES_TO_EPOLICY[config.policy.policyType],
+      name: config.name,
+      metadata: config.metadata ?? "",
+      options: config.options,
+      optionInfo: config.optionsInfo ?? [],
       policyContractAddress: policyAddress,
       initialVoiceCreditProxyContractAddress: initialVoiceCreditProxyAddress,
       relayers: config.relayers ? config.relayers : [],

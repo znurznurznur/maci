@@ -33,8 +33,10 @@ task("deploy-full", "Deploy environment")
 
       success = true;
     } catch (err) {
+      const error = err as Error & { shortMessage?: string; revert?: { name: string } };
+      const reason = error.revert?.name ?? error.shortMessage ?? error.message;
       logRed({
-        text: `\n=========================================================\nERROR: ${(err as Error).message}\n`,
+        text: `\n=========================================================\nERROR: ${reason}\n`,
       });
     }
 

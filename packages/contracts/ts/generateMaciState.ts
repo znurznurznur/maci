@@ -95,25 +95,25 @@ export const generateMaciStateFromContract = async ({
       const event = deployPollLogs[j];
       assert(!!event);
 
-      const id = event.args._pollId;
-      const pollMode = Number(event.args._mode);
+      const { id } = event.args.pollData;
+      const pollMode = Number(event.args.pollData.mode);
 
       const publicKey = new PublicKey([
-        BigInt(event.args._coordinatorPublicKeyX),
-        BigInt(event.args._coordinatorPublicKeyY),
+        BigInt(event.args.pollData.coordinatorPubKey.x),
+        BigInt(event.args.pollData.coordinatorPubKey.y),
       ]);
       // eslint-disable-next-line no-await-in-loop
-      const pollContracts = await maciContract.getPoll(id);
+      const { contracts } = await maciContract.getPoll(id);
 
       actions.push({
         type: "DeployPoll",
         blockNumber: event.blockNumber,
         transactionIndex: event.transactionIndex,
-        data: { pollId: id, pollAddresses: pollContracts.poll, publicKey, pollMode },
+        data: { pollId: id, pollAddresses: contracts.poll, publicKey, pollMode },
       });
 
       foundPollIds.add(Number(id));
-      pollContractAddresses.set(BigInt(id), pollContracts.poll);
+      pollContractAddresses.set(BigInt(id), contracts.poll);
     }
 
     if (sleepAmount) {

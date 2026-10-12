@@ -11,6 +11,11 @@ export interface IGenerateVoteArgs {
   pollId: bigint;
 
   /**
+   * Whether the poll is ranked
+   */
+  isRanked?: boolean;
+
+  /**
    * The index of the vote option
    */
   voteOptionIndex: bigint;
@@ -230,6 +235,8 @@ export interface IPublishArgs extends IPublishMessage {
    * A signer object
    */
   signer: Signer;
+
+  isRanked?: boolean;
 }
 
 /**

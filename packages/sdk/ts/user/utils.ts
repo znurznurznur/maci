@@ -77,8 +77,8 @@ export const getJoinedUserData = async ({
   startBlock,
 }: IJoinedUserArgs): Promise<{ isJoined: boolean; pollStateIndex?: string; voiceCredits?: string }> => {
   const maciContract = MACIFactory.connect(maciAddress, signer);
-  const pollContracts = await maciContract.getPoll(pollId);
-  const pollContract = PollFactory.connect(pollContracts.poll, signer);
+  const { contracts } = await maciContract.getPoll(pollId);
+  const pollContract = PollFactory.connect(contracts.poll, signer);
 
   const pollPublicKey = PublicKey.deserialize(serializedPollPublicKey);
   const startBlockNumber = startBlock || 0;
@@ -110,8 +110,8 @@ export const hasUserJoinedPoll = async ({
   signer,
 }: IIsNullifierOnChainArgs): Promise<boolean> => {
   const maciContract = MACIFactory.connect(maciAddress, signer);
-  const pollContracts = await maciContract.getPoll(pollId);
-  const pollContract = PollFactory.connect(pollContracts.poll, signer);
+  const { contracts } = await maciContract.getPoll(pollId);
+  const pollContract = PollFactory.connect(contracts.poll, signer);
 
   return pollContract.pollNullifiers(nullifier);
 };

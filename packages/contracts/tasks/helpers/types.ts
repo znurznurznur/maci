@@ -1,3 +1,5 @@
+import { EPolicy } from "@maci-protocol/core";
+
 import type { AASigner, Proof } from "../../ts/types";
 import type { MACI, MessageProcessor, Poll, Tally, Verifier, VerifyingKeysRegistry } from "../../typechain-types";
 import type { EMode, Poll as PollWrapper } from "@maci-protocol/core";
@@ -682,6 +684,49 @@ export enum EContracts {
   Poll = "Poll",
   Tally = "Tally",
   MessageProcessor = "MessageProcessor",
+  ZuGovRegistry = "ZuGovRegistry",
+}
+
+const CONTRACT_TO_EPOLICIES: Partial<Record<EContracts, EPolicies>> = {
+  [EContracts.ERC20Policy]: EPolicies.ERC20,
+  [EContracts.FreeForAllPolicy]: EPolicies.FreeForAll,
+  [EContracts.AnonAadhaarPolicy]: EPolicies.AnonAadhaar,
+  [EContracts.EASPolicy]: EPolicies.EAS,
+  [EContracts.GitcoinPassportPolicy]: EPolicies.GitcoinPassport,
+  [EContracts.HatsPolicy]: EPolicies.Hats,
+  [EContracts.ZupassPolicy]: EPolicies.Zupass,
+  [EContracts.TokenPolicy]: EPolicies.Token,
+  [EContracts.ERC20VotesPolicy]: EPolicies.ERC20Votes,
+  [EContracts.SemaphorePolicy]: EPolicies.Semaphore,
+  [EContracts.MerkleProofPolicy]: EPolicies.MerkleProof,
+};
+
+const EPOLICIES_TO_ENUM: Record<EPolicies, EPolicy> = {
+  [EPolicies.ERC20]: EPolicy.ERC20,
+  [EPolicies.FreeForAll]: EPolicy.FreeForAll,
+  [EPolicies.MerkleProof]: EPolicy.MerkleProof,
+  [EPolicies.ERC20Votes]: EPolicy.ERC20Votes,
+  [EPolicies.EAS]: EPolicy.EAS,
+  [EPolicies.GitcoinPassport]: EPolicy.GitcoinPassport,
+  [EPolicies.Zupass]: EPolicy.Zupass,
+  [EPolicies.Semaphore]: EPolicy.Semaphore,
+  [EPolicies.AnonAadhaar]: EPolicy.AnonAadhaar,
+  [EPolicies.Token]: EPolicy.Token,
+  [EPolicies.Hats]: EPolicy.Hats,
+};
+
+/**
+ * Converts an EContracts policy name to the numeric EPolicy enum value
+ * matching DomainObjs.Policy in Solidity. Returns undefined if not a policy.
+ */
+export function contractToPolicy(contract: EContracts | null | undefined): EPolicy | undefined {
+  if (contract == null) {
+    return undefined;
+  }
+
+  const epolicy = CONTRACT_TO_EPOLICIES[contract];
+
+  return epolicy !== undefined ? EPOLICIES_TO_ENUM[epolicy] : undefined;
 }
 
 /**

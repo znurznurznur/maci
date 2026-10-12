@@ -18,6 +18,7 @@ import {
   setVerifyingKeys,
   extractAllVerifyingKeys,
   EMode,
+  EPolicy,
   extractVerifyingKeyToFile,
   generateMaciState,
   proveOnChain,
@@ -61,7 +62,7 @@ import {
   resetContractAddresses,
   storeContractAddresses,
 } from "./utils";
-import { MODE_NAME_TO_ENUM } from "./utils/constants";
+import { MODE_NAME_TO_ENUM, POLICY_NAME_TO_ENUM } from "./utils/constants";
 import { DEFAULT_INITIAL_VOICE_CREDITS, DEFAULT_VOTE_OPTIONS } from "./utils/defaults";
 
 // set the description version and name of the cli tool
@@ -343,7 +344,21 @@ program
   .requiredOption("-s, --state-tree-depth <stateTreeDepth>", "the state tree depth", parseInt)
   .requiredOption("-v, --vote-option-tree-depth <voteOptionTreeDepth>", "the vote option tree depth", parseInt)
   .requiredOption("-p, --public-key <publicKey>", "the coordinator public key")
-  .option("-m, --mode <mode>", "Voting mode (qv, non-qv, full)", (value) => MODE_NAME_TO_ENUM[value], EMode.QV)
+  .requiredOption("-pn, --poll-name <pollName>", "poll name")
+  .requiredOption("--options <options>", "the vote option names", (value: string): string[] =>
+    value.split(",").map((item) => item.trim()),
+  )
+  .requiredOption(
+    "--poll-policy-type <pollPolicyType>",
+    "enrollment policy (FreeForAll, ERC20, etc)",
+    (value) => POLICY_NAME_TO_ENUM[value],
+    EPolicy.ERC20,
+  )
+  .option("-pm, --poll-metadata <metadata>", "poll metadata")
+  .option("-oi, --option-info <optionInfo>", "additional vote option info", (value: string): string[] =>
+    value.split(",").map((item) => item.trim()),
+  )
+  .option("-m, --mode <mode>", "Voting mode (qv, non-qv, full, ranked)", (value) => MODE_NAME_TO_ENUM[value], EMode.QV)
   .option("-x, --maci-address <maciAddress>", "the MACI contract address")
   .option("--relayers <relayers>", "the relayer addresses", (value) => value.split(",").map((item) => item.trim()))
   .option("-q, --quiet <quiet>", "whether to print values to the console", (value) => value === "true", false)
@@ -359,18 +374,17 @@ program
       const signer = await getSigner();
       const network = await signer.provider?.getNetwork();
 
-      const [maciAddress, initialVoiceCreditProxyAddress, initialVoiceCreditProxyFactoryAddress] =
-        readContractAddresses({
-          contractNames: [
-            EContracts.VerifyingKeysRegistry,
-            EContracts.MACI,
-            EContracts.ConstantInitialVoiceCreditProxy,
-            EContracts.ConstantInitialVoiceCreditProxyFactory,
-            EContracts.Verifier,
-          ],
-          network: network?.name,
-          defaultAddresses: [args.verifyingKeysRegistryAddress, args.maciAddress, args.initialVoiceCreditsProxy],
-        });
+      const [maciAddress, initialVoiceCreditProxyAddress] = readContractAddresses({
+        contractNames: [
+          EContracts.VerifyingKeysRegistry,
+          EContracts.MACI,
+          EContracts.ConstantInitialVoiceCreditProxy,
+          EContracts.ConstantInitialVoiceCreditProxyFactory,
+          EContracts.Verifier,
+        ],
+        network: network?.name,
+        defaultAddresses: [args.verifyingKeysRegistryAddress, args.maciAddress, args.initialVoiceCreditsProxy],
+      });
 
       const maciContract = MACIFactory.connect(maciAddress, signer);
 
@@ -407,9 +421,13 @@ program
         mode: args.mode,
         signer,
         voteOptions: args.voteOptions ?? DEFAULT_VOTE_OPTIONS,
+        policy: args.pollPolicyType,
         policyContractAddress: signupPolicyContractAddress,
-        initialVoiceCreditProxyFactoryAddress,
         initialVoiceCreditProxyContractAddress: initialVoiceCreditProxyAddress,
+        name: args.pollName,
+        metadata: args.pollMetadata ?? "",
+        options: args.options,
+        optionInfo: args.optionInfo ?? [],
       });
 
       logGreen({ quiet: args.quiet, text: success(`Poll ID: ${pollId}`) });
@@ -540,9 +558,17 @@ program
     "the vote tally full zkey path (see different options for zkey files to use specific circuits https://maci.pse.dev/docs/trusted-setup, https://maci.pse.dev/docs/testing/#pre-compiled-artifacts-for-testing)",
   )
   .option(
+    "--message-processor-zkey-ranked <messageProcessorZkeyPathRanked>",
+    "the message processor ranked zkey path (see different options for zkey files to use specific circuits https://maci.pse.dev/docs/trusted-setup, https://maci.pse.dev/docs/testing/#pre-compiled-artifacts-for-testing)",
+  )
+  .option(
+    "--vote-tally-zkey-ranked <tallyVotesZkeyPathRanked>",
+    "the vote tally ranked zkey path (see different options for zkey files to use specific circuits https://maci.pse.dev/docs/trusted-setup, https://maci.pse.dev/docs/testing/#pre-compiled-artifacts-for-testing)",
+  )
+  .option(
     "-m, --modes <modes>",
-    "Comma-separated list of voting modes (qv, non-qv, full)",
-    (value) => value.split(",").map((v) => MODE_NAME_TO_ENUM[v.trim()]),
+    "Comma-separated list of voting modes (qv, non-qv, full, ranked)",
+    (value: string): EMode[] => value.split(",").map((v) => MODE_NAME_TO_ENUM[v.trim()]),
     [EMode.QV],
   )
   .option("-k, --vk-registry <vkRegistry>", "the vk registry contract address")
@@ -562,12 +588,14 @@ program
         [EMode.QV]: args.messageProcessorZkeyQv,
         [EMode.NON_QV]: args.messageProcessorZkeyNonQv,
         [EMode.FULL]: args.messageProcessorZkeyFull,
+        [EMode.RANKED]: args.messageProcessorZkeyRanked,
       };
 
       const tallyKeys = {
         [EMode.QV]: args.voteTallyZkeyQv,
         [EMode.NON_QV]: args.voteTallyZkeyNonQv,
         [EMode.FULL]: args.voteTallyZkeyFull,
+        [EMode.RANKED]: args.voteTallyZkeyRanked,
       };
 
       const { pollJoiningVerifyingKey, pollJoinedVerifyingKey } = await extractAllVerifyingKeys({
@@ -747,6 +775,14 @@ program
     "--vote-tally-zkey-non-qv <voteTallyZkeyPathNonQv>",
     "the vote tally non-qv zkey path (see different options for zkey files to use specific circuits https://maci.pse.dev/docs/trusted-setup, https://maci.pse.dev/docs/testing/#pre-compiled-artifacts-for-testing)",
   )
+  .requiredOption(
+    "--message-processor-zkey-ranked <messageProcessorZkeyPathRanked>",
+    "the message processor ranked zkey path (see different options for zkey files to use specific circuits https://maci.pse.dev/docs/trusted-setup, https://maci.pse.dev/docs/testing/#pre-compiled-artifacts-for-testing)",
+  )
+  .requiredOption(
+    "--vote-tally-zkey-ranked <voteTallyZkeyPathRanked>",
+    "the vote tally ranked zkey path (see different options for zkey files to use specific circuits https://maci.pse.dev/docs/trusted-setup, https://maci.pse.dev/docs/testing/#pre-compiled-artifacts-for-testing)",
+  )
   .requiredOption("-o, --output-file <outputFile>", "the output file path of extracted vkeys")
   .action(async (args) => {
     try {
@@ -756,6 +792,8 @@ program
         voteTallyZkeyPathQv: args.voteTallyZkeyQv,
         messageProcessorZkeyPathNonQv: args.messageProcessorZkeyNonQv,
         voteTallyZkeyPathNonQv: args.voteTallyZkeyNonQv,
+        messageProcessorZkeyPathRanked: args.messageProcessorZkeyRanked,
+        voteTallyZkeyPathRanked: args.voteTallyZkeyRanked,
         pollJoiningZkeyPath: args.pollJoiningZkey,
         pollJoinedZkeyPath: args.pollJoinedZkey,
         outputFilePath: args.outputFile,
@@ -904,6 +942,7 @@ program
         [EMode.QV]: "Quadratic Voting",
         [EMode.NON_QV]: "Non-Quadratic Voting",
         [EMode.FULL]: "Full Credits Voting",
+        [EMode.RANKED]: "Ranked Based Voting",
       };
 
       const status = details.isOpen ? "Open" : "Closed";
@@ -1042,7 +1081,7 @@ program
   .option(
     "-b, --ipfs-message-backup-files <ipfsMessageBackupFiles>",
     "Backup files for ipfs messages (name format: ipfsHash1.json, ipfsHash2.json, ..., ipfsHashN.json)",
-    (value: string | undefined) => value?.split(/\s*,\s*/),
+    (value: string | undefined): string[] | undefined => value?.split(/\s*,\s*/),
   )
   .action(
     async ({
@@ -1130,7 +1169,7 @@ program
   .option(
     "-b, --ipfs-message-backup-files <ipfsMessageBackupFiles>",
     "Backup files for ipfs messages (name format: ipfsHash1.json, ipfsHash2.json, ..., ipfsHashN.json)",
-    (value: string | undefined) => value?.split(/\s*,\s*/),
+    (value: string | undefined): string[] | undefined => value?.split(/\s*,\s*/),
   )
   .option("-l, --logs-output <logsOutputPath>", "the path where to save the logs for debugging and auditing purposes")
   .action(async (args) => {

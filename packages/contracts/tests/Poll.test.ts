@@ -59,7 +59,7 @@ describe("Poll", function test() {
       const signers = await getSigners();
       [signer, ...userSigners] = signers;
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = (await getBlockTimestamp(signer)) + 100;
 
       const r = await deployTestContracts({
         initialVoiceCreditBalance,
@@ -87,28 +87,36 @@ describe("Poll", function test() {
 
       // deploy on chain poll
       const receipt = await maciContract
-        .deployPoll({
-          startDate,
-          endDate: startDate + duration,
-          treeDepths,
-          messageBatchSize,
-          coordinatorPublicKey: coordinator.publicKey.asContractParam(),
-          mode: EMode.QV,
-          policy: pollPolicyContract,
-          initialVoiceCreditProxy: initialVoiceCreditProxyContract,
-          relayers: [signer],
-          voteOptions: maxVoteOptions,
-        })
+        .deployPoll(
+          {
+            startDate,
+            endDate: startDate + duration,
+            treeDepths,
+            messageBatchSize,
+            coordinatorPublicKey: coordinator.publicKey.asContractParam(),
+            mode: EMode.QV,
+            policy: pollPolicyContract,
+            initialVoiceCreditProxy: initialVoiceCreditProxyContract,
+            relayers: [signer],
+            voteOptions: maxVoteOptions,
+            name: "",
+            metadata: "",
+            options: [],
+            optionInfo: [],
+            policyType: 0,
+          },
+          await signer.getAddress(),
+        )
         .then((tx) => tx.wait());
 
       expect(receipt?.status).to.eq(1);
 
       pollId = (await maciContract.nextPollId()) - 1n;
 
-      const pollContracts = await maciContract.getPoll(pollId);
-      pollContract = PollFactory.connect(pollContracts.poll, signer);
+      const { contracts } = await maciContract.getPoll(pollId);
+      pollContract = PollFactory.connect(contracts.poll, signer);
 
-      await pollPolicyContract.setTarget(pollContracts.poll).then((tx) => tx.wait());
+      await pollPolicyContract.setTarget(contracts.poll).then((tx) => tx.wait());
 
       // deploy local poll
       const deployedPollId = maciState.deployPoll(
@@ -156,6 +164,9 @@ describe("Poll", function test() {
         testTallyVerifyingKey.asContractParam() as IVerifyingKeyStruct,
         { gasLimit: 10000000 },
       );
+
+      // Advance past poll start date so publishMessage can proceed
+      await timeTravel(signer.provider as unknown as EthereumProvider, 101);
     });
 
     it("should have the correct coordinator public key set", async () => {
@@ -192,22 +203,31 @@ describe("Poll", function test() {
       const testMaciContract = r.maciContract;
 
       // deploy on chain poll
+      const currentTime = (await getBlockTimestamp(signer)) + 1;
       await expect(
-        testMaciContract.deployPoll({
-          startDate: Math.floor(Date.now() / 1000),
-          endDate: Math.floor(Date.now() / 1000) + duration,
-          treeDepths,
-          messageBatchSize,
-          coordinatorPublicKey: {
-            x: "100",
-            y: "1",
+        testMaciContract.deployPoll(
+          {
+            startDate: currentTime,
+            endDate: currentTime + duration,
+            treeDepths,
+            messageBatchSize,
+            coordinatorPublicKey: {
+              x: "100",
+              y: "1",
+            },
+            mode: EMode.QV,
+            policy: pollPolicyContract,
+            initialVoiceCreditProxy: initialVoiceCreditProxyContract,
+            relayers: [ZeroAddress],
+            voteOptions: maxVoteOptions,
+            name: "",
+            metadata: "",
+            options: [],
+            optionInfo: [],
+            policyType: 0,
           },
-          mode: EMode.QV,
-          policy: pollPolicyContract,
-          initialVoiceCreditProxy: initialVoiceCreditProxyContract,
-          relayers: [ZeroAddress],
-          voteOptions: maxVoteOptions,
-        }),
+          await signer.getAddress(),
+        ),
       ).to.be.revertedWithCustomError(testMaciContract, "InvalidPublicKey");
     });
   });
@@ -302,33 +322,41 @@ describe("Poll", function test() {
 
     it("should not allow to sign up more than the supported amount of users (2 ** stateTreeDepth)", async () => {
       const stateTreeDepthTest = 1;
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = (await getBlockTimestamp(signer)) + 100;
 
       const [policyContract] = await deployFreeForAllSignUpPolicy({}, signer, true);
 
       const receipt = await maciContract
-        .deployPoll({
-          startDate,
-          endDate: startDate + duration,
-          treeDepths: { ...treeDepths, stateTreeDepth: stateTreeDepthTest },
-          messageBatchSize,
-          coordinatorPublicKey: coordinator.publicKey.asContractParam(),
-          mode: EMode.QV,
-          policy: policyContract,
-          initialVoiceCreditProxy: initialVoiceCreditProxyContract,
-          relayers: [signer],
-          voteOptions: maxVoteOptions,
-        })
+        .deployPoll(
+          {
+            startDate,
+            endDate: startDate + duration,
+            treeDepths: { ...treeDepths, stateTreeDepth: stateTreeDepthTest },
+            messageBatchSize,
+            coordinatorPublicKey: coordinator.publicKey.asContractParam(),
+            mode: EMode.QV,
+            policy: policyContract,
+            initialVoiceCreditProxy: initialVoiceCreditProxyContract,
+            relayers: [signer],
+            voteOptions: maxVoteOptions,
+            name: "",
+            metadata: "",
+            options: [],
+            optionInfo: [],
+            policyType: 0,
+          },
+          await signer.getAddress(),
+        )
         .then((tx) => tx.wait());
 
       expect(receipt?.status).to.eq(1);
 
       const id = (await maciContract.nextPollId()) - 1n;
 
-      const pollContracts = await maciContract.getPoll(id);
-      const contract = PollFactory.connect(pollContracts.poll, signer);
+      const poll2 = await maciContract.getPoll(id);
+      const contract = PollFactory.connect(poll2.contracts.poll, signer);
 
-      await policyContract.setTarget(pollContracts.poll).then((tx) => tx.wait());
+      await policyContract.setTarget(poll2.contracts.poll).then((tx) => tx.wait());
 
       // set the verification keys on the registry smart contract
       await verifyingKeysRegistryContract.setPollJoiningVerifyingKey(

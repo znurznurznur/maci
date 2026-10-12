@@ -3,7 +3,7 @@ import { Keypair, VoteCommand } from "@maci-protocol/domainobjs";
 
 import type { IGenerateVoteArgs, IVote } from "./types";
 
-import { validateSalt } from "./utils";
+import { unpackVoteOptions, validateSalt, validateVoteOptions } from "./utils";
 
 /**
  * Generate a vote
@@ -12,6 +12,7 @@ import { validateSalt } from "./utils";
  */
 export const generateVote = ({
   pollId,
+  isRanked = false,
   voteOptionIndex,
   salt,
   nonce,
@@ -26,7 +27,12 @@ export const generateVote = ({
   const keypair = new Keypair(privateKey);
 
   // validate args
-  if (voteOptionIndex < 0 || voteOptionIndex > maxVoteOption) {
+  if (isRanked) {
+    const votes = unpackVoteOptions(voteOptionIndex, maxVoteOption);
+    if (!validateVoteOptions(votes, maxVoteOption)) {
+      throw new Error("Invalid ranked vote options: options must be unique and within valid range");
+    }
+  } else if (voteOptionIndex < 0 || voteOptionIndex > maxVoteOption) {
     throw new Error("Invalid vote option index");
   }
 

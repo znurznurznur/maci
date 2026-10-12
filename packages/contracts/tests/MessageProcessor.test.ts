@@ -51,7 +51,7 @@ describe("MessageProcessor", () => {
 
   before(async () => {
     signer = await getDefaultSigner();
-    const startTime = await getBlockTimestamp(signer);
+    const startTime = (await getBlockTimestamp(signer)) + 100;
 
     // deploy test contracts
     const r = await deployTestContracts({
@@ -66,18 +66,26 @@ describe("MessageProcessor", () => {
     initialVoiceCreditProxyContract = r.constantInitialVoiceCreditProxyContract;
 
     // deploy on chain poll
-    const tx = await maciContract.deployPoll({
-      startDate: startTime,
-      endDate: startTime + duration,
-      treeDepths,
-      messageBatchSize,
-      coordinatorPublicKey: coordinator.publicKey.asContractParam(),
-      mode: EMode.QV,
-      policy: signupPolicyContract,
-      initialVoiceCreditProxy: initialVoiceCreditProxyContract,
-      relayers: [ZeroAddress],
-      voteOptions: maxVoteOptions,
-    });
+    const tx = await maciContract.deployPoll(
+      {
+        startDate: startTime,
+        endDate: startTime + duration,
+        treeDepths,
+        messageBatchSize,
+        coordinatorPublicKey: coordinator.publicKey.asContractParam(),
+        mode: EMode.QV,
+        policy: signupPolicyContract,
+        initialVoiceCreditProxy: initialVoiceCreditProxyContract,
+        relayers: [ZeroAddress],
+        voteOptions: maxVoteOptions,
+        name: "",
+        metadata: "",
+        options: [],
+        optionInfo: [],
+        policyType: 0,
+      },
+      await signer.getAddress(),
+    );
     let receipt = await tx.wait();
 
     // extract poll id
@@ -85,9 +93,9 @@ describe("MessageProcessor", () => {
 
     pollId = (await maciContract.nextPollId()) - 1n;
 
-    const pollContracts = await maciContract.getPoll(pollId);
-    messageProcessorContract = MessageProcessorFactory.connect(pollContracts.messageProcessor, signer);
-    pollContract = PollFactory.connect(pollContracts.poll, signer);
+    const { contracts } = await maciContract.getPoll(pollId);
+    messageProcessorContract = MessageProcessorFactory.connect(contracts.messageProcessor, signer);
+    pollContract = PollFactory.connect(contracts.poll, signer);
     // deploy local poll
     const deployedPollId = maciState.deployPoll(
       BigInt(startTime + duration),
@@ -145,7 +153,7 @@ describe("MessageProcessor", () => {
     });
 
     it("should update the state and ballot root commitment", async () => {
-      await timeTravel(signer.provider! as unknown as EthereumProvider, duration + 1);
+      await timeTravel(signer.provider! as unknown as EthereumProvider, duration + 101);
       // Submit the proof
       const tx = await messageProcessorContract.processMessages(
         BigInt(generatedInputs.newSbCommitment),

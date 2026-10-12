@@ -29,8 +29,8 @@ export const verify = async ({
 
   // get the contract objects
   const maciContract = MACIFactory.connect(maciContractAddress, signer);
-  const pollContracts = await maciContract.polls(pollId);
-  const tallyContract = TallyFactory.connect(pollContracts.tally, signer);
+  const { contracts } = await maciContract.getPoll(pollId);
+  const tallyContract = TallyFactory.connect(contracts.tally, signer);
 
   // get the on-chain tally commitment\
   const onChainTallyCommitment = BigInt(await tallyContract.tallyCommitment());

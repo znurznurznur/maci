@@ -5,6 +5,7 @@ import chaiAsPromised from "chai-as-promised";
 import { type WitnessTester } from "circomkit";
 import fc, { type Arbitrary } from "fast-check";
 
+import { MAX_RANKED_VOTE_OPTIONS } from "./utils/constants";
 import { getSignal, circomkitInstance } from "./utils/utils";
 
 chai.use(chaiAsPromised);
@@ -14,12 +15,14 @@ describe("Incremental Quinary Tree (IQT)", function test() {
 
   const leavesPerNode = 5;
   const treeDepth = 3;
+  const rankedTreeDepth = 2;
 
   let circuitLeafExists: WitnessTester<["leaf", "path_elements", "path_indices", "root"]>;
   let circuitGeneratePathIndices: WitnessTester<["index"], ["out"]>;
   let circuitQuinarySelector: WitnessTester<["in", "index"], ["out"]>;
   let splicerCircuit: WitnessTester<["in", "leaf", "index"], ["out"]>;
   let quinaryCheckRoot: WitnessTester<["leaves"], ["root"]>;
+  let quinaryCheckRootRanked: WitnessTester<["leaves"], ["root"]>;
 
   before(async () => {
     circuitLeafExists = await circomkitInstance.WitnessTester("QuinaryLeafExists", {
@@ -50,6 +53,11 @@ describe("Incremental Quinary Tree (IQT)", function test() {
       file: "./utils/trees/QuinaryCheckRoot",
       template: "QuinaryCheckRoot",
       params: [3],
+    });
+
+    quinaryCheckRootRanked = await circomkitInstance.WitnessTester("QuinaryCheckRootRanked", {
+      file: "./utils/trees/QuinaryCheckRootRanked",
+      template: "QuinaryCheckRootRanked",
     });
   });
 
@@ -446,6 +454,37 @@ describe("Incremental Quinary Tree (IQT)", function test() {
           );
         });
       }
+    });
+  });
+
+  describe("QuinaryCheckRootRanked", () => {
+    it("should compute the correct merkle root: maxRankedVoteOptions", async () => {
+      const leaves = Array<bigint>(Number(MAX_RANKED_VOTE_OPTIONS)).fill(5n);
+      const voteWeight = 1n;
+
+      const circuitInputs = { leaves, voteWeight };
+
+      const tree = new IncrementalQuinTree(rankedTreeDepth, 0n, 5, hash5);
+      leaves.forEach((leaf) => {
+        tree.insert(leaf);
+      });
+      tree.insert(voteWeight);
+
+      const witness = await quinaryCheckRootRanked.calculateWitness(circuitInputs);
+      await quinaryCheckRootRanked.expectConstraintPass(witness);
+
+      const circuitRoot = await getSignal(quinaryCheckRootRanked, witness, "root");
+      expect(circuitRoot.toString()).to.be.eq(tree.root.toString());
+    });
+
+    it("should not accept less leaves than a full tree", async () => {
+      const leaves = Array<bigint>(MAX_RANKED_VOTE_OPTIONS - 1n).fill(5n);
+
+      const circuitInputs = { leaves, voteWeight: 1n };
+
+      await expect(quinaryCheckRootRanked.calculateWitness(circuitInputs)).to.be.rejectedWith(
+        "Not enough values for input signal leaves",
+      );
     });
   });
 });

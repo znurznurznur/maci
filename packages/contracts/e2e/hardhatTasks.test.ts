@@ -52,9 +52,12 @@ describe("E2E hardhat tasks", function test() {
     const maciAddress = contractStorage.mustGetAddress(EContracts.MACI, hardhat.network.name);
     const maciContract = await deployment.getContract<MACI>({ name: EContracts.MACI, address: maciAddress });
     const nextPollId = await maciContract.nextPollId();
-    const pollAddresses = await maciContract.getPoll(nextPollId - 1n);
+    const poll = await maciContract.getPoll(nextPollId - 1n);
 
-    const pollContract = await deployment.getContract<Poll>({ name: EContracts.Poll, address: pollAddresses.poll });
+    const pollContract = await deployment.getContract<Poll>({
+      name: EContracts.Poll,
+      address: poll.contracts.poll,
+    });
     const pollId = nextPollId - 1n;
 
     return { pollContract, pollId };
@@ -156,10 +159,16 @@ describe("E2E hardhat tasks", function test() {
   });
 
   it("should deploy poll contract properly", async () => {
-    const now = Math.floor(Date.now() / 1000);
+    const deployer = await deployment.getDeployer();
+    const latestBlock = await deployer.provider!.getBlock("latest");
+    // MACI.deployPoll() reverts unless startDate is after the mining block's timestamp. Use chain
+    // time, not Date.now(): each auto-mined block advances it by at least 1s, so after the deploy
+    // steps above it runs well ahead of the wall clock.
+    const now = latestBlock!.timestamp;
+    const pollStartBuffer = 5;
 
-    deployment.updateDeployConfig(EContracts.Poll, "pollStartDate", now - pollDuration);
-    deployment.updateDeployConfig(EContracts.Poll, "pollEndDate", now + pollDuration);
+    deployment.updateDeployConfig(EContracts.Poll, "pollStartDate", now + pollStartBuffer);
+    deployment.updateDeployConfig(EContracts.Poll, "pollEndDate", now + pollStartBuffer + pollDuration);
 
     await hardhat.run(EDeploySteps.Poll, args);
   });

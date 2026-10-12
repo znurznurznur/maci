@@ -1,4 +1,4 @@
-export { EMode } from "@maci-protocol/core";
+export { EMode, EPolicy } from "@maci-protocol/core";
 export {
   deployMockVerifier,
   deployVerifyingKeysRegistry,
@@ -82,5 +82,6 @@ export type {
   TDeployedProxyFactories,
   AASigner,
   IDeployCloneArgs,
+  IDeployMaciArgs,
 } from "./types";
 export * from "../typechain-types";

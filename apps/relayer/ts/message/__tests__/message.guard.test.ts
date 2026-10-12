@@ -47,7 +47,7 @@ describe("MessageGuard", () => {
   } as Reflector & { get: jest.Mock };
 
   const mockMaciContract = {
-    polls: jest.fn().mockImplementation(() => Promise.resolve({ poll: ZeroAddress })),
+    getPoll: jest.fn().mockImplementation(() => Promise.resolve({ contracts: { poll: ZeroAddress } })),
   };
 
   const mockPollContract = {
@@ -57,7 +57,9 @@ describe("MessageGuard", () => {
   beforeEach(() => {
     reflector.get.mockReturnValue(false);
 
-    mockMaciContract.polls = jest.fn().mockImplementation(() => Promise.resolve({ poll: ZeroAddress }));
+    mockMaciContract.getPoll = jest
+      .fn()
+      .mockImplementation(() => Promise.resolve({ contracts: { poll: ZeroAddress } }));
     mockPollContract.verifyJoinedPollProof = jest.fn().mockImplementation(() => Promise.resolve(true));
 
     MACIFactory.connect = jest.fn().mockImplementation(() => mockMaciContract) as typeof MACIFactory.connect;

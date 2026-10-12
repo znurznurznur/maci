@@ -99,6 +99,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "sepolia": {
@@ -201,6 +204,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "scroll_sepolia": {
@@ -302,6 +308,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "linea_sepolia": {
@@ -403,6 +412,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "linea": {
@@ -504,6 +516,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "zksync_sepolia": {
@@ -605,6 +620,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "zksync_era": {
@@ -706,6 +724,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "polygon_cardona_zkevm": {
@@ -807,6 +828,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "polygon_zkevm": {
@@ -908,6 +932,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "optimism": {
@@ -1010,6 +1037,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "arbitrum_sepolia": {
@@ -1112,6 +1142,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "localhost": {
@@ -1214,6 +1247,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "hardhat": {
@@ -1316,6 +1352,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "base_sepolia": {
@@ -1418,6 +1457,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "optimism_sepolia": {
@@ -1525,6 +1567,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "gnosis_chiado": {
@@ -1632,6 +1677,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "gnosis": {
@@ -1739,6 +1787,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "polygon_amoy": {
@@ -1846,6 +1897,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   },
   "polygon": {
@@ -1953,6 +2007,9 @@
       "initialVoiceCreditProxy": "ConstantInitialVoiceCreditProxy",
       "voteOptions": 2,
       "stateTreeDepth": 10
+    },
+    "ZuGovRegistry": {
+      "coordinatorPublicKey": "macipk.9a59264310d95cfd8eb7083aebeba221b5c26e77427f12b7c0f50bc1cc35e621"
     }
   }
 }

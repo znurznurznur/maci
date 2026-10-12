@@ -18,6 +18,7 @@ import "./tasks/runner/deployPoll";
 import "./tasks/runner/encodeErrors";
 import "./tasks/runner/merge";
 import "./tasks/runner/prove";
+import "./tasks/runner/setRankedVerifyingKeys";
 import "./tasks/runner/submitOnChain";
 import "./tasks/runner/verifyFull";
 
@@ -48,15 +49,30 @@ const getCommonNetworkConfig = (networkName: ESupportedChains, chainId: number, 
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.28",
-    settings: {
-      optimizer: {
-        enabled: true,
-        runs: 200,
+    compilers: [
+      {
+        version: "0.8.28",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+          evmVersion: "cancun",
+        },
       },
-    },
+      {
+        version: "0.8.27",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+          evmVersion: "cancun",
+        },
+      },
+    ],
   },
-  defaultNetwork: "localhost",
+  defaultNetwork: "hardhat",
   networks: {
     mainnet: getCommonNetworkConfig(ESupportedChains.Mainnet, EChainId.Mainnet),
     sepolia: getCommonNetworkConfig(ESupportedChains.Sepolia, EChainId.Sepolia),

@@ -4,7 +4,7 @@ import path from "path";
 /**
  * The same as individual imports but doesn't require to add new import line every time
  */
-["maci", "poll"].forEach((folder) => {
+["maci", "poll", "zugov"].forEach((folder) => {
   const tasksPath = path.resolve(__dirname, folder);
 
   if (fs.existsSync(tasksPath)) {

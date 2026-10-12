@@ -60,7 +60,7 @@ describe("VoteTallyNonQv", () => {
 
     signer = await getDefaultSigner();
 
-    const startTime = await getBlockTimestamp(signer);
+    const startTime = (await getBlockTimestamp(signer)) + 100;
 
     const r = await deployTestContracts({ initialVoiceCreditBalance: 100, stateTreeDepth: STATE_TREE_DEPTH, signer });
     maciContract = r.maciContract;
@@ -70,28 +70,36 @@ describe("VoteTallyNonQv", () => {
 
     // deploy a poll
     // deploy on chain poll
-    const tx = await maciContract.deployPoll({
-      startDate: startTime,
-      endDate: startTime + duration,
-      treeDepths,
-      messageBatchSize,
-      coordinatorPublicKey: coordinator.publicKey.asContractParam(),
-      mode: EMode.NON_QV,
-      policy: policyContract,
-      initialVoiceCreditProxy: initialVoiceCreditProxyContract,
-      relayers: [ZeroAddress],
-      voteOptions: maxVoteOptions,
-    });
+    const tx = await maciContract.deployPoll(
+      {
+        startDate: startTime,
+        endDate: startTime + duration,
+        treeDepths,
+        messageBatchSize,
+        coordinatorPublicKey: coordinator.publicKey.asContractParam(),
+        mode: EMode.NON_QV,
+        policy: policyContract,
+        initialVoiceCreditProxy: initialVoiceCreditProxyContract,
+        relayers: [ZeroAddress],
+        voteOptions: maxVoteOptions,
+        name: "",
+        metadata: "",
+        options: [],
+        optionInfo: [],
+        policyType: 0,
+      },
+      await signer.getAddress(),
+    );
     const receipt = await tx.wait();
 
     expect(receipt?.status).to.eq(1);
 
     pollId = (await maciContract.nextPollId()) - 1n;
 
-    const pollContracts = await maciContract.getPoll(pollId);
-    pollContract = PollFactory.connect(pollContracts.poll, signer);
-    messageProcessorContract = MessageProcessorFactory.connect(pollContracts.messageProcessor, signer);
-    tallyContract = TallyFactory.connect(pollContracts.tally, signer);
+    const { contracts } = await maciContract.getPoll(pollId);
+    pollContract = PollFactory.connect(contracts.poll, signer);
+    messageProcessorContract = MessageProcessorFactory.connect(contracts.messageProcessor, signer);
+    tallyContract = TallyFactory.connect(contracts.tally, signer);
 
     // deploy local poll
     const deployedPollId = maciState.deployPoll(
@@ -145,7 +153,7 @@ describe("VoteTallyNonQv", () => {
   });
 
   it("tallyVotes() should fail as the messages have not been processed yet", async () => {
-    await timeTravel(signer.provider! as unknown as EthereumProvider, duration + 1);
+    await timeTravel(signer.provider! as unknown as EthereumProvider, duration + 101);
     await expect(tallyContract.tallyVotes(0n, [0, 0, 0, 0, 0, 0, 0, 0])).to.be.revertedWithCustomError(
       tallyContract,
       "ProcessingNotComplete",

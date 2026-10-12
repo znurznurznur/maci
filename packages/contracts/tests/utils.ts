@@ -74,6 +74,8 @@ export const deployTestContracts = async ({
   quiet = true,
   factories,
   policy,
+  initialSupportedModes,
+  initialAllowedPolicies,
 }: IDeployedTestContractsArgs): Promise<IDeployedTestContracts> => {
   const mockVerifierContract = await deployMockVerifier(signer, true);
 
@@ -99,6 +101,8 @@ export const deployTestContracts = async ({
     factories,
     quiet,
     verifier: mockVerifierContract as unknown as Verifier,
+    initialSupportedModes,
+    initialAllowedPolicies,
   });
 
   return {

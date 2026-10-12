@@ -32,10 +32,15 @@ export const deployPoll = async ({
   stateTreeDepth,
   coordinatorPublicKey,
   mode,
+  policy,
   policyContractAddress,
   initialVoiceCreditProxyContractAddress,
   relayers,
   voteOptions,
+  name,
+  metadata,
+  options,
+  optionInfo,
   initialVoiceCredits,
   freeForAllCheckerFactoryAddress,
   freeForAllPolicyFactoryAddress,
@@ -123,22 +128,30 @@ export const deployPoll = async ({
   }
 
   const receipt = await maciContract
-    .deployPoll({
-      startDate: pollStartTimestamp,
-      endDate: pollEndTimestamp,
-      treeDepths: {
-        tallyProcessingStateTreeDepth,
-        voteOptionTreeDepth,
-        stateTreeDepth,
+    .deployPoll(
+      {
+        startDate: pollStartTimestamp,
+        endDate: pollEndTimestamp,
+        treeDepths: {
+          tallyProcessingStateTreeDepth,
+          voteOptionTreeDepth,
+          stateTreeDepth,
+        },
+        messageBatchSize,
+        coordinatorPublicKey: coordinatorPublicKey.asContractParam(),
+        mode,
+        policy: signupPolicyContractAddress,
+        initialVoiceCreditProxy: initialVoiceCreditProxyAddress,
+        relayers,
+        voteOptions,
+        name,
+        metadata,
+        options,
+        optionInfo,
+        policyType: policy,
       },
-      messageBatchSize,
-      coordinatorPublicKey: coordinatorPublicKey.asContractParam(),
-      mode,
-      policy: signupPolicyContractAddress,
-      initialVoiceCreditProxy: initialVoiceCreditProxyAddress,
-      relayers,
-      voteOptions,
-    })
+      await signer.getAddress(),
+    )
     .then((tx) => tx.wait());
 
   if (receipt?.status !== 1) {
@@ -154,11 +167,11 @@ export const deployPoll = async ({
   const log = events[events.length - 1];
 
   // eslint-disable-next-line no-underscore-dangle
-  const pollId = log.args._pollId;
-  const pollContracts = await maciContract.getPoll(pollId);
-  const pollContractAddress = pollContracts.poll;
-  const messageProcessorContractAddress = pollContracts.messageProcessor;
-  const tallyContractAddress = pollContracts.tally;
+  const pollId = log.args.pollData.id;
+  const { contracts } = await maciContract.getPoll(pollId);
+  const pollContractAddress = contracts.poll;
+  const messageProcessorContractAddress = contracts.messageProcessor;
+  const tallyContractAddress = contracts.tally;
 
   const policyContract = SignUpPolicyFactory.connect(signupPolicyContractAddress, signer);
   await policyContract.setTarget(pollContractAddress).then((tx) => tx.wait());

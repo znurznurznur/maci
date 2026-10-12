@@ -1,4 +1,5 @@
 import { getSigners } from "@maci-protocol/contracts";
+import { MAX_RANKED_VOTE_OPTIONS } from "@maci-protocol/core";
 import { generateRandomSalt } from "@maci-protocol/crypto";
 import { Keypair } from "@maci-protocol/domainobjs";
 import {
@@ -8,6 +9,7 @@ import {
   verify,
   setVerifyingKeys,
   EMode,
+  EPolicy,
   proveOnChain,
   publish,
   deployPoll,
@@ -66,6 +68,15 @@ import {
   testTallyVotesWitnessDatPath,
   testProcessMessagesWasmPath,
   testTallyVotesWasmPath,
+  testTallyVotesRankedZkeyPath,
+  testProcessMessageRankedZkeyPath,
+  testProcessMessagesRankedWasmPath,
+  testProcessMessagesRankedWitnessDatPath,
+  testProcessMessagesRankedWitnessPath,
+  testTallyVotesRankedWitnessPath,
+  testTallyVotesRankedWitnessDatPath,
+  testTallyVotesRankedWasmPath,
+  DEFAULT_VOTE_OPTIONS,
 } from "../../constants";
 import { clean } from "../../utils";
 
@@ -101,6 +112,17 @@ const filePerMode = {
     voteTallyWitnessDatFile: testTallyVotesWitnessDatPath,
     messageProcessorWasm: testProcessMessagesWasmPath,
     voteTallyWasm: testTallyVotesWasmPath,
+  },
+
+  [EMode.RANKED]: {
+    voteTallyZkey: testTallyVotesRankedZkeyPath,
+    messageProcessorZkey: testProcessMessageRankedZkeyPath,
+    messageProcessorWitnessGenerator: testProcessMessagesRankedWitnessPath,
+    messageProcessorWitnessDatFile: testProcessMessagesRankedWitnessDatPath,
+    voteTallyWitnessGenerator: testTallyVotesRankedWitnessPath,
+    voteTallyWitnessDatFile: testTallyVotesRankedWitnessDatPath,
+    messageProcessorWasm: testProcessMessagesRankedWasmPath,
+    voteTallyWasm: testTallyVotesRankedWasmPath,
   },
 };
 
@@ -168,7 +190,7 @@ Object.entries(filePerMode).forEach((data) => {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = (await getBlockTimestamp(signer)) + 100;
 
       // deploy a poll contract
       await deployPoll({
@@ -181,6 +203,12 @@ Object.entries(filePerMode).forEach((data) => {
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
         mode,
+        voteOptions: mode === EMode.RANKED ? MAX_RANKED_VOTE_OPTIONS : DEFAULT_VOTE_OPTIONS,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
 
       return maciContractsAddresses;

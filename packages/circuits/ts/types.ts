@@ -91,6 +91,7 @@ export interface IVoteTallyInputs {
   ballots: bigint[];
   ballotPathElements: bigint[];
   votes: bigint[][];
+  voteWeights: bigint[];
   currentResults: bigint[];
   currentResultsRootSalt: bigint;
   currentSpentVoiceCreditSubtotal: bigint;

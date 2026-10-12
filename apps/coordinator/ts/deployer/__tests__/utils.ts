@@ -88,6 +88,8 @@ export const testPollDeploymentConfig: IDeployPollConfig = {
     },
   },
   voteOptions: 2n,
+  options: ["one", "two"],
+  name: "testPoll",
 };
 
 /**

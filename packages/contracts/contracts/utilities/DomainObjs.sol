@@ -12,7 +12,23 @@ contract DomainObjs {
   enum Mode {
     QV,
     NON_QV,
-    FULL
+    FULL,
+    RANKED
+  }
+
+  /// @notice sign-up policy types
+  enum Policy {
+    ERC20,
+    FreeForAll,
+    MerkleProof,
+    ERC20Votes,
+    EAS,
+    GitcoinPassport,
+    Zupass,
+    Semaphore,
+    AnonAadhaar,
+    Token,
+    Hats
   }
 
   /// @title Message
@@ -36,5 +52,12 @@ contract DomainObjs {
   struct StateLeaf {
     PublicKey publicKey;
     uint256 voiceCreditBalance;
+  }
+
+  /// @title GovernanceConfig
+  /// @notice Governance-level constraints for poll deployment
+  struct GovernanceConfig {
+    Mode[] supportedModes;
+    Policy[] allowedPolicies;
   }
 }

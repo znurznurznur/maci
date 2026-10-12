@@ -395,6 +395,14 @@ export interface IDeployPollConfig {
    * Number of valid vote options
    */
   voteOptions: bigint | string;
+
+  name: string;
+
+  options: string[];
+
+  optionsInfo?: string[];
+
+  metadata?: string;
 }
 
 /**

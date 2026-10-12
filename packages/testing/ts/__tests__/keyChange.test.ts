@@ -3,7 +3,6 @@ import { generateRandomSalt } from "@maci-protocol/crypto";
 import { Keypair } from "@maci-protocol/domainobjs";
 import {
   generateVote,
-  getBlockTimestamp,
   getDefaultSigner,
   signup,
   mergeSignups,
@@ -23,6 +22,7 @@ import {
   deployFreeForAllSignUpPolicy,
   deployConstantInitialVoiceCreditProxy,
   deployConstantInitialVoiceCreditProxyFactory,
+  EPolicy,
 } from "@maci-protocol/sdk";
 import { expect } from "chai";
 
@@ -59,7 +59,7 @@ import {
   coordinatorKeypair,
   verifyingKeysArgs,
 } from "../constants";
-import { clean, getBackupFilenames, relayTestMessages } from "../utils";
+import { clean, getBackupFilenames, getPollStartTimestamp, relayTestMessages } from "../utils";
 
 describe("keyChange tests", function test() {
   const useWasm = isArm();
@@ -149,7 +149,7 @@ describe("keyChange tests", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -161,6 +161,11 @@ describe("keyChange tests", function test() {
         maciAddress: maciAddresses.maciContractAddress,
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
       stateIndex = BigInt(
         await signup({
@@ -317,7 +322,7 @@ describe("keyChange tests", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -329,6 +334,11 @@ describe("keyChange tests", function test() {
         maciAddress: maciAddresses.maciContractAddress,
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
       stateIndex = BigInt(
         await signup({
@@ -471,7 +481,7 @@ describe("keyChange tests", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -483,6 +493,11 @@ describe("keyChange tests", function test() {
         maciAddress: maciAddresses.maciContractAddress,
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
       stateIndex = BigInt(
         await signup({

@@ -1,9 +1,12 @@
 /* eslint-disable no-console */
 import { task, types } from "hardhat/config";
 
+import type { MACI } from "../../typechain-types";
+
 import { info, logMagenta, logRed } from "../../ts/logger";
+import { ContractStorage } from "../helpers/ContractStorage";
 import { Deployment } from "../helpers/Deployment";
-import { type IDeployParams } from "../helpers/types";
+import { EContracts, type IDeployParams } from "../helpers/types";
 
 /**
  * Poll deployment task which runs deploy steps in the same order that `Deployment#deployTask` is called.
@@ -33,8 +36,27 @@ task("deploy-poll", "Deploy poll")
 
       success = true;
     } catch (err) {
+      const error = err as Error & { shortMessage?: string; revert?: { name: string }; data?: string };
+      let reason = error.revert?.name ?? error.shortMessage ?? error.message;
+
+      if (!error.revert && error.data) {
+        try {
+          const storage = ContractStorage.getInstance();
+          const maciAddress = storage.getAddress(EContracts.MACI, hre.network.name);
+          if (maciAddress) {
+            const maciContract = await deployment.getContract<MACI>({ name: EContracts.MACI, address: maciAddress });
+            const decoded = maciContract.interface.parseError(error.data);
+            if (decoded) {
+              reason = decoded.args.length > 0 ? `${decoded.name}(${decoded.args.join(", ")})` : decoded.name;
+            }
+          }
+        } catch {
+          reason = `${reason} [raw: ${error.data}]`;
+        }
+      }
+
       logRed({
-        text: `\n=========================================================\nERROR: ${(err as Error).message}\n`,
+        text: `\n=========================================================\nERROR: ${reason}\n`,
       });
     }
 

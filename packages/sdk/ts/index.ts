@@ -17,6 +17,7 @@ export {
   ECheckerFactories,
   ECheckers,
   EPolicies,
+  EPolicy,
   EPolicyFactories,
   EInitialVoiceCreditProxies,
   EInitialVoiceCreditProxiesFactories,

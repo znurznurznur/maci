@@ -7,7 +7,6 @@ import {
   cidToBytes32,
   createCidFromObject,
   generateVote,
-  getBlockTimestamp,
   relayMessages,
   signup,
   mergeSignups,
@@ -16,6 +15,7 @@ import {
   getPollParams,
   setVerifyingKeys,
   EMode,
+  EPolicy,
   extractAllVerifyingKeys,
   proveOnChain,
   joinPoll,
@@ -50,7 +50,14 @@ import {
   POLL_STATE_TREE_DEPTH,
 } from "../constants";
 import { type ITestSuite } from "../types";
-import { expectTally, generateTestUserCommands, isArm, writeBackupFile, backupFolder } from "../utils";
+import {
+  expectTally,
+  generateTestUserCommands,
+  getPollStartTimestamp,
+  isArm,
+  writeBackupFile,
+  backupFolder,
+} from "../utils";
 
 chai.use(chaiAsPromised);
 
@@ -148,7 +155,7 @@ describe("Integration tests", function test() {
     );
     const initialVoiceCreditProxyContractAddress = await initialVoiceCreditProxy.getAddress();
 
-    const startDate = await getBlockTimestamp(signer);
+    const startDate = await getPollStartTimestamp(signer);
 
     // 4. create a poll
     await deployPoll({
@@ -167,6 +174,11 @@ describe("Integration tests", function test() {
       initialVoiceCredits: DEFAULT_INITIAL_VOICE_CREDITS,
       voteOptions: DEFAULT_VOTE_OPTIONS,
       relayers: [await signer.getAddress()],
+      policy: EPolicy.FreeForAll,
+      name: "test",
+      metadata: "",
+      options: [],
+      optionInfo: [],
     });
 
     const treeDepths: ITreeDepths = {

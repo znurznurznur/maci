@@ -14,6 +14,7 @@ import { getCoordinatorPublicKey } from "./utils";
  * @returns {IPublishData} The ephemeral private key used to encrypt the message, transaction hash
  */
 export const publish = async ({
+  isRanked = false,
   stateIndex,
   voteOptionIndex,
   nonce,
@@ -42,6 +43,7 @@ export const publish = async ({
   const coordinatorPublicKey = await getCoordinatorPublicKey(pollAddress, signer);
 
   const vote = generateVote({
+    isRanked,
     pollId,
     voteOptionIndex,
     salt,

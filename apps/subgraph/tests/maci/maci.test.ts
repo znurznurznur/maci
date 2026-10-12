@@ -1,14 +1,14 @@
 /* eslint-disable no-underscore-dangle, @typescript-eslint/no-unnecessary-type-assertion */
-import { BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { test, describe, afterEach, clearStore, assert, beforeAll } from "matchstick-as";
 
 import { Account, MACI, Poll, User } from "../../generated/schema";
-import { handleSignUp, handleDeployPoll } from "../../src/maci";
+import { handleSignUp, handleDeployPoll, handleOwnershipTransferred } from "../../src/maci";
 import { DEFAULT_POLL_ADDRESS, mockMaciContract, mockPollContract } from "../common";
 
-import { createSignUpEvent, createDeployPollEvent } from "./utils";
+import { createSignUpEvent, createDeployPollEvent, createOwnershipTransferredEvent } from "./utils";
 
-export { handleSignUp, handleDeployPoll };
+export { handleSignUp, handleDeployPoll, handleOwnershipTransferred };
 
 describe("MACI", () => {
   beforeAll(() => {
@@ -114,5 +114,29 @@ describe("MACI", () => {
     assert.fieldEquals("MACI", maciAddress.toHexString(), "latestPoll", poll.id.toHex());
     assert.assertTrue(maci.polls.load().length === 1);
     assert.assertNotNull(poll);
+  });
+
+  test("should set owner on the first OwnershipTransferred event", () => {
+    const newOwner = Address.fromString("0x0000000000000000000000000000000000000011");
+    const event = createOwnershipTransferredEvent(Address.zero(), newOwner);
+
+    handleOwnershipTransferred(event);
+
+    const maci = MACI.load(event.address)!;
+    assert.bytesEquals(maci.owner, newOwner);
+  });
+
+  test("should update owner when ownership is transferred again", () => {
+    const firstOwner = Address.fromString("0x0000000000000000000000000000000000000011");
+    const secondOwner = Address.fromString("0x0000000000000000000000000000000000000022");
+
+    const firstTransfer = createOwnershipTransferredEvent(Address.zero(), firstOwner);
+    handleOwnershipTransferred(firstTransfer);
+
+    const secondTransfer = createOwnershipTransferredEvent(firstOwner, secondOwner);
+    handleOwnershipTransferred(secondTransfer);
+
+    const maci = MACI.load(firstTransfer.address)!;
+    assert.bytesEquals(maci.owner, secondOwner);
   });
 });

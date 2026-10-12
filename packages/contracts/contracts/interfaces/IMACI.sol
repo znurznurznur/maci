@@ -13,6 +13,21 @@ interface IMACI {
     address messageProcessor;
     address tally;
   }
+
+  struct PollData {
+    uint256 id;
+    string name;
+    string metadata;
+    uint256 startTime;
+    uint256 endTime;
+    string[] options;
+    bytes[] optionInfo;
+    DomainObjs.PublicKey coordinatorPubKey;
+    address pollDeployer;
+    DomainObjs.Mode mode;
+    address policy;
+    DomainObjs.Policy policyType;
+  }
   /// @notice A struct holding the params for poll deployment
   struct DeployPollArgs {
     /// @param startDate The start date of the poll
@@ -35,6 +50,16 @@ interface IMACI {
     address[] relayers;
     /// @param voteOptions The number of valid vote options for the poll
     uint256 voteOptions;
+    /// @param name The name of the poll
+    string name;
+    /// @param metadata The metadata of the poll
+    string metadata;
+    /// @param options The voting options
+    string[] options;
+    /// @param optionInfo Additional info for each option
+    bytes[] optionInfo;
+    /// @param policyType The type of the sign-up policy
+    DomainObjs.Policy policyType;
   }
 
   /// @notice Get the depth of the state tree
@@ -52,7 +77,10 @@ interface IMACI {
 
   /// @notice Deploy a new Poll contract.
   /// @param _pollArgs The deploy poll args
-  function deployPoll(DeployPollArgs memory _pollArgs) external returns (PollContracts memory);
+  function deployPoll(
+    DeployPollArgs memory _pollArgs,
+    address deployer
+  ) external returns (PollData memory, PollContracts memory);
 
   /// @notice Allows any eligible user sign up. The sign-up policy should prevent
   /// double sign-ups or ineligible users from doing so.  This function will
@@ -76,4 +104,16 @@ interface IMACI {
   /// @notice Get the next poll ID
   /// @return The next poll ID
   function nextPollId() external view returns (uint256);
+
+  /// @notice Get the governance configuration for this MACI instance
+  /// @return The governance config (supported modes, max vote options, allowed policies)
+  function getGovernanceConfig() external view returns (DomainObjs.GovernanceConfig memory);
+
+  /// @notice Replace the set of supported voting modes
+  /// @param modes The new list of allowed modes (must be non-empty)
+  function setSupportedModes(DomainObjs.Mode[] calldata modes) external;
+
+  /// @notice Replace the set of allowed poll-level sign-up policies
+  /// @param policies The new list of allowed policy types (must be non-empty)
+  function setAllowedPolicies(DomainObjs.Policy[] calldata policies) external;
 }

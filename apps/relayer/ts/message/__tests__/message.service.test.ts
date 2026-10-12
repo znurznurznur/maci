@@ -21,7 +21,7 @@ jest.mock("@maci-protocol/sdk", (): unknown => ({
 
 describe("MessageService", () => {
   const mockMaciContract = {
-    polls: jest.fn().mockImplementation(() => Promise.resolve({ poll: ZeroAddress })),
+    getPoll: jest.fn().mockImplementation(() => Promise.resolve({ contracts: { poll: ZeroAddress } })),
   };
 
   const mockPollContract = {

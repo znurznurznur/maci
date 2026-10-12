@@ -1,6 +1,7 @@
 import { Keypair } from "@maci-protocol/domainobjs";
 import {
   EMode,
+  EPolicy,
   extractAllVerifyingKeys,
   generateMaciStateFromContract,
   setVerifyingKeys,
@@ -201,6 +202,11 @@ export class TestingClass {
       initialVoiceCreditProxyFactoryAddress,
       initialVoiceCreditProxyContractAddress,
       voteOptions: DEFAULT_VOTE_OPTIONS,
+      policy: EPolicy.FreeForAll,
+      name: "test",
+      metadata: "",
+      options: [],
+      optionInfo: [],
     });
 
     await signup({

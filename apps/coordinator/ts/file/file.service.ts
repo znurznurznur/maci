@@ -111,6 +111,7 @@ export class FileService {
       [EMode.QV]: "Qv",
       [EMode.NON_QV]: "NonQv",
       [EMode.FULL]: "Full",
+      [EMode.RANKED]: "Ranked",
     };
 
     const filename = `${type}${mode === undefined ? "" : modePrefixes[mode]}_${params}`;

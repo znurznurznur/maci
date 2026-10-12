@@ -83,8 +83,6 @@ describe("publish", function test() {
     );
     initialVoiceCreditProxyContractAddress = await initialVoiceCreditProxy.getAddress();
 
-    const startDate = await getBlockTimestamp(signer);
-
     // deploy the smart contracts
     maciAddresses = await deployMaci({
       ...deployArgs,
@@ -100,6 +98,7 @@ describe("publish", function test() {
     });
 
     // deploy a poll contract
+    const startDate = (await getBlockTimestamp(signer)) + 1;
     pollAddresses = await deployPoll({
       ...deployPollArgs,
       signer,

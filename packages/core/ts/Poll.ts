@@ -49,8 +49,9 @@ import type {
 } from "./utils/types";
 import type { PathElements } from "@maci-protocol/crypto";
 
-import { EMode, STATE_TREE_ARITY, VOTE_OPTION_TREE_ARITY } from "./utils/constants";
+import { EMode, MAX_RANKED_VOTE_OPTIONS, STATE_TREE_ARITY, VOTE_OPTION_TREE_ARITY } from "./utils/constants";
 import { ProcessMessageErrors, ProcessMessageError } from "./utils/errors";
+import { unpackVoteOptions } from "./utils/ranked";
 
 /**
  * A representation of the Poll contract.
@@ -185,11 +186,16 @@ export class Poll implements IPoll {
 
     this.pollNullifiers = new Map<bigint, boolean>();
 
-    this.tallyResult = new Array(this.maxVoteOptions).fill(0n) as bigint[];
-    this.perVoteOptionSpentVoiceCredits = new Array(this.maxVoteOptions).fill(0n) as bigint[];
+    this.tallyResult = new Array(this.mode === EMode.RANKED ? MAX_RANKED_VOTE_OPTIONS : this.maxVoteOptions).fill(
+      0n,
+    ) as bigint[];
+    this.perVoteOptionSpentVoiceCredits = new Array(
+      this.mode === EMode.RANKED ? MAX_RANKED_VOTE_OPTIONS : this.maxVoteOptions,
+    ).fill(0n) as bigint[];
 
     // we put a blank state leaf to prevent a DoS attack
-    this.emptyBallot = Ballot.generateBlank(this.maxVoteOptions, treeDepths.voteOptionTreeDepth);
+    const ballotVoteOptions = this.mode === EMode.RANKED ? MAX_RANKED_VOTE_OPTIONS + 1 : this.maxVoteOptions;
+    this.emptyBallot = Ballot.generateBlank(ballotVoteOptions, treeDepths.voteOptionTreeDepth);
     this.ballots.push(this.emptyBallot);
     this.emptyBallotHash = this.emptyBallot.hash();
 
@@ -340,12 +346,20 @@ export class Poll implements IPoll {
       }
 
       // If the vote option index is invalid, do nothing
-      if (command.voteOptionIndex < 0n || command.voteOptionIndex >= BigInt(this.voteOptions)) {
+      if (this.mode === EMode.RANKED) {
+        const votes = unpackVoteOptions(command.voteOptionIndex, Number(this.voteOptions));
+        votes.forEach((vote) => {
+          if (vote < 0n || vote > this.voteOptions) {
+            throw new ProcessMessageError(ProcessMessageErrors.InvalidVoteOptionIndex);
+          }
+        });
+      } else if (command.voteOptionIndex < 0n || command.voteOptionIndex >= BigInt(this.voteOptions)) {
         throw new ProcessMessageError(ProcessMessageErrors.InvalidVoteOptionIndex);
       }
 
       const voteOptionIndex = Number(command.voteOptionIndex);
-      const originalVoteWeight = ballot.votes[voteOptionIndex];
+      const originalVoteWeight =
+        this.mode === EMode.RANKED ? ballot.votes[MAX_RANKED_VOTE_OPTIONS] : ballot.votes[voteOptionIndex];
 
       const voiceCreditsLeft = this.getVoiceCreditsLeft({
         stateLeaf,
@@ -375,10 +389,18 @@ export class Poll implements IPoll {
       // increase the nonce
       newBallot.nonce += 1n;
       // we change the vote for this exact vote option
-      newBallot.votes[voteOptionIndex] = command.newVoteWeight;
-
+      if (this.mode === EMode.NON_QV || this.mode === EMode.QV) {
+        newBallot.votes[voteOptionIndex] = command.newVoteWeight;
+      }
       if (this.mode === EMode.FULL) {
-        newBallot.votes = newBallot.votes.map((votes, index) => (voteOptionIndex === index ? votes : 0n));
+        newBallot.votes = newBallot.votes.map((_votes, index) =>
+          voteOptionIndex === index ? command.newVoteWeight : 0n,
+        );
+      }
+      if (this.mode === EMode.RANKED) {
+        const votes = unpackVoteOptions(command.voteOptionIndex, Number(this.voteOptions));
+        newBallot.votes = votes.map((vote) => vote * command.newVoteWeight);
+        newBallot.votes[MAX_RANKED_VOTE_OPTIONS] = command.newVoteWeight;
       }
 
       // calculate the path elements for the state tree given the original state tree (before any changes)
@@ -396,7 +418,9 @@ export class Poll implements IPoll {
         voteTree.insert(ballot.votes[i]);
       }
       // calculate the path elements for the vote option tree given the original vote option tree (before any changes)
-      const { pathElements: originalVoteWeightsPathElements } = voteTree.generateProof(voteOptionIndex);
+      const { pathElements: originalVoteWeightsPathElements } = voteTree.generateProof(
+        this.mode === EMode.RANKED ? Number(MAX_RANKED_VOTE_OPTIONS) : voteOptionIndex,
+      );
       // we return the data which is then to be used in the processMessage circuit
       // to generate a proof of processing
       return {
@@ -440,7 +464,8 @@ export class Poll implements IPoll {
       }
 
       case EMode.NON_QV:
-      case EMode.FULL: {
+      case EMode.FULL:
+      case EMode.RANKED: {
         // for non quadratic voting, we simply remove the exponentiation
         // for full credits voting, it will be zero
         return stateLeaf.voiceCreditBalance + originalVoteWeight - newVoteWeight;
@@ -765,7 +790,27 @@ export class Poll implements IPoll {
               // this might be unnecessary but we do it to prevent a possible DoS attack
               // from voters who could potentially encrypt a message in such as way that
               // when decrypted it results in a valid state leaf index but an invalid vote option index
-              if (command.voteOptionIndex < this.voteOptions) {
+              if (this.mode === EMode.RANKED) {
+                currentVoteWeights.unshift(ballot.votes[MAX_RANKED_VOTE_OPTIONS]);
+
+                // create a new quinary tree and add all votes we have so far
+                const voteTree = new IncrementalQuinTree(
+                  this.treeDepths.voteOptionTreeDepth,
+                  0n,
+                  VOTE_OPTION_TREE_ARITY,
+                  hash5,
+                );
+
+                // fill the vote option tree with the votes we have so far
+                for (let j = 0; j < this.ballots[0].votes.length; j += 1) {
+                  voteTree.insert(ballot.votes[j]);
+                }
+
+                // get the path elements for the ranked vote weight (MAX_RANKED_VOTE_OPTIONS index)
+                currentVoteWeightsPathElements.unshift(
+                  voteTree.generateProof(Number(MAX_RANKED_VOTE_OPTIONS)).pathElements,
+                );
+              } else if (command.voteOptionIndex < this.voteOptions) {
                 currentVoteWeights.unshift(ballot.votes[Number(command.voteOptionIndex)]);
 
                 // create a new quinary tree and add all votes we have so far
@@ -1033,6 +1078,8 @@ export class Poll implements IPoll {
       throw new Error("You must process the messages first");
     }
 
+    const maxOptions = this.mode === EMode.RANKED ? MAX_RANKED_VOTE_OPTIONS : this.maxVoteOptions;
+
     const batchSize = this.batchSizes.tallyBatchSize;
 
     assert(this.hasUntalliedBallots(), "No more ballots to tally");
@@ -1132,7 +1179,11 @@ export class Poll implements IPoll {
       voteCountsData.push(newVoteCounts.counts);
 
       // for each possible vote option we loop and calculate
-      for (let j = 0; j < this.maxVoteOptions; j += 1) {
+      if (this.mode === EMode.RANKED) {
+        this.totalSpentVoiceCredits += this.ballots[i].votes[MAX_RANKED_VOTE_OPTIONS];
+      }
+
+      for (let j = 0; j < maxOptions; j += 1) {
         const votes = this.ballots[i].votes[j];
 
         this.tallyResult[j] += votes;
@@ -1143,15 +1194,18 @@ export class Poll implements IPoll {
 
           // the total spent voice credits will be the sum of the squares of the votes
           this.totalSpentVoiceCredits += votes * votes;
-        } else {
+        } else if (this.mode !== EMode.RANKED) {
           // the total spent voice credits will be the sum of the votes
           this.totalSpentVoiceCredits += votes;
         }
       }
     }
 
-    const emptyBallot = new Ballot(this.maxVoteOptions, this.treeDepths.voteOptionTreeDepth);
-    const emptyVoteCounts = new VoteCounts(this.maxVoteOptions, this.treeDepths.voteOptionTreeDepth);
+    const emptyBallot = new Ballot(
+      this.mode === EMode.RANKED ? maxOptions + 1 : maxOptions,
+      this.treeDepths.voteOptionTreeDepth,
+    );
+    const emptyVoteCounts = new VoteCounts(maxOptions, this.treeDepths.voteOptionTreeDepth);
 
     // pad the ballots array
     while (ballots.length < batchSize) {
@@ -1213,7 +1267,11 @@ export class Poll implements IPoll {
       batchStartIndex + batchSize,
     );
 
-    const votes = ballots.map((x) => x.votes);
+    let votes = ballots.map((x) => x.votes);
+    if (this.mode === EMode.RANKED) {
+      votes = votes.map((vote) => vote.slice(0, MAX_RANKED_VOTE_OPTIONS));
+    }
+    const voteWeights = ballots.map((x) => x.votes[MAX_RANKED_VOTE_OPTIONS]);
 
     // Don't include these inputs in the circuit inputs until individual vote counts are implemented
     const excludedCircuitInputs = ["voteCountsData", "voteCountsPathElements", "voteCounts", "voteCountsRoot"];
@@ -1232,6 +1290,7 @@ export class Poll implements IPoll {
           ballots: ballots.map((x) => x.asCircuitInputs()),
           ballotPathElements: ballotSubrootProof!.pathElements,
           votes,
+          ...(this.mode === EMode.RANKED && { voteWeights }),
           voteCountsRoot,
           voteCounts: voteCounts.map((x) => x.asCircuitInputs()),
           voteCountsPathElements: voteCountsSubrootProof!.pathElements,
@@ -1282,10 +1341,13 @@ export class Poll implements IPoll {
       if (this.ballots.length <= i) {
         break;
       }
-
-      for (let j = 0; j < this.tallyResult.length; j += 1) {
-        const vote = BigInt(`${this.ballots[i].votes[j]}`);
-        subtotal += mode === EMode.QV ? vote * vote : vote;
+      if (this.mode === EMode.RANKED) {
+        subtotal += this.ballots[i].votes[MAX_RANKED_VOTE_OPTIONS];
+      } else {
+        for (let j = 0; j < this.tallyResult.length; j += 1) {
+          const vote = BigInt(`${this.ballots[i].votes[j]}`);
+          subtotal += mode === EMode.QV ? vote * vote : vote;
+        }
       }
     }
 
@@ -1314,7 +1376,8 @@ export class Poll implements IPoll {
         break;
       }
 
-      for (let j = 0; j < this.tallyResult.length; j += 1) {
+      const maxOptions = this.mode === EMode.RANKED ? MAX_RANKED_VOTE_OPTIONS : this.tallyResult.length;
+      for (let j = 0; j < maxOptions; j += 1) {
         const vote = this.ballots[i].votes[j];
         leaves[j] += mode === EMode.QV ? vote * vote : vote;
       }

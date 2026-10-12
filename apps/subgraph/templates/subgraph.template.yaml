@@ -31,10 +31,12 @@ dataSources:
         - name: Poll
           file: ./node_modules/@maci-protocol/contracts/build/artifacts/contracts/Poll.sol/Poll.json
       eventHandlers:
-        - event: DeployPoll(uint256,indexed uint256,indexed uint256,uint8)
+        - event: DeployPoll((uint256,string,string,uint256,uint256,string[],bytes[],(uint256,uint256),address,uint8,address,uint8),(address,address,address))
           handler: handleDeployPoll
         - event: SignUp(uint256,uint256,indexed uint256,indexed uint256)
           handler: handleSignUp
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
       file: ./src/maci.ts
 templates:
   - kind: ethereum

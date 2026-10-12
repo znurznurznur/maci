@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { EMode } from "@maci-protocol/core";
 import { type IVerifyingKeyObjectParams, PublicKey, VerifyingKey } from "@maci-protocol/domainobjs";
-import { ZeroAddress } from "ethers";
+import { ZeroAddress, toUtf8Bytes } from "ethers";
 
 import type { IVerifyingKeyStruct } from "../../../ts/types";
 import type { MACI, Poll, IBasePolicy, PollFactory, VerifyingKeysRegistry } from "../../../typechain-types";
@@ -10,7 +10,7 @@ import { extractVerifyingKey } from "../../../ts/proofs";
 import { EDeploySteps, FULL_POLICY_NAMES } from "../../helpers/constants";
 import { ContractStorage } from "../../helpers/ContractStorage";
 import { Deployment } from "../../helpers/Deployment";
-import { EContracts } from "../../helpers/types";
+import { contractToPolicy, EContracts } from "../../helpers/types";
 
 const deployment = Deployment.getInstance();
 const storage = ContractStorage.getInstance();
@@ -32,6 +32,9 @@ deployment.deployTask(EDeploySteps.Poll, "Deploy poll").then((task) =>
     if (!verifyingKeysRegistryContractAddress) {
       throw new Error("Need to deploy VerifyingKeysRegistry contract first");
     }
+
+    const deployer = await deployment.getDeployer();
+    const deployerAddress = await deployer.getAddress();
 
     const maciContract = await deployment.getContract<MACI>({ name: EContracts.MACI });
     const pollId = await maciContract.nextPollId();
@@ -72,7 +75,9 @@ deployment.deployTask(EDeploySteps.Poll, "Deploy poll").then((task) =>
       EContracts.ConstantInitialVoiceCreditProxy;
     const initialVoiceCreditProxyContractAddress = storage.mustGetAddress(initialVoiceCreditProxy, hre.network.name);
 
-    const voteOptions = deployment.getDeployConfigField<number>(EContracts.Poll, "voteOptions");
+    // const voteOptions = deployment.getDeployConfigField<number>(EContracts.Poll, "voteOptions");
+    const pollOptions = deployment.getDeployConfigField<string[] | null>(EContracts.Poll, "options") ?? [];
+    const voteOptions = pollOptions.length;
 
     const verifyingKeysRegistryContract = await deployment.getContract<VerifyingKeysRegistry>({
       name: EContracts.VerifyingKeysRegistry,
@@ -135,33 +140,54 @@ deployment.deployTask(EDeploySteps.Poll, "Deploy poll").then((task) =>
         .then((tx) => tx.wait());
     }
 
+    const pollName = deployment.getDeployConfigField<string | null>(EContracts.Poll, "name") ?? "";
+    const pollMetadata = deployment.getDeployConfigField<string | null>(EContracts.Poll, "metadata") ?? "";
+    const pollOptionInfo = (deployment.getDeployConfigField<string[] | null>(EContracts.Poll, "optionInfo") ?? []).map(
+      (s) => toUtf8Bytes(s),
+    );
+
+    const pollPolicyType = contractToPolicy(
+      deployment.getDeployConfigField<EContracts | null>(EContracts.Poll, "policy") ?? EContracts.FreeForAllPolicy,
+    );
+    if (pollPolicyType === undefined) {
+      throw new Error("Poll policy type is not supported");
+    }
+
     const receipt = await maciContract
-      .deployPoll({
-        startDate: pollStartTimestamp,
-        endDate: pollEndTimestamp,
-        treeDepths: {
-          tallyProcessingStateTreeDepth,
-          voteOptionTreeDepth,
-          stateTreeDepth,
+      .deployPoll(
+        {
+          startDate: pollStartTimestamp,
+          endDate: pollEndTimestamp,
+          treeDepths: {
+            tallyProcessingStateTreeDepth,
+            voteOptionTreeDepth,
+            stateTreeDepth,
+          },
+          messageBatchSize,
+          coordinatorPublicKey: unserializedKey.asContractParam(),
+          mode,
+          policy: policyContractAddress,
+          initialVoiceCreditProxy: initialVoiceCreditProxyContractAddress,
+          relayers,
+          voteOptions,
+          name: pollName,
+          metadata: pollMetadata,
+          options: pollOptions,
+          optionInfo: pollOptionInfo,
+          policyType: pollPolicyType,
         },
-        messageBatchSize,
-        coordinatorPublicKey: unserializedKey.asContractParam(),
-        mode,
-        policy: policyContractAddress,
-        initialVoiceCreditProxy: initialVoiceCreditProxyContractAddress,
-        relayers,
-        voteOptions,
-      })
+        deployerAddress,
+      )
       .then((tx) => tx.wait());
 
     if (receipt?.status !== 1) {
       throw new Error("Deploy poll transaction is failed");
     }
 
-    const pollContracts = await maciContract.getPoll(pollId);
-    const pollContractAddress = pollContracts.poll;
-    const messageProcessorContractAddress = pollContracts.messageProcessor;
-    const tallyContractAddress = pollContracts.tally;
+    const { contracts } = await maciContract.getPoll(pollId);
+    const pollContractAddress = contracts.poll;
+    const messageProcessorContractAddress = contracts.messageProcessor;
+    const tallyContractAddress = contracts.tally;
 
     const pollContract = await deployment.getContract<Poll>({ name: EContracts.Poll, address: pollContractAddress });
 

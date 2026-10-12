@@ -4,6 +4,8 @@ export const STATE_TREE_DEPTH = 10;
 export const voiceCreditBalance = 100n;
 export const duration = 30;
 
+export const MAX_RANKED_VOTE_OPTIONS = 12n;
+
 export const treeDepths = {
   tallyProcessingStateTreeDepth: 5,
   voteOptionTreeDepth: 2,

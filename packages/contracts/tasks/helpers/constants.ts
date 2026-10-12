@@ -13,6 +13,7 @@ export enum EDeploySteps {
   Maci = "full:deploy-maci",
   VerifyingKeysRegistry = "full:deploy-verifyingKey-registry",
   InitialVoiceCreditProxyFactory = "full:deploy-initial-voice-credit-proxy-factory",
+  ZuGovRegistry = "full:deploy-zugov-registry",
   InitialVoiceCreditProxy = "poll:deploy-initial-voice-credit-proxy",
   PollPolicy = "poll:deploy-policy",
   Poll = "poll:deploy-poll",

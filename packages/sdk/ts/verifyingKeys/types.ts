@@ -279,6 +279,16 @@ export interface IExtractVerifyingKeyToFileArgs {
   voteTallyZkeyPathNonQv: string;
 
   /**
+   * File path for processMessagesRanked zkey
+   */
+  messageProcessorZkeyPathRanked: string;
+
+  /**
+   * File path for VoteTally zkey
+   */
+  voteTallyZkeyPathRanked: string;
+
+  /**
    * Output file path of extracted verifying keys
    */
   outputFilePath: string;

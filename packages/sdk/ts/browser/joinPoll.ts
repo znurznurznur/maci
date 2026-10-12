@@ -64,8 +64,8 @@ export const joinPoll = async ({
   }
 
   const maciContract = MACIFactory.connect(maciAddress, signer);
-  const pollContracts = await maciContract.getPoll(pollId);
-  const pollContract = PollFactory.connect(pollContracts.poll, signer);
+  const { contracts } = await maciContract.getPoll(pollId);
+  const pollContract = PollFactory.connect(contracts.poll, signer);
 
   // get the state index from the MACI contract
   const stateIndex = await maciContract.getStateIndex(userMaciPublicKey.hash()).catch(() => -1n);

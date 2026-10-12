@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
+import { Ownable2Step, Ownable } from "@openzeppelin/contracts/access/Ownable2Step.sol";
 import { IBasePolicy } from "@excubiae/contracts/contracts/interfaces/IBasePolicy.sol";
 
 import { IPollFactory } from "./interfaces/IPollFactory.sol";
@@ -18,7 +19,7 @@ import { InternalLeanIMT, LeanIMTData } from "./trees/LeanIMT.sol";
 
 /// @title MACI - Minimum Anti-Collusion Infrastructure Version 1
 /// @notice A contract which allows users to sign up, and deploy new polls
-contract MACI is IMACI, DomainObjs, Params, Hasher {
+contract MACI is Ownable2Step, IMACI, DomainObjs, Params, Hasher {
   /// @notice The state tree depth is fixed. As such it should be as large as feasible
   /// so that there can be as many users as possible.  i.e. 2 ** 23 = 8388608
   /// this should also match the parameter of the circom circuits.
@@ -29,7 +30,21 @@ contract MACI is IMACI, DomainObjs, Params, Hasher {
 
   uint256 public immutable maxSignups;
 
+  uint8 internal constant MAX_RANKED_VOTE_OPTIONS = 12;
+
   uint8 internal constant STATE_TREE_ARITY = 2;
+
+  /// @notice Ordered list of supported voting modes (for view / iteration)
+  Mode[] internal _supportedModes;
+
+  /// @notice O(1) membership check for supported voting modes
+  mapping(uint256 => bool) internal _isSupportedMode;
+
+  /// @notice Ordered list of allowed poll-level sign-up policies (for view / iteration)
+  Policy[] internal _allowedPolicies;
+
+  /// @notice O(1) membership check for allowed poll-level sign-up policies
+  mapping(uint256 => bool) internal _isAllowedPolicy;
 
   /// @notice This is the poseidon hash of the pad key. Check crypto/SnarkConstants.sol for more info about the pad key.
   uint256 internal constant PAD_KEY_HASH = 1309255631273308531193241901289907343161346846555918942743921933037802809814;
@@ -45,7 +60,8 @@ contract MACI is IMACI, DomainObjs, Params, Hasher {
   uint256 public nextPollId;
 
   /// @notice A mapping of poll IDs to Poll contracts.
-  mapping(uint256 => PollContracts) public polls;
+  mapping(uint256 => PollContracts) public pollContracts;
+  mapping(uint256 => PollData) public pollDatas;
 
   /// @notice Factory contract that deploy a Poll contract
   IPollFactory public immutable pollFactory;
@@ -92,6 +108,12 @@ contract MACI is IMACI, DomainObjs, Params, Hasher {
     uint8 stateTreeDepth;
     // Roots of the empty ballot trees
     uint256[5] emptyBallotRoots;
+    // Owner of this MACI instance (receives Ownable2Step ownership)
+    address owner;
+    // Initial set of supported voting modes (must be non-empty)
+    Mode[] initialSupportedModes;
+    // Initial set of allowed poll-level sign-up policies (must be non-empty)
+    Policy[] initialAllowedPolicies;
   }
 
   // Events
@@ -101,12 +123,9 @@ contract MACI is IMACI, DomainObjs, Params, Hasher {
     uint256 indexed _userPublicKeyX,
     uint256 indexed _userPublicKeyY
   );
-  event DeployPoll(
-    uint256 _pollId,
-    uint256 indexed _coordinatorPublicKeyX,
-    uint256 indexed _coordinatorPublicKeyY,
-    Mode _mode
-  );
+  event DeployPoll(PollData pollData, PollContracts pollContracts);
+  event SupportedModesUpdated(Mode[] modes);
+  event AllowedPoliciesUpdated(Policy[] policies);
 
   /// @notice custom errors
   error PoseidonHashLibrariesNotLinked();
@@ -115,10 +134,18 @@ contract MACI is IMACI, DomainObjs, Params, Hasher {
   error InvalidVoteOptionTreeDepth(uint8 depth);
   error PollDoesNotExist(uint256 pollId);
   error UserNotSignedUp();
+  error TooManyVoteOptions();
+  error StartTimeMustBeInFuture();
+  error EndTimeMustBeAfterStartTime();
+  error PollNotTallied();
+  error UnsupportedMode();
+  error UnsupportedPolicy();
+  error EmptySupportedModes();
+  error EmptyAllowedPolicies();
 
   /// @notice Create a new instance of the MACI contract.
   /// @param initParams The initialization parameters defined above
-  constructor(InitParams memory initParams) payable {
+  constructor(InitParams memory initParams) payable Ownable(initParams.owner) {
     // initialize and insert the blank leaf
     InternalLeanIMT._insert(leanIMTData, PAD_KEY_HASH);
     stateRootsOnSignUp.push(PAD_KEY_HASH);
@@ -135,6 +162,9 @@ contract MACI is IMACI, DomainObjs, Params, Hasher {
 
     // Verify linked poseidon libraries
     if (hash2([uint256(1), uint256(1)]) != POSEIDON_VALIDITY_CHECK_VALUE) revert PoseidonHashLibrariesNotLinked();
+
+    _setSupportedModes(initParams.initialSupportedModes);
+    _setAllowedPolicies(initParams.initialAllowedPolicies);
   }
 
   /// @inheritdoc IMACI
@@ -162,7 +192,20 @@ contract MACI is IMACI, DomainObjs, Params, Hasher {
   }
 
   /// @inheritdoc IMACI
-  function deployPoll(DeployPollArgs memory args) public virtual returns (PollContracts memory) {
+  function deployPoll(
+    DeployPollArgs memory args,
+    address deployer
+  ) public virtual returns (PollData memory, PollContracts memory) {
+    if (args.startDate < block.timestamp) {
+      revert StartTimeMustBeInFuture();
+    }
+    if (args.endDate <= args.startDate) {
+      revert EndTimeMustBeAfterStartTime();
+    }
+
+    if (!_isSupportedMode[uint256(args.mode)]) revert UnsupportedMode();
+    if (!_isAllowedPolicy[uint256(args.policyType)]) revert UnsupportedPolicy();
+
     // cache the poll to a local variable so we can increment it
     uint256 pollId = nextPollId;
 
@@ -190,6 +233,12 @@ contract MACI is IMACI, DomainObjs, Params, Hasher {
     if (voteOptionTreeDepth == 0 || voteOptionTreeDepth > emptyBallotRoots.length) {
       revert InvalidVoteOptionTreeDepth(voteOptionTreeDepth);
     }
+    Mode mode = args.mode;
+    if (mode == Mode.RANKED) {
+      if (args.voteOptions > MAX_RANKED_VOTE_OPTIONS) {
+        revert TooManyVoteOptions();
+      }
+    }
 
     IPollFactory.DeployPollArgs memory deployPollArgs = IPollFactory.DeployPollArgs({
       startDate: args.startDate,
@@ -209,14 +258,14 @@ contract MACI is IMACI, DomainObjs, Params, Hasher {
       address(verifier),
       address(verifyingKeysRegistry),
       poll,
-      args.mode
+      mode
     );
     address tally = tallyFactory.deploy(
       address(verifier),
       address(verifyingKeysRegistry),
       poll,
       messageProcessor,
-      args.mode
+      mode
     );
 
     // store the addresses in a struct so they can be returned
@@ -226,11 +275,43 @@ contract MACI is IMACI, DomainObjs, Params, Hasher {
       tally: tally
     });
 
-    polls[pollId] = pollAddresses;
+    pollContracts[pollId] = pollAddresses;
 
-    emit DeployPoll(pollId, args.coordinatorPublicKey.x, args.coordinatorPublicKey.y, args.mode);
+    PollData memory pollData = PollData({
+      id: pollId,
+      name: args.name,
+      metadata: args.metadata,
+      startTime: args.startDate,
+      endTime: args.endDate,
+      options: args.options,
+      optionInfo: args.optionInfo,
+      coordinatorPubKey: args.coordinatorPublicKey,
+      pollDeployer: deployer,
+      mode: mode,
+      policy: args.policy,
+      policyType: args.policyType
+    });
 
-    return pollAddresses;
+    pollDatas[pollId] = pollData;
+
+    emit DeployPoll(pollData, pollAddresses);
+
+    return (pollData, pollAddresses);
+  }
+
+  /// @inheritdoc IMACI
+  function getGovernanceConfig() external view returns (GovernanceConfig memory) {
+    return GovernanceConfig({ supportedModes: _supportedModes, allowedPolicies: _allowedPolicies });
+  }
+
+  /// @inheritdoc IMACI
+  function setSupportedModes(Mode[] calldata modes) external onlyOwner {
+    _setSupportedModes(modes);
+  }
+
+  /// @inheritdoc IMACI
+  function setAllowedPolicies(Policy[] calldata policies) external onlyOwner {
+    _setAllowedPolicies(policies);
   }
 
   /// @inheritdoc IMACI
@@ -240,10 +321,11 @@ contract MACI is IMACI, DomainObjs, Params, Hasher {
 
   /// @notice Get the Poll details
   /// @param _pollId The identifier of the Poll to retrieve
-  /// @return pollContracts The Poll contract object
-  function getPoll(uint256 _pollId) public view returns (PollContracts memory pollContracts) {
+  /// @return pollData The Poll data object
+  function getPoll(uint256 _pollId) public view returns (PollData memory pollData, PollContracts memory contracts) {
     if (_pollId >= nextPollId) revert PollDoesNotExist(_pollId);
-    pollContracts = polls[_pollId];
+    contracts = pollContracts[_pollId];
+    pollData = pollDatas[_pollId];
   }
 
   /// @inheritdoc IMACI
@@ -264,5 +346,52 @@ contract MACI is IMACI, DomainObjs, Params, Hasher {
 
     // need to subtract 1 because the index is 1 indexed due to 0 index reserved for deleted leaves
     return index - 1;
+  }
+  /// @notice Internal implementation for setSupportedModes, used by constructor and setter.
+  function _setSupportedModes(Mode[] memory modes) internal {
+    if (modes.length == 0) revert EmptySupportedModes();
+
+    uint256 len = _supportedModes.length;
+    for (uint256 i = 0; i < len; ) {
+      _isSupportedMode[uint256(_supportedModes[i])] = false;
+      unchecked {
+        i++;
+      }
+    }
+    delete _supportedModes;
+
+    for (uint256 i = 0; i < modes.length; ) {
+      _supportedModes.push(modes[i]);
+      _isSupportedMode[uint256(modes[i])] = true;
+      unchecked {
+        i++;
+      }
+    }
+
+    emit SupportedModesUpdated(modes);
+  }
+
+  /// @notice Internal implementation for setAllowedPolicies, used by constructor and setter.
+  function _setAllowedPolicies(Policy[] memory policies) internal {
+    if (policies.length == 0) revert EmptyAllowedPolicies();
+
+    uint256 len = _allowedPolicies.length;
+    for (uint256 i = 0; i < len; ) {
+      _isAllowedPolicy[uint256(_allowedPolicies[i])] = false;
+      unchecked {
+        i++;
+      }
+    }
+    delete _allowedPolicies;
+
+    for (uint256 i = 0; i < policies.length; ) {
+      _allowedPolicies.push(policies[i]);
+      _isAllowedPolicy[uint256(policies[i])] = true;
+      unchecked {
+        i++;
+      }
+    }
+
+    emit AllowedPoliciesUpdated(policies);
   }
 }

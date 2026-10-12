@@ -4,7 +4,6 @@ import { generateRandomSalt } from "@maci-protocol/crypto";
 import { Keypair } from "@maci-protocol/domainobjs";
 import {
   generateVote,
-  getBlockTimestamp,
   getSignedupUserData,
   signup,
   mergeSignups,
@@ -25,6 +24,7 @@ import {
   deployFreeForAllSignUpPolicy,
   deployConstantInitialVoiceCreditProxy,
   deployConstantInitialVoiceCreditProxyFactory,
+  EPolicy,
 } from "@maci-protocol/sdk";
 import { expect } from "chai";
 
@@ -61,7 +61,7 @@ import {
   coordinatorKeypair,
   verifyingKeysArgs,
 } from "../constants";
-import { clean, getBackupFilenames, relayTestMessages } from "../utils";
+import { clean, getBackupFilenames, getPollStartTimestamp, relayTestMessages } from "../utils";
 
 /**
  Test scenarios:
@@ -152,7 +152,7 @@ describe("e2e tests", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -164,6 +164,11 @@ describe("e2e tests", function test() {
         maciAddress: maciAddresses.maciContractAddress,
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
     });
 
@@ -266,7 +271,7 @@ describe("e2e tests", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -278,6 +283,11 @@ describe("e2e tests", function test() {
         maciAddress: maciAddresses.maciContractAddress,
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
     });
 
@@ -584,7 +594,7 @@ describe("e2e tests", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -596,6 +606,11 @@ describe("e2e tests", function test() {
         maciAddress: maciAddresses.maciContractAddress,
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
     });
 
@@ -723,7 +738,7 @@ describe("e2e tests", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -735,6 +750,11 @@ describe("e2e tests", function test() {
         maciAddress: maciAddresses.maciContractAddress,
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
     });
 
@@ -839,7 +859,7 @@ describe("e2e tests", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -851,6 +871,11 @@ describe("e2e tests", function test() {
         maciAddress: maciAddresses.maciContractAddress,
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
     });
 
@@ -1010,7 +1035,7 @@ describe("e2e tests", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -1022,6 +1047,11 @@ describe("e2e tests", function test() {
         maciAddress: maciAddresses.maciContractAddress,
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
       // signup
       await signup({
@@ -1135,7 +1165,7 @@ describe("e2e tests", function test() {
       const [pollPolicy] = await deployFreeForAllSignUpPolicy({}, signer, true);
       const pollPolicyContractAddress = await pollPolicy.getAddress();
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -1147,6 +1177,11 @@ describe("e2e tests", function test() {
         maciAddress: maciAddresses.maciContractAddress,
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
     });
 
@@ -1321,7 +1356,7 @@ describe("e2e tests", function test() {
       const [pollPolicy] = await deployFreeForAllSignUpPolicy({}, signer, true);
       const pollPolicyContractAddress = await pollPolicy.getAddress();
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -1333,6 +1368,11 @@ describe("e2e tests", function test() {
         maciAddress: maciAddresses.maciContractAddress,
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
 
       // signup
@@ -1445,9 +1485,8 @@ describe("e2e tests", function test() {
     });
 
     it("should deploy two more polls", async () => {
-      const startDate = await getBlockTimestamp(signer);
-
       {
+        const startDate = await getPollStartTimestamp(signer);
         const [pollPolicy] = await deployFreeForAllSignUpPolicy({}, signer, true);
         const pollPolicyContractAddress = await pollPolicy.getAddress();
 
@@ -1461,10 +1500,19 @@ describe("e2e tests", function test() {
           maciAddress: maciAddresses.maciContractAddress,
           policyContractAddress: pollPolicyContractAddress,
           initialVoiceCreditProxyContractAddress,
+          policy: EPolicy.FreeForAll,
+          name: "test",
+          metadata: "",
+          options: [],
+          optionInfo: [],
         });
       }
 
       {
+        // Fetched again (not reused from the first block above): that poll's own deployment
+        // transactions already advanced the chain's clock, so the earlier timestamp could
+        // already be at or before the current block by the time this second deployPoll sends.
+        const startDate = await getPollStartTimestamp(signer);
         const [pollPolicy] = await deployFreeForAllSignUpPolicy({}, signer, true);
         const pollPolicyContractAddress = await pollPolicy.getAddress();
 
@@ -1478,6 +1526,11 @@ describe("e2e tests", function test() {
           maciAddress: maciAddresses.maciContractAddress,
           policyContractAddress: pollPolicyContractAddress,
           initialVoiceCreditProxyContractAddress,
+          policy: EPolicy.FreeForAll,
+          name: "test",
+          metadata: "",
+          options: [],
+          optionInfo: [],
         });
       }
     });
@@ -1753,7 +1806,7 @@ describe("e2e tests", function test() {
         verifyingKeysRegistryAddress: verifyingKeysRegistryContractAddress,
       });
 
-      const startDate = await getBlockTimestamp(signer);
+      const startDate = await getPollStartTimestamp(signer);
 
       // deploy a poll contract
       await deployPoll({
@@ -1765,6 +1818,11 @@ describe("e2e tests", function test() {
         maciAddress: maciAddresses.maciContractAddress,
         policyContractAddress: pollPolicyContractAddress,
         initialVoiceCreditProxyContractAddress,
+        policy: EPolicy.FreeForAll,
+        name: "test",
+        metadata: "",
+        options: [],
+        optionInfo: [],
       });
     });
 

@@ -1,4 +1,9 @@
+import { EMode, EPolicy } from "@maci-protocol/core";
 import { type ContractFactory, type Signer, type BaseContract, type BigNumberish } from "ethers";
+import { type HardhatRuntimeEnvironment } from "hardhat/types";
+
+import * as fs from "fs";
+import * as path from "path";
 
 import { ContractStorage } from "../tasks/helpers/ContractStorage";
 import { Deployment } from "../tasks/helpers/Deployment";
@@ -892,6 +897,9 @@ export const deployPollFactory = async (
  * @dev used in packages/contract tests (there is another deploy maci in tasks/runner and another in packages/sdk)
  * @returns {IDeployedMaci} the deployed MACI contract
  */
+const ALL_MODES = Object.values(EMode).filter((v): v is EMode => typeof v === "number");
+const ALL_POLICIES = Object.values(EPolicy).filter((v): v is EPolicy => typeof v === "number");
+
 export const deployMaci = async ({
   policyContractAddress,
   signer,
@@ -900,11 +908,140 @@ export const deployMaci = async ({
   factories,
   quiet = true,
   verifier,
+  initialSupportedModes = ALL_MODES,
+  initialAllowedPolicies = ALL_POLICIES,
 }: IDeployMaciArgs): Promise<IDeployedMaci> => {
   const emptyBallotRoots = generateEmptyBallotRoots(stateTreeDepth);
 
+  // If no Poseidon addresses provided, try to use pre-deployed ones for the current network
+  let finalPoseidonAddresses = poseidonAddresses;
+  if (!finalPoseidonAddresses) {
+    try {
+      // Properly type the import
+      const hreModule = await import("hardhat");
+      const hre: HardhatRuntimeEnvironment = hreModule as HardhatRuntimeEnvironment;
+      const networkName = hre.network.name;
+
+      // Get fork URL for logging purposes
+      const networkConfig = hre.network.config as { forking?: { url?: string } };
+      const forkUrl = networkConfig.forking?.url;
+
+      // Inline logic to get pre-deployed Poseidon addresses
+      let preDeployedAddresses: IDeployMaciArgs["poseidonAddresses"] | null = null;
+      try {
+        const defaultContractsPath = path.resolve(__dirname, "../default-deployed-contracts.json");
+
+        if (fs.existsSync(defaultContractsPath)) {
+          const defaultContracts = JSON.parse(fs.readFileSync(defaultContractsPath, "utf8")) as Record<
+            string,
+            { named: Record<string, { address: string }> }
+          >;
+
+          // If we're on a forked network, try to detect the original network
+          let targetNetwork = networkName;
+
+          if ((networkName === "hardhat" || networkName === "localhost") && forkUrl) {
+            // Extract network name from fork URL — check testnets before mainnets to avoid false matches
+            // (e.g. "scroll-sepolia" contains "scroll", "optimism-sepolia" contains "optimism")
+            if (forkUrl.includes("sepolia") || forkUrl.includes("goerli") || forkUrl.includes("testnet")) {
+              targetNetwork = "unknown";
+            } else if (forkUrl.includes("arb-mainnet") || forkUrl.includes("arbitrum")) {
+              targetNetwork = "arbitrum";
+            } else if (forkUrl.includes("optimism")) {
+              targetNetwork = "optimism";
+            } else if (forkUrl.includes("scroll")) {
+              targetNetwork = "scroll";
+            } else if (forkUrl.includes("linea")) {
+              targetNetwork = "linea";
+            } else if (forkUrl.includes("base")) {
+              targetNetwork = "base";
+            } else if (forkUrl.includes("polygon")) {
+              targetNetwork = "polygon";
+            } else if (forkUrl.includes("gnosis")) {
+              targetNetwork = "gnosis";
+            } else {
+              targetNetwork = "unknown";
+            }
+          }
+
+          const networkData = defaultContracts[targetNetwork];
+
+          const deployedPoseidonAddresses: IDeployMaciArgs["poseidonAddresses"] = {
+            poseidonT3: networkData.named.PoseidonT3.address || "",
+            poseidonT4: networkData.named.PoseidonT4.address || "",
+            poseidonT5: networkData.named.PoseidonT5.address || "",
+            poseidonT6: networkData.named.PoseidonT6.address || "",
+          };
+
+          // Check if all addresses are present
+          const allAddressesPresent = Object.values(deployedPoseidonAddresses).every(
+            (address) => address && address !== "",
+          );
+          if (allAddressesPresent) {
+            preDeployedAddresses = deployedPoseidonAddresses;
+          }
+        }
+      } catch (error: unknown) {
+        // Silently fail if file cannot be read or parsed
+        preDeployedAddresses = null;
+      }
+
+      if (!quiet) {
+        logMagenta({ text: `Network: ${networkName}` });
+        if (networkName === "hardhat" && forkUrl) {
+          logMagenta({ text: `Forking URL: ${forkUrl}` });
+        }
+        logMagenta({ text: `Pre-deployed addresses found: ${preDeployedAddresses ? "YES" : "NO"}` });
+      }
+
+      if (preDeployedAddresses) {
+        finalPoseidonAddresses = preDeployedAddresses;
+        if (!quiet) {
+          let targetNetwork: string;
+          if (networkName === "hardhat" && forkUrl) {
+            if (forkUrl.includes("arb-mainnet") || forkUrl.includes("arbitrum")) {
+              targetNetwork = `forked arbitrum`;
+            } else if (forkUrl.includes("optimism")) {
+              targetNetwork = `forked optimism`;
+            } else if (forkUrl.includes("scroll")) {
+              targetNetwork = `forked scroll`;
+            } else if (forkUrl.includes("linea")) {
+              targetNetwork = `forked linea`;
+            } else if (forkUrl.includes("base")) {
+              targetNetwork = `forked base`;
+            } else if (forkUrl.includes("polygon")) {
+              targetNetwork = `forked polygon`;
+            } else if (forkUrl.includes("gnosis")) {
+              targetNetwork = `forked gnosis`;
+            } else {
+              targetNetwork = `forked unknown`;
+            }
+          } else {
+            targetNetwork = networkName;
+          }
+          logMagenta({ text: `Using pre-deployed Poseidon contracts for network: ${targetNetwork}` });
+        }
+      }
+    } catch (error: unknown) {
+      // If we can't get network name or pre-deployed addresses, continue with deployment
+      if (!quiet) {
+        logMagenta({ text: "Could not load pre-deployed Poseidon addresses, will deploy new contracts" });
+        // Type-safe error message extraction
+        let errorMessage = "Unknown error";
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        } else if (typeof error === "string") {
+          errorMessage = error;
+        } else if (error && typeof error === "object") {
+          errorMessage = JSON.stringify(error);
+        }
+        logMagenta({ text: `Error: ${errorMessage}` });
+      }
+    }
+  }
+
   const { PoseidonT3Contract, PoseidonT4Contract, PoseidonT5Contract, PoseidonT6Contract } =
-    await deployPoseidonContracts(signer, poseidonAddresses, quiet);
+    await deployPoseidonContracts(signer, finalPoseidonAddresses, quiet);
 
   const poseidonAddrs = await Promise.all([
     PoseidonT3Contract.getAddress(),
@@ -958,6 +1095,8 @@ export const deployMaci = async ({
 
   const verifyingKeysRegistryContract = await deployVerifyingKeysRegistry(signer, quiet);
 
+  const owner = await signer!.getAddress();
+
   const maciContract = await deployContractWithLinkedLibraries<MACI>(maciContractFactory, signer, {
     pollFactory: pollAddress,
     messageProcessorFactory: messageProcessorAddress,
@@ -967,6 +1106,9 @@ export const deployMaci = async ({
     verifyingKeysRegistry: verifyingKeysRegistryContract,
     stateTreeDepth,
     emptyBallotRoots,
+    owner,
+    initialSupportedModes,
+    initialAllowedPolicies,
   });
 
   return {

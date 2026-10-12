@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Keypair } from "@maci-protocol/domainobjs";
 import { type ITallyData } from "@maci-protocol/sdk";
-import { cidToBytes32, createCidFromObject, relayMessages } from "@maci-protocol/sdk";
+import { cidToBytes32, createCidFromObject, getBlockTimestamp, relayMessages } from "@maci-protocol/sdk";
 import { expect } from "chai";
 
 import fs from "fs";
@@ -9,10 +9,27 @@ import { arch } from "os";
 import path from "path";
 
 import type { IVote, IBriber, IRelayTestMessagesArgs } from "./types";
+import type { Signer } from "ethers";
 
 import { User } from "./user";
 
 export const backupFolder = "./backup";
+
+// MACI.deployPoll() reverts unless startDate >= the timestamp of the block that mines the
+// deployPoll transaction itself, which is always at least 1 second after the "latest" block
+// fetched here. Add a buffer so the check doesn't race the transaction that consumes it.
+const POLL_START_BUFFER_SECONDS = 5;
+
+/**
+ * Get a safe pollStartTimestamp for deployPoll: the current block timestamp plus a buffer
+ * large enough to survive the deployPoll transaction's own confirmation delay.
+ * @param signer - the signer to fetch the current block timestamp from
+ * @returns a pollStartTimestamp safe to pass to deployPoll
+ */
+export const getPollStartTimestamp = async (signer: Signer): Promise<number> => {
+  const latestTimestamp = await getBlockTimestamp(signer);
+  return latestTimestamp + POLL_START_BUFFER_SECONDS;
+};
 
 export const defaultVote = {
   voteWeight: 1n,

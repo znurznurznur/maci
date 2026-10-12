@@ -1,5 +1,5 @@
 import { type Verifier, type TAbi } from "@maci-protocol/contracts";
-import { type EMode } from "@maci-protocol/core";
+import { type EPolicy, type EMode } from "@maci-protocol/core";
 import { type PublicKey } from "@maci-protocol/domainobjs";
 
 import type { Signer } from "ethers";
@@ -54,6 +54,11 @@ export interface IDeployPollArgs {
   mode: EMode;
 
   /**
+   * The policy type
+   */
+  policy: EPolicy;
+
+  /**
    * The address of the policy contract
    */
   policyContractAddress: string;
@@ -72,6 +77,26 @@ export interface IDeployPollArgs {
    * The number of vote options
    */
   voteOptions: number;
+
+  /**
+   * The name for the poll
+   */
+  name: string;
+
+  /**
+   * The metadata
+   */
+  metadata: string;
+
+  /**
+   * The options for the poll
+   */
+  options: string[];
+
+  /**
+   * The option info for the poll
+   */
+  optionInfo: string[];
 
   /**
    * The initial voice credits to be minted
@@ -182,6 +207,21 @@ export interface IDeployMaciArgs {
    * Verifier address if is already deployed
    */
   verifier?: Verifier;
+
+  /**
+   * Owner of the deployed MACI instance (defaults to the signer's own address)
+   */
+  owner?: string;
+
+  /**
+   * Voting modes the deployed MACI instance accepts (defaults to all modes)
+   */
+  initialSupportedModes?: EMode[];
+
+  /**
+   * Sign-up/registration policies the deployed MACI instance accepts (defaults to all policies)
+   */
+  initialAllowedPolicies?: EPolicy[];
 }
 
 /**

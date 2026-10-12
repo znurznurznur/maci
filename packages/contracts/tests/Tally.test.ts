@@ -79,7 +79,7 @@ describe("VoteTally", function test() {
     const signers = await getSigners();
     [signer, ...userSigners] = signers;
 
-    const startTime = await getBlockTimestamp(signer);
+    const startTime = (await getBlockTimestamp(signer)) + 100;
 
     const r = await deployTestContracts({ initialVoiceCreditBalance: 100, stateTreeDepth: STATE_TREE_DEPTH, signer });
     maciContract = r.maciContract;
@@ -90,30 +90,38 @@ describe("VoteTally", function test() {
     // deploy a poll
     // deploy on chain poll
     const receipt = await maciContract
-      .deployPoll({
-        startDate: startTime,
-        endDate: startTime + duration,
-        treeDepths,
-        messageBatchSize,
-        coordinatorPublicKey: coordinator.publicKey.asContractParam(),
-        mode: EMode.QV,
-        policy: signupPolicyContract,
-        initialVoiceCreditProxy: initialVoiceCreditProxyContract,
-        relayers: [ZeroAddress],
-        voteOptions: maxVoteOptions,
-      })
+      .deployPoll(
+        {
+          startDate: startTime,
+          endDate: startTime + duration,
+          treeDepths,
+          messageBatchSize,
+          coordinatorPublicKey: coordinator.publicKey.asContractParam(),
+          mode: EMode.QV,
+          policy: signupPolicyContract,
+          initialVoiceCreditProxy: initialVoiceCreditProxyContract,
+          relayers: [ZeroAddress],
+          voteOptions: maxVoteOptions,
+          name: "",
+          metadata: "",
+          options: [],
+          optionInfo: [],
+          policyType: 0,
+        },
+        await signer.getAddress(),
+      )
       .then((tx) => tx.wait());
 
     expect(receipt?.status).to.eq(1);
 
     pollId = (await maciContract.nextPollId()) - 1n;
 
-    const pollContracts = await maciContract.getPoll(pollId);
-    pollContract = PollFactory.connect(pollContracts.poll, signer);
-    messageProcessorContract = MessageProcessorFactory.connect(pollContracts.messageProcessor, signer);
-    tallyContract = TallyFactory.connect(pollContracts.tally, signer);
+    const { contracts } = await maciContract.getPoll(pollId);
+    pollContract = PollFactory.connect(contracts.poll, signer);
+    messageProcessorContract = MessageProcessorFactory.connect(contracts.messageProcessor, signer);
+    tallyContract = TallyFactory.connect(contracts.tally, signer);
 
-    await signupPolicyContract.setTarget(pollContracts.poll).then((tx) => tx.wait());
+    await signupPolicyContract.setTarget(contracts.poll).then((tx) => tx.wait());
 
     // deploy local poll
     const deployedPollId = maciState.deployPoll(
@@ -171,7 +179,7 @@ describe("VoteTally", function test() {
   });
 
   it("tallyVotes() should fail as the messages have not been processed yet", async () => {
-    await timeTravel(signer.provider! as unknown as EthereumProvider, duration + 1);
+    await timeTravel(signer.provider! as unknown as EthereumProvider, duration + 101);
 
     await expect(tallyContract.tallyVotes(0n, [0, 0, 0, 0, 0, 0, 0, 0])).to.be.revertedWithCustomError(
       tallyContract,
@@ -217,7 +225,7 @@ describe("VoteTally", function test() {
 
   describe("ballots === tallyBatchSize", () => {
     before(async () => {
-      const startTime = await getBlockTimestamp(signer);
+      const startTime = (await getBlockTimestamp(signer)) + 100;
 
       // create 24 users (total 25 - 24 + 1 nothing up my sleeve)
       users = Array.from({ length: 24 }, () => new Keypair());
@@ -251,33 +259,41 @@ describe("VoteTally", function test() {
       // deploy a poll
       // deploy on chain poll
       const receipt = await maciContract
-        .deployPoll({
-          startDate: startTime,
-          endDate: startTime + updatedDuration,
-          treeDepths: {
-            ...treeDepths,
-            tallyProcessingStateTreeDepth,
+        .deployPoll(
+          {
+            startDate: startTime,
+            endDate: startTime + updatedDuration,
+            treeDepths: {
+              ...treeDepths,
+              tallyProcessingStateTreeDepth,
+            },
+            messageBatchSize,
+            coordinatorPublicKey: coordinator.publicKey.asContractParam(),
+            mode: EMode.QV,
+            policy: pollPolicyContract,
+            initialVoiceCreditProxy: initialVoiceCreditProxyContract,
+            relayers: [ZeroAddress],
+            voteOptions: maxVoteOptions,
+            name: "",
+            metadata: "",
+            options: [],
+            optionInfo: [],
+            policyType: 0,
           },
-          messageBatchSize,
-          coordinatorPublicKey: coordinator.publicKey.asContractParam(),
-          mode: EMode.QV,
-          policy: pollPolicyContract,
-          initialVoiceCreditProxy: initialVoiceCreditProxyContract,
-          relayers: [ZeroAddress],
-          voteOptions: maxVoteOptions,
-        })
+          await signer.getAddress(),
+        )
         .then((tx) => tx.wait());
 
       expect(receipt?.status).to.eq(1);
 
       pollId = (await maciContract.nextPollId()) - 1n;
 
-      const pollContracts = await maciContract.getPoll(pollId);
-      pollContract = PollFactory.connect(pollContracts.poll, signer);
-      messageProcessorContract = MessageProcessorFactory.connect(pollContracts.messageProcessor, signer);
-      tallyContract = TallyFactory.connect(pollContracts.tally, signer);
+      const poll2 = await maciContract.getPoll(pollId);
+      pollContract = PollFactory.connect(poll2.contracts.poll, signer);
+      messageProcessorContract = MessageProcessorFactory.connect(poll2.contracts.messageProcessor, signer);
+      tallyContract = TallyFactory.connect(poll2.contracts.tally, signer);
 
-      await pollPolicyContract.setTarget(pollContracts.poll).then((tx) => tx.wait());
+      await pollPolicyContract.setTarget(poll2.contracts.poll).then((tx) => tx.wait());
 
       // deploy local poll
       const deployedPollId = maciState.deployPoll(
@@ -353,7 +369,7 @@ describe("VoteTally", function test() {
           );
       }
 
-      await timeTravel(signer.provider! as unknown as EthereumProvider, updatedDuration);
+      await timeTravel(signer.provider! as unknown as EthereumProvider, updatedDuration + 101);
       await pollContract.mergeState();
 
       const processMessagesInputs = poll.processMessages(pollId);
@@ -548,7 +564,7 @@ describe("VoteTally", function test() {
 
   describe("ballots > tallyBatchSize", () => {
     before(async () => {
-      const startTime = await getBlockTimestamp(signer);
+      const startTime = (await getBlockTimestamp(signer)) + 100;
 
       // create 25 users (and thus 26 ballots) (total 26 - 25 + 1 nothing up my sleeve)
       users = Array.from({ length: 25 }, () => new Keypair());
@@ -582,33 +598,41 @@ describe("VoteTally", function test() {
       // deploy a poll
       // deploy on chain poll
       const receipt = await maciContract
-        .deployPoll({
-          startDate: startTime,
-          endDate: startTime + duration,
-          treeDepths: {
-            ...treeDepths,
-            tallyProcessingStateTreeDepth,
+        .deployPoll(
+          {
+            startDate: startTime,
+            endDate: startTime + duration,
+            treeDepths: {
+              ...treeDepths,
+              tallyProcessingStateTreeDepth,
+            },
+            messageBatchSize,
+            coordinatorPublicKey: coordinator.publicKey.asContractParam(),
+            mode: EMode.QV,
+            policy: pollPolicyContract,
+            initialVoiceCreditProxy: initialVoiceCreditProxyContract,
+            relayers: [ZeroAddress],
+            voteOptions: maxVoteOptions,
+            name: "",
+            metadata: "",
+            options: [],
+            optionInfo: [],
+            policyType: 0,
           },
-          messageBatchSize,
-          coordinatorPublicKey: coordinator.publicKey.asContractParam(),
-          mode: EMode.QV,
-          policy: pollPolicyContract,
-          initialVoiceCreditProxy: initialVoiceCreditProxyContract,
-          relayers: [ZeroAddress],
-          voteOptions: maxVoteOptions,
-        })
+          await signer.getAddress(),
+        )
         .then((tx) => tx.wait());
 
       expect(receipt?.status).to.eq(1);
 
       pollId = (await maciContract.nextPollId()) - 1n;
 
-      const pollContracts = await maciContract.getPoll(pollId);
-      pollContract = PollFactory.connect(pollContracts.poll, signer);
-      messageProcessorContract = MessageProcessorFactory.connect(pollContracts.messageProcessor, signer);
-      tallyContract = TallyFactory.connect(pollContracts.tally, signer);
+      const poll3 = await maciContract.getPoll(pollId);
+      pollContract = PollFactory.connect(poll3.contracts.poll, signer);
+      messageProcessorContract = MessageProcessorFactory.connect(poll3.contracts.messageProcessor, signer);
+      tallyContract = TallyFactory.connect(poll3.contracts.tally, signer);
 
-      await pollPolicyContract.setTarget(pollContracts.poll).then((tx) => tx.wait());
+      await pollPolicyContract.setTarget(poll3.contracts.poll).then((tx) => tx.wait());
 
       // deploy local poll
       const deployedPollId = maciState.deployPoll(
@@ -686,7 +710,7 @@ describe("VoteTally", function test() {
           );
       }
 
-      await timeTravel(signer.provider! as unknown as EthereumProvider, duration);
+      await timeTravel(signer.provider! as unknown as EthereumProvider, duration + 101);
       await pollContract.mergeState();
 
       const processMessagesInputs = poll.processMessages(pollId);

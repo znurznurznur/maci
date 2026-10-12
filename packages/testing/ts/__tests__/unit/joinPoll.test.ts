@@ -13,6 +13,7 @@ import {
   deployMaci,
   generateMaciStateTreeWithEndKey,
   deployConstantInitialVoiceCreditProxyFactory,
+  EPolicy,
 } from "@maci-protocol/sdk";
 import { joinPoll as joinPollBrowser } from "@maci-protocol/sdk/browser";
 import { expect } from "chai";
@@ -71,8 +72,6 @@ describe("joinPoll", function test() {
     );
     initialVoiceCreditProxyContractAddress = await initialVoiceCreditProxy.getAddress();
 
-    const startDate = await getBlockTimestamp(signer);
-
     // deploy the smart contracts
     maciAddresses = await deployMaci({
       ...deployArgs,
@@ -110,6 +109,7 @@ describe("joinPoll", function test() {
     });
 
     // deploy a poll contract
+    const startDate = (await getBlockTimestamp(signer)) + 1;
     await deployPoll({
       ...deployPollArgs,
       signer,
@@ -119,6 +119,11 @@ describe("joinPoll", function test() {
       maciAddress: maciAddresses.maciContractAddress,
       policyContractAddress: pollPolicyContractAddress,
       initialVoiceCreditProxyContractAddress,
+      policy: EPolicy.FreeForAll,
+      name: "test",
+      metadata: "",
+      options: [],
+      optionInfo: [],
     });
   });
 

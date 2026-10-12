@@ -59,6 +59,22 @@
       "voteOptions"
     ]
   },
+  "MessageProcessorRanked_10-20-2_test": {
+    "file": "./coordinator/ranked/MessageProcessor",
+    "template": "MessageProcessorRanked",
+    "params": [10, 20, 2],
+    "pubs": [
+      "totalSignups",
+      "index",
+      "batchEndIndex",
+      "currentSbCommitment",
+      "newSbCommitment",
+      "outputBatchHash",
+      "actualStateTreeDepth",
+      "coordinatorPublicKeyHash",
+      "voteOptions"
+    ]
+  },
   "VoteTallyQv_10-1-2_test": {
     "file": "./coordinator/qv/VoteTally",
     "template": "VoteTallyQv",
@@ -68,6 +84,12 @@
   "VoteTallyNonQv_10-1-2_test": {
     "file": "./coordinator/non-qv/VoteTally",
     "template": "VoteTallyNonQv",
+    "params": [10, 1, 2],
+    "pubs": ["index", "totalSignups", "sbCommitment", "currentTallyCommitment", "newTallyCommitment"]
+  },
+  "VoteTallyRanked_10-1-2_test": {
+    "file": "./coordinator/ranked/VoteTally",
+    "template": "VoteTallyRanked",
     "params": [10, 1, 2],
     "pubs": ["index", "totalSignups", "sbCommitment", "currentTallyCommitment", "newTallyCommitment"]
   }

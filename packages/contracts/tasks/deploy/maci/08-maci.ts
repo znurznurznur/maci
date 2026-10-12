@@ -1,3 +1,5 @@
+import { EMode, EPolicy } from "@maci-protocol/core";
+
 import type { MACI, IBasePolicy } from "../../../typechain-types";
 
 import { generateEmptyBallotRoots } from "../../../ts/generateEmptyBallotRoots";
@@ -74,6 +76,16 @@ deployment.deployTask(EDeploySteps.Maci, "Deploy MACI contract").then((task) =>
 
     const emptyBallotRoots = generateEmptyBallotRoots(stateTreeDepth);
 
+    const configuredModes = deployment.getDeployConfigField<EMode[] | null>(EContracts.MACI, "supportedModes");
+    const initialSupportedModes =
+      configuredModes ?? Object.values(EMode).filter((v): v is EMode => typeof v === "number");
+
+    const configuredPolicies = deployment.getDeployConfigField<EPolicy[] | null>(EContracts.MACI, "allowedPolicies");
+    const initialAllowedPolicies =
+      configuredPolicies ?? Object.values(EPolicy).filter((v): v is EPolicy => typeof v === "number");
+
+    const owner = await deployer.getAddress();
+
     const maciContract = await deployment.deployContractWithLinkedLibraries<MACI>(
       { contractFactory: maciContractFactory },
       {
@@ -85,6 +97,9 @@ deployment.deployTask(EDeploySteps.Maci, "Deploy MACI contract").then((task) =>
         verifyingKeysRegistry: verifyingKeysRegistryContractAddress,
         stateTreeDepth,
         emptyBallotRoots,
+        owner,
+        initialSupportedModes,
+        initialAllowedPolicies,
       },
     );
 
@@ -110,6 +125,9 @@ deployment.deployTask(EDeploySteps.Maci, "Deploy MACI contract").then((task) =>
           verifyingKeysRegistry: verifyingKeysRegistryContractAddress,
           stateTreeDepth,
           emptyBallotRoots: emptyBallotRoots.map((root) => root.toString()),
+          owner,
+          initialSupportedModes,
+          initialAllowedPolicies,
         },
       ],
       network: hre.network.name,
