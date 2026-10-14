@@ -1,4 +1,4 @@
-import { ESupportedChains } from "@maci-protocol/sdk";
+import { ESupportedChains } from "@maci-protocol-extended/sdk";
 import { signerToEcdsaValidator } from "@zerodev/ecdsa-validator";
 import { type Policy, serializePermissionAccount, toPermissionValidator } from "@zerodev/permissions";
 import { toSudoPolicy, toTimestampPolicy } from "@zerodev/permissions/policies";

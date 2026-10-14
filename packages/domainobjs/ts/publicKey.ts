@@ -4,7 +4,7 @@ import {
   packPublicKey,
   unpackPublicKey,
   type PublicKey as RawPublicKey,
-} from "@maci-protocol/crypto";
+} from "@maci-protocol-extended/crypto";
 
 import assert from "assert";
 

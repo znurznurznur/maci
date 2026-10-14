@@ -1,4 +1,4 @@
-import { G1Point, G2Point } from "@maci-protocol/crypto";
+import { G1Point, G2Point } from "@maci-protocol-extended/crypto";
 
 import type { IVerifyingKeyContractParams, IVerifyingKeyObjectParams } from "./types";
 

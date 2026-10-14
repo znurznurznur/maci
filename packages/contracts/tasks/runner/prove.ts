@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
-import { EMode } from "@maci-protocol/core";
-import { Keypair, PrivateKey } from "@maci-protocol/domainobjs";
+import { EMode } from "@maci-protocol-extended/core";
+import { Keypair, PrivateKey } from "@maci-protocol-extended/domainobjs";
 import { task, types } from "hardhat/config";
 
 import fs from "fs";

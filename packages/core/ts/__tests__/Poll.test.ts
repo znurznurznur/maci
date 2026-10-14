@@ -1,5 +1,5 @@
-import { poseidon } from "@maci-protocol/crypto";
-import { VoteCommand, Keypair, type StateLeaf, PrivateKey, type Ballot } from "@maci-protocol/domainobjs";
+import { poseidon } from "@maci-protocol-extended/crypto";
+import { VoteCommand, Keypair, type StateLeaf, PrivateKey, type Ballot } from "@maci-protocol-extended/domainobjs";
 import { expect } from "chai";
 
 import { MaciState } from "../MaciState";

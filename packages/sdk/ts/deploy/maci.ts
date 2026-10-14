@@ -9,7 +9,7 @@ import {
   deployVerifier,
   EMode,
   EPolicy,
-} from "@maci-protocol/contracts";
+} from "@maci-protocol-extended/contracts";
 
 import type { IDeployMaciArgs, IMaciContracts } from "./types";
 

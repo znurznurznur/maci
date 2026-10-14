@@ -1,4 +1,4 @@
-import { ESupportedChains } from "@maci-protocol/sdk";
+import { ESupportedChains } from "@maci-protocol-extended/sdk";
 import dotenv from "dotenv";
 
 import childProcess from "child_process";

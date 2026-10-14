@@ -4,7 +4,7 @@ import {
   EMode,
   EInitialVoiceCreditProxiesFactories,
   ECheckers,
-} from "@maci-protocol/sdk";
+} from "@maci-protocol-extended/sdk";
 import { zeroHash } from "viem";
 
 import {

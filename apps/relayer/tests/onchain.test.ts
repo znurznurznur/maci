@@ -1,12 +1,12 @@
 import { jest } from "@jest/globals";
-import { Keypair } from "@maci-protocol/domainobjs";
+import { Keypair } from "@maci-protocol-extended/domainobjs";
 import {
   formatProofForVerifierContract,
   generateProofSnarkjs,
   getDefaultSigner,
   getPollContracts,
-} from "@maci-protocol/sdk";
-import { TestingClass } from "@maci-protocol/testing";
+} from "@maci-protocol-extended/sdk";
+import { TestingClass } from "@maci-protocol-extended/testing";
 import { HttpStatus, ValidationPipe, type INestApplication } from "@nestjs/common";
 import { SchedulerRegistry } from "@nestjs/schedule";
 import { Test } from "@nestjs/testing";
@@ -28,7 +28,7 @@ import {
   rapidsnark,
 } from "./constants.js";
 
-jest.unmock("@maci-protocol/sdk");
+jest.unmock("@maci-protocol-extended/sdk");
 
 describe("Integration message publishing", () => {
   let app: INestApplication<TApp>;

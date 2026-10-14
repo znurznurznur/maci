@@ -1,6 +1,6 @@
-import { type Verifier, type TAbi } from "@maci-protocol/contracts";
-import { type EPolicy, type EMode } from "@maci-protocol/core";
-import { type PublicKey } from "@maci-protocol/domainobjs";
+import { type Verifier, type TAbi } from "@maci-protocol-extended/contracts";
+import { type EPolicy, type EMode } from "@maci-protocol-extended/core";
+import { type PublicKey } from "@maci-protocol-extended/domainobjs";
 
 import type { Signer } from "ethers";
 

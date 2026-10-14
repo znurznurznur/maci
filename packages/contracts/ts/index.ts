@@ -1,4 +1,4 @@
-export { EMode, EPolicy } from "@maci-protocol/core";
+export { EMode, EPolicy } from "@maci-protocol-extended/core";
 export {
   deployMockVerifier,
   deployVerifyingKeysRegistry,

@@ -1,4 +1,9 @@
-import { deployVerifyingKeysRegistryContract, EMode, getDefaultSigner, setVerifyingKeys } from "@maci-protocol/sdk";
+import {
+  deployVerifyingKeysRegistryContract,
+  EMode,
+  getDefaultSigner,
+  setVerifyingKeys,
+} from "@maci-protocol-extended/sdk";
 import { expect } from "chai";
 import { type Signer } from "ethers";
 

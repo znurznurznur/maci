@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-import { MACI__factory as MACIFactory } from "@maci-protocol/contracts/typechain-types";
-import { hashLeanIMT, hashLeftRight, PAD_KEY_HASH } from "@maci-protocol/crypto";
-import { PublicKey } from "@maci-protocol/domainobjs";
+import { MACI__factory as MACIFactory } from "@maci-protocol-extended/contracts/typechain-types";
+import { hashLeanIMT, hashLeftRight, PAD_KEY_HASH } from "@maci-protocol-extended/crypto";
+import { PublicKey } from "@maci-protocol-extended/domainobjs";
 import { LeanIMT, type LeanIMTHashFunction } from "@zk-kit/lean-imt";
 
 import type { IGenerateSignUpTreeArgs, IGenerateSignUpTree, IGenerateSignUpTreeWithEndKeyArgs } from "./types";

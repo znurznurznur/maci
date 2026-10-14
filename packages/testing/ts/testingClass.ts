@@ -1,4 +1,4 @@
-import { Keypair } from "@maci-protocol/domainobjs";
+import { Keypair } from "@maci-protocol-extended/domainobjs";
 import {
   EMode,
   EPolicy,
@@ -13,7 +13,7 @@ import {
   deployFreeForAllSignUpPolicy,
   deployConstantInitialVoiceCreditProxy,
   deployConstantInitialVoiceCreditProxyFactory,
-} from "@maci-protocol/sdk";
+} from "@maci-protocol-extended/sdk";
 import hardhat from "hardhat";
 
 import type { ITestingClassPaths, IContractsData } from "./types";

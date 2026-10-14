@@ -1,5 +1,5 @@
 {
-  "name": "@maci-protocol/relayer",
+  "name": "@maci-protocol-extended/relayer",
   "version": "1.0.0",
   "private": false,
   "description": "Relayer service for MACI",
@@ -28,9 +28,9 @@
   },
   "dependencies": {
     "@helia/json": "^4.0.6",
-    "@maci-protocol/domainobjs": "^3.0.0",
-    "@maci-protocol/sdk": "^3.0.0",
-    "@maci-protocol/testing": "^3.0.0",
+    "@maci-protocol-extended/domainobjs": "^3.0.0",
+    "@maci-protocol-extended/sdk": "^3.0.0",
+    "@maci-protocol-extended/testing": "^3.0.0",
     "@nestjs/common": "^11.1.5",
     "@nestjs/core": "^11.1.5",
     "@nestjs/mongoose": "^11.0.3",

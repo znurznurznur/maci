@@ -1,8 +1,8 @@
 /* eslint-disable no-await-in-loop */
-import { getSigners } from "@maci-protocol/contracts";
-import { MaciState, type ITreeDepths, VOTE_OPTION_TREE_ARITY } from "@maci-protocol/core";
-import { generatePublicKey, generateRandomSalt, poseidon } from "@maci-protocol/crypto";
-import { Keypair, VoteCommand, PrivateKey, PublicKey } from "@maci-protocol/domainobjs";
+import { getSigners } from "@maci-protocol-extended/contracts";
+import { MaciState, type ITreeDepths, VOTE_OPTION_TREE_ARITY } from "@maci-protocol-extended/core";
+import { generatePublicKey, generateRandomSalt, poseidon } from "@maci-protocol-extended/crypto";
+import { Keypair, VoteCommand, PrivateKey, PublicKey } from "@maci-protocol-extended/domainobjs";
 import {
   cidToBytes32,
   createCidFromObject,
@@ -28,7 +28,7 @@ import {
   deployFreeForAllSignUpPolicy,
   deployConstantInitialVoiceCreditProxy,
   deployConstantInitialVoiceCreditProxyFactory,
-} from "@maci-protocol/sdk";
+} from "@maci-protocol-extended/sdk";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { type Signer } from "ethers";

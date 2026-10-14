@@ -1,5 +1,5 @@
 {
-  "name": "@maci-protocol/testing",
+  "name": "@maci-protocol-extended/testing",
   "version": "3.0.0",
   "private": false,
   "description": "A package with testing utilities for MACI",
@@ -40,13 +40,13 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@maci-protocol/circuits": "^3.0.0",
-    "@maci-protocol/cli": "^3.0.0",
-    "@maci-protocol/contracts": "^3.0.0",
-    "@maci-protocol/core": "^3.0.0",
-    "@maci-protocol/crypto": "^3.0.0",
-    "@maci-protocol/domainobjs": "^3.0.0",
-    "@maci-protocol/sdk": "^3.0.0",
+    "@maci-protocol-extended/circuits": "^3.0.0",
+    "@maci-protocol-extended/cli": "^3.0.0",
+    "@maci-protocol-extended/contracts": "^3.0.0",
+    "@maci-protocol-extended/core": "^3.0.0",
+    "@maci-protocol-extended/crypto": "^3.0.0",
+    "@maci-protocol-extended/domainobjs": "^3.0.0",
+    "@maci-protocol-extended/sdk": "^3.0.0",
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "@types/chai": "^4.3.11",
     "ethers": "^6.15.0",

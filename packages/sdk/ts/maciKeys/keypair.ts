@@ -1,4 +1,4 @@
-import { Keypair, PrivateKey } from "@maci-protocol/domainobjs";
+import { Keypair, PrivateKey } from "@maci-protocol-extended/domainobjs";
 
 import type { IGenerateKeypairArgs, IGenerateKeypairData } from "./types";
 

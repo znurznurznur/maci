@@ -1,5 +1,5 @@
 {
-  "name": "@maci-protocol/core",
+  "name": "@maci-protocol-extended/core",
   "version": "3.0.0",
   "private": false,
   "description": "The MACI state machine implemented in TypeScript",
@@ -26,8 +26,8 @@
     "docs": "typedoc --plugin typedoc-plugin-markdown --options ./typedoc.json"
   },
   "dependencies": {
-    "@maci-protocol/crypto": "^3.0.0",
-    "@maci-protocol/domainobjs": "^3.0.0",
+    "@maci-protocol-extended/crypto": "^3.0.0",
+    "@maci-protocol-extended/domainobjs": "^3.0.0",
     "@zk-kit/lean-imt": "^2.2.4",
     "lodash": "^4.17.21"
   },

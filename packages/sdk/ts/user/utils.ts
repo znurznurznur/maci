@@ -2,10 +2,10 @@ import {
   MACI__factory as MACIFactory,
   Poll__factory as PollFactory,
   type MACI,
-} from "@maci-protocol/contracts/typechain-types";
-import { type IJsonMaciState, MaciState } from "@maci-protocol/core";
-import { poseidon, stringifyBigInts } from "@maci-protocol/crypto";
-import { Keypair, type PrivateKey, PublicKey } from "@maci-protocol/domainobjs";
+} from "@maci-protocol-extended/contracts/typechain-types";
+import { type IJsonMaciState, MaciState } from "@maci-protocol-extended/core";
+import { poseidon, stringifyBigInts } from "@maci-protocol-extended/crypto";
+import { Keypair, type PrivateKey, PublicKey } from "@maci-protocol-extended/domainobjs";
 
 import fs from "fs";
 

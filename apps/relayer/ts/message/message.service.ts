@@ -1,5 +1,9 @@
-import { PublicKey } from "@maci-protocol/domainobjs";
-import { getDefaultSigner, MACI__factory as MACIFactory, Poll__factory as PollFactory } from "@maci-protocol/sdk";
+import { PublicKey } from "@maci-protocol-extended/domainobjs";
+import {
+  getDefaultSigner,
+  MACI__factory as MACIFactory,
+  Poll__factory as PollFactory,
+} from "@maci-protocol-extended/sdk";
 import { Injectable, Logger } from "@nestjs/common";
 import { Cron, CronExpression } from "@nestjs/schedule";
 

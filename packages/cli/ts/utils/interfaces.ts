@@ -1,4 +1,4 @@
-import type { EContracts } from "@maci-protocol/sdk";
+import type { EContracts } from "@maci-protocol-extended/sdk";
 import type { Signer } from "ethers";
 
 /**

@@ -1,4 +1,4 @@
-import { Keypair } from "@maci-protocol/domainobjs";
+import { Keypair } from "@maci-protocol-extended/domainobjs";
 import {
   getDefaultSigner,
   getSignedupUserData,
@@ -7,7 +7,7 @@ import {
   signup,
   deployMaci,
   deployFreeForAllSignUpPolicy,
-} from "@maci-protocol/sdk";
+} from "@maci-protocol-extended/sdk";
 import { expect } from "chai";
 import { type Signer } from "ethers";
 

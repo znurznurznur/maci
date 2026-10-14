@@ -104,19 +104,19 @@ importers:
       '@graphprotocol/graph-cli':
         specifier: ^0.97.1
         version: 0.97.1(@types/node@24.19.2)(bufferutil@4.1.0)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@maci-protocol/contracts':
+      '@maci-protocol-extended/contracts':
         specifier: ^3.0.0
         version: link:../../packages/contracts
-      '@maci-protocol/crypto':
+      '@maci-protocol-extended/crypto':
         specifier: ^3.0.0
         version: link:../../packages/crypto
-      '@maci-protocol/domainobjs':
+      '@maci-protocol-extended/domainobjs':
         specifier: ^3.0.0
         version: link:../../packages/domainobjs
-      '@maci-protocol/sdk':
+      '@maci-protocol-extended/sdk':
         specifier: ^3.0.0
         version: link:../../packages/sdk
-      '@maci-protocol/subgraph':
+      '@maci-protocol-extended/subgraph':
         specifier: ^3.0.0
         version: link:../subgraph
       '@nestjs/common':
@@ -255,13 +255,13 @@ importers:
       '@helia/json':
         specifier: ^4.0.6
         version: 4.0.6
-      '@maci-protocol/domainobjs':
+      '@maci-protocol-extended/domainobjs':
         specifier: ^3.0.0
         version: link:../../packages/domainobjs
-      '@maci-protocol/sdk':
+      '@maci-protocol-extended/sdk':
         specifier: ^3.0.0
         version: link:../../packages/sdk
-      '@maci-protocol/testing':
+      '@maci-protocol-extended/testing':
         specifier: ^3.0.0
         version: link:../../packages/testing
       '@nestjs/common':
@@ -397,7 +397,7 @@ importers:
       '@graphprotocol/graph-ts':
         specifier: ^0.38.1
         version: 0.38.2
-      '@maci-protocol/contracts':
+      '@maci-protocol-extended/contracts':
         specifier: ^3.0.0
         version: link:../../packages/contracts
     devDependencies:
@@ -489,16 +489,16 @@ importers:
 
   packages/circuits:
     dependencies:
-      '@maci-protocol/core':
+      '@maci-protocol-extended/core':
         specifier: ^3.0.0
         version: link:../core
-      '@maci-protocol/crypto':
+      '@maci-protocol-extended/crypto':
         specifier: ^3.0.0
         version: link:../crypto
-      '@maci-protocol/domainobjs':
+      '@maci-protocol-extended/domainobjs':
         specifier: ^3.0.0
         version: link:../domainobjs
-      '@maci-protocol/sdk':
+      '@maci-protocol-extended/sdk':
         specifier: ^3.0.0
         version: link:../sdk
       '@zk-kit/circuits':
@@ -559,10 +559,10 @@ importers:
       '@commander-js/extra-typings':
         specifier: ^14.0.0
         version: 14.0.0(commander@14.0.0)
-      '@maci-protocol/domainobjs':
+      '@maci-protocol-extended/domainobjs':
         specifier: ^3.0.0
         version: link:../domainobjs
-      '@maci-protocol/sdk':
+      '@maci-protocol-extended/sdk':
         specifier: ^3.0.0
         version: link:../sdk
       '@nomicfoundation/hardhat-toolbox':
@@ -629,13 +629,13 @@ importers:
       '@excubiae/contracts':
         specifier: ^0.13.0
         version: 0.13.0
-      '@maci-protocol/core':
+      '@maci-protocol-extended/core':
         specifier: ^3.0.0
         version: link:../core
-      '@maci-protocol/crypto':
+      '@maci-protocol-extended/crypto':
         specifier: ^3.0.0
         version: link:../crypto
-      '@maci-protocol/domainobjs':
+      '@maci-protocol-extended/domainobjs':
         specifier: ^3.0.0
         version: link:../domainobjs
       '@nomicfoundation/hardhat-ethers':
@@ -744,10 +744,10 @@ importers:
 
   packages/core:
     dependencies:
-      '@maci-protocol/crypto':
+      '@maci-protocol-extended/crypto':
         specifier: ^3.0.0
         version: link:../crypto
-      '@maci-protocol/domainobjs':
+      '@maci-protocol-extended/domainobjs':
         specifier: ^3.0.0
         version: link:../domainobjs
       '@zk-kit/lean-imt':
@@ -839,7 +839,7 @@ importers:
 
   packages/domainobjs:
     dependencies:
-      '@maci-protocol/crypto':
+      '@maci-protocol-extended/crypto':
         specifier: ^3.0.0
         version: link:../crypto
     devDependencies:
@@ -867,16 +867,16 @@ importers:
 
   packages/sdk:
     dependencies:
-      '@maci-protocol/contracts':
+      '@maci-protocol-extended/contracts':
         specifier: ^3.0.0
         version: link:../contracts
-      '@maci-protocol/core':
+      '@maci-protocol-extended/core':
         specifier: ^3.0.0
         version: link:../core
-      '@maci-protocol/crypto':
+      '@maci-protocol-extended/crypto':
         specifier: ^3.0.0
         version: link:../crypto
-      '@maci-protocol/domainobjs':
+      '@maci-protocol-extended/domainobjs':
         specifier: ^3.0.0
         version: link:../domainobjs
       '@zk-kit/lean-imt':
@@ -919,25 +919,25 @@ importers:
 
   packages/testing:
     dependencies:
-      '@maci-protocol/circuits':
+      '@maci-protocol-extended/circuits':
         specifier: ^3.0.0
         version: link:../circuits
-      '@maci-protocol/cli':
+      '@maci-protocol-extended/cli':
         specifier: ^3.0.0
         version: link:../cli
-      '@maci-protocol/contracts':
+      '@maci-protocol-extended/contracts':
         specifier: ^3.0.0
         version: link:../contracts
-      '@maci-protocol/core':
+      '@maci-protocol-extended/core':
         specifier: ^3.0.0
         version: link:../core
-      '@maci-protocol/crypto':
+      '@maci-protocol-extended/crypto':
         specifier: ^3.0.0
         version: link:../crypto
-      '@maci-protocol/domainobjs':
+      '@maci-protocol-extended/domainobjs':
         specifier: ^3.0.0
         version: link:../domainobjs
-      '@maci-protocol/sdk':
+      '@maci-protocol-extended/sdk':
         specifier: ^3.0.0
         version: link:../sdk
       '@nomicfoundation/hardhat-toolbox':

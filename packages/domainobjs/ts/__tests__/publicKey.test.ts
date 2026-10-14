@@ -1,4 +1,4 @@
-import { SNARK_FIELD_SIZE, unpackPublicKey } from "@maci-protocol/crypto";
+import { SNARK_FIELD_SIZE, unpackPublicKey } from "@maci-protocol-extended/crypto";
 import { expect } from "chai";
 
 import { Keypair, PublicKey } from "..";

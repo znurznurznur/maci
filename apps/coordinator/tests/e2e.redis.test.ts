@@ -1,4 +1,4 @@
-import { EMode, ESupportedChains } from "@maci-protocol/sdk";
+import { EMode, ESupportedChains } from "@maci-protocol-extended/sdk";
 import { createClient, type RedisClientType } from "@redis/client";
 import dotenv from "dotenv";
 

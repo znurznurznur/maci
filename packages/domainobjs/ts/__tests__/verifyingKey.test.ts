@@ -1,4 +1,4 @@
-import { type G1Point } from "@maci-protocol/crypto";
+import { type G1Point } from "@maci-protocol-extended/crypto";
 import { expect } from "chai";
 
 import fs from "fs";

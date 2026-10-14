@@ -1,5 +1,5 @@
-import { verifySignature, hash4 } from "@maci-protocol/crypto";
-import { Keypair, VoteCommand } from "@maci-protocol/domainobjs";
+import { verifySignature, hash4 } from "@maci-protocol-extended/crypto";
+import { Keypair, VoteCommand } from "@maci-protocol-extended/domainobjs";
 import { expect } from "chai";
 import { type WitnessTester } from "circomkit";
 

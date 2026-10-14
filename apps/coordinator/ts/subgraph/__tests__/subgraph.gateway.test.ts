@@ -1,4 +1,4 @@
-import { ESupportedChains } from "@maci-protocol/sdk";
+import { ESupportedChains } from "@maci-protocol-extended/sdk";
 import { Test } from "@nestjs/testing";
 import { type Server } from "socket.io";
 

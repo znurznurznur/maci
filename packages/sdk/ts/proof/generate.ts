@@ -1,5 +1,5 @@
-import { ProofGenerator } from "@maci-protocol/contracts";
-import { Keypair, PrivateKey } from "@maci-protocol/domainobjs";
+import { ProofGenerator } from "@maci-protocol-extended/contracts";
+import { Keypair, PrivateKey } from "@maci-protocol-extended/domainobjs";
 
 import fs from "fs";
 

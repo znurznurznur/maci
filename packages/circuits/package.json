@@ -1,5 +1,5 @@
 {
-  "name": "@maci-protocol/circuits",
+  "name": "@maci-protocol-extended/circuits",
   "version": "3.0.0",
   "private": false,
   "description": "zk-SNARK circuits for MACI",
@@ -50,10 +50,10 @@
     "test:voteTallyRanked": "pnpm run mocha-test ts/__tests__/VoteTallyRanked.test.ts"
   },
   "dependencies": {
-    "@maci-protocol/core": "^3.0.0",
-    "@maci-protocol/crypto": "^3.0.0",
-    "@maci-protocol/domainobjs": "^3.0.0",
-    "@maci-protocol/sdk": "^3.0.0",
+    "@maci-protocol-extended/core": "^3.0.0",
+    "@maci-protocol-extended/crypto": "^3.0.0",
+    "@maci-protocol-extended/domainobjs": "^3.0.0",
+    "@maci-protocol-extended/sdk": "^3.0.0",
     "@zk-kit/circuits": "^0.4.0",
     "circomkit": "^0.3.4",
     "circomlib": "^2.0.5"

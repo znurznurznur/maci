@@ -1,7 +1,7 @@
-import { generateTreeProof } from "@maci-protocol/crypto";
+import { generateTreeProof } from "@maci-protocol-extended/crypto";
 
 import type { ITallyData } from "./types";
-import type { Tally } from "@maci-protocol/contracts";
+import type { Tally } from "@maci-protocol-extended/contracts";
 
 /**
  * Loop through each per vote option spent voice credits and verify it on-chain

@@ -1,6 +1,6 @@
 import { groth16, type Groth16Proof } from "snarkjs";
 
-import type { IGenerateProofOptions, FullProveResult, SnarkProof } from "@maci-protocol/contracts";
+import type { IGenerateProofOptions, FullProveResult, SnarkProof } from "@maci-protocol-extended/contracts";
 
 /**
  * Format a SnarkProof type to an array of strings

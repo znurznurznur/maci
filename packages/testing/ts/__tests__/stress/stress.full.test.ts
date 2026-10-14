@@ -1,7 +1,7 @@
-import { getSigners } from "@maci-protocol/contracts";
-import { MAX_RANKED_VOTE_OPTIONS } from "@maci-protocol/core";
-import { generateRandomSalt } from "@maci-protocol/crypto";
-import { Keypair } from "@maci-protocol/domainobjs";
+import { getSigners } from "@maci-protocol-extended/contracts";
+import { MAX_RANKED_VOTE_OPTIONS } from "@maci-protocol-extended/core";
+import { generateRandomSalt } from "@maci-protocol-extended/crypto";
+import { Keypair } from "@maci-protocol-extended/domainobjs";
 import {
   getBlockTimestamp,
   signup,
@@ -23,7 +23,7 @@ import {
   type IMaciContracts,
   joinPoll,
   deployConstantInitialVoiceCreditProxyFactory,
-} from "@maci-protocol/sdk";
+} from "@maci-protocol-extended/sdk";
 
 import type { Signer } from "ethers";
 

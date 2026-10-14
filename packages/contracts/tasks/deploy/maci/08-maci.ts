@@ -1,4 +1,4 @@
-import { EMode, EPolicy } from "@maci-protocol/core";
+import { EMode, EPolicy } from "@maci-protocol-extended/core";
 
 import type { MACI, IBasePolicy } from "../../../typechain-types";
 

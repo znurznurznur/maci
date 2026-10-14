@@ -1,4 +1,4 @@
-import { IncrementalQuinTree, hash5 } from "@maci-protocol/crypto";
+import { IncrementalQuinTree, hash5 } from "@maci-protocol-extended/crypto";
 import { r } from "@zk-kit/baby-jubjub";
 import chai, { expect } from "chai";
 import chaiAsPromised from "chai-as-promised";

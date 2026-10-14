@@ -1,5 +1,5 @@
-import { EMode } from "@maci-protocol/core";
-import { generateTreeCommitment, hash2, hash3, hashLeftRight } from "@maci-protocol/crypto";
+import { EMode } from "@maci-protocol-extended/core";
+import { generateTreeCommitment, hash2, hash3, hashLeftRight } from "@maci-protocol-extended/crypto";
 
 import type { IGenerateTallyCommitmentsArgs, ITallyCommitments } from "./types";
 

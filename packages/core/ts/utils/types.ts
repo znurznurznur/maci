@@ -1,7 +1,7 @@
 import type { MaciState } from "../MaciState";
 import type { Poll } from "../Poll";
 import type { EMode } from "./constants";
-import type { PathElements } from "@maci-protocol/crypto";
+import type { PathElements } from "@maci-protocol-extended/crypto";
 import type {
   Ballot,
   IJsonBallot,
@@ -15,7 +15,7 @@ import type {
   PrivateKey,
   PublicKey,
   StateLeaf,
-} from "@maci-protocol/domainobjs";
+} from "@maci-protocol-extended/domainobjs";
 
 /**
  * A circuit inputs for the circom circuit

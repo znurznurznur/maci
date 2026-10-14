@@ -1,5 +1,5 @@
 {
-  "name": "@maci-protocol/contracts",
+  "name": "@maci-protocol-extended/contracts",
   "version": "3.0.0",
   "private": false,
   "description": "Solidity Smart Contracts for MACI (Minimal Anti-Collusion Infrastructure)",
@@ -223,9 +223,9 @@
   },
   "dependencies": {
     "@excubiae/contracts": "^0.13.0",
-    "@maci-protocol/core": "^3.0.0",
-    "@maci-protocol/crypto": "^3.0.0",
-    "@maci-protocol/domainobjs": "^3.0.0",
+    "@maci-protocol-extended/core": "^3.0.0",
+    "@maci-protocol-extended/crypto": "^3.0.0",
+    "@maci-protocol-extended/domainobjs": "^3.0.0",
     "@nomicfoundation/hardhat-ethers": "^3.1.0",
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "@nomicfoundation/hardhat-verify": "^2.1.0",

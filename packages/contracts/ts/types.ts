@@ -17,8 +17,8 @@ import type {
   Policy,
 } from "../typechain-types";
 import type { TypedContractMethod } from "../typechain-types/common";
-import type { EMode, EPolicy, TCircuitInputs } from "@maci-protocol/core";
-import type { Keypair, Message, PublicKey } from "@maci-protocol/domainobjs";
+import type { EMode, EPolicy, TCircuitInputs } from "@maci-protocol-extended/core";
+import type { Keypair, Message, PublicKey } from "@maci-protocol-extended/domainobjs";
 import type { BigNumberish, Signer, ContractFactory, Provider, BaseContract } from "ethers";
 import type { PublicSignals } from "snarkjs";
 

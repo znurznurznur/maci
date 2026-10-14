@@ -1,4 +1,4 @@
-import { EMode } from "@maci-protocol/sdk";
+import { EMode } from "@maci-protocol-extended/sdk";
 import dotenv from "dotenv";
 
 import fs from "fs";

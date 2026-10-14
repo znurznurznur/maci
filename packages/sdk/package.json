@@ -1,5 +1,5 @@
 {
-  "name": "@maci-protocol/sdk",
+  "name": "@maci-protocol-extended/sdk",
   "version": "3.0.0",
   "private": false,
   "description": "MACI's SDK",
@@ -43,10 +43,10 @@
     "docs": "typedoc --plugin typedoc-plugin-markdown --options ./typedoc.json"
   },
   "dependencies": {
-    "@maci-protocol/contracts": "^3.0.0",
-    "@maci-protocol/core": "^3.0.0",
-    "@maci-protocol/crypto": "^3.0.0",
-    "@maci-protocol/domainobjs": "^3.0.0",
+    "@maci-protocol-extended/contracts": "^3.0.0",
+    "@maci-protocol-extended/core": "^3.0.0",
+    "@maci-protocol-extended/crypto": "^3.0.0",
+    "@maci-protocol-extended/domainobjs": "^3.0.0",
     "@zk-kit/lean-imt": "^2.2.4",
     "ethers": "^6.15.0",
     "multiformats": "9.9.0",

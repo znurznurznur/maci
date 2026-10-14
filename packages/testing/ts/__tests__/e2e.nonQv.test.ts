@@ -1,7 +1,7 @@
-import { getSigners } from "@maci-protocol/contracts";
-import { VOTE_OPTION_TREE_ARITY } from "@maci-protocol/core";
-import { generateRandomSalt } from "@maci-protocol/crypto";
-import { Keypair } from "@maci-protocol/domainobjs";
+import { getSigners } from "@maci-protocol-extended/contracts";
+import { VOTE_OPTION_TREE_ARITY } from "@maci-protocol-extended/core";
+import { generateRandomSalt } from "@maci-protocol-extended/crypto";
+import { Keypair } from "@maci-protocol-extended/domainobjs";
 import {
   generateVote,
   signup,
@@ -23,7 +23,7 @@ import {
   deployConstantInitialVoiceCreditProxy,
   joinPoll,
   deployConstantInitialVoiceCreditProxyFactory,
-} from "@maci-protocol/sdk";
+} from "@maci-protocol-extended/sdk";
 import { expect } from "chai";
 
 import type { Signer } from "ethers";

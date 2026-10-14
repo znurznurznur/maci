@@ -1,6 +1,6 @@
 import type { ITallyData } from "../tally/types";
-import type { Groth16Proof, SnarkProof } from "@maci-protocol/contracts";
-import type { EMode, TCircuitInputs } from "@maci-protocol/core";
+import type { Groth16Proof, SnarkProof } from "@maci-protocol-extended/contracts";
+import type { EMode, TCircuitInputs } from "@maci-protocol-extended/core";
 import type { BigNumberish, Signer } from "ethers";
 import type { PublicSignals } from "snarkjs";
 

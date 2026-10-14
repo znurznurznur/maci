@@ -11,7 +11,7 @@ import {
   hash2,
   poseidon,
   hashLeanIMT,
-} from "@maci-protocol/crypto";
+} from "@maci-protocol-extended/crypto";
 import {
   VoteCommand,
   Keypair,
@@ -25,7 +25,7 @@ import {
   blankStateLeafHash,
   padKey,
   type IMessageContractParams,
-} from "@maci-protocol/domainobjs";
+} from "@maci-protocol-extended/domainobjs";
 import { LeanIMT, type LeanIMTHashFunction } from "@zk-kit/lean-imt";
 import omit from "lodash/omit";
 
@@ -47,7 +47,7 @@ import type {
   IJoinedCircuitArgs,
   IPollJoinedCircuitInputs,
 } from "./utils/types";
-import type { PathElements } from "@maci-protocol/crypto";
+import type { PathElements } from "@maci-protocol-extended/crypto";
 
 import { EMode, MAX_RANKED_VOTE_OPTIONS, STATE_TREE_ARITY, VOTE_OPTION_TREE_ARITY } from "./utils/constants";
 import { ProcessMessageErrors, ProcessMessageError } from "./utils/errors";

@@ -1,11 +1,11 @@
-import { type IVerifyingKeyStruct } from "@maci-protocol/contracts";
-import { VerifyingKeysRegistry__factory as VerifyingKeysRegistryFactory } from "@maci-protocol/contracts/typechain-types";
+import { type IVerifyingKeyStruct } from "@maci-protocol-extended/contracts";
+import { VerifyingKeysRegistry__factory as VerifyingKeysRegistryFactory } from "@maci-protocol-extended/contracts/typechain-types";
 import {
   generatePollJoinedVerifyingKeySignature,
   generatePollJoiningVerifyingKeySignature,
   generateProcessVerifyingKeySignature,
   generateTallyVerifyingKeySignature,
-} from "@maci-protocol/core";
+} from "@maci-protocol-extended/core";
 
 import type { ISetVerifyingKeysArgs } from "./types";
 

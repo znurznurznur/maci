@@ -1,6 +1,6 @@
-import { extractVerifyingKey } from "@maci-protocol/contracts";
-import { VerifyingKeysRegistry__factory as VerifyingKeysRegistryFactory } from "@maci-protocol/contracts/typechain-types";
-import { type IVerifyingKeyContractParams, VerifyingKey } from "@maci-protocol/domainobjs";
+import { extractVerifyingKey } from "@maci-protocol-extended/contracts";
+import { VerifyingKeysRegistry__factory as VerifyingKeysRegistryFactory } from "@maci-protocol-extended/contracts/typechain-types";
+import { type IVerifyingKeyContractParams, VerifyingKey } from "@maci-protocol-extended/domainobjs";
 
 import fs from "fs";
 

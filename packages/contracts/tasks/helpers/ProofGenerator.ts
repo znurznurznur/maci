@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { type TCircuitInputs, type IJsonMaciState, MaciState, type Poll, EMode } from "@maci-protocol/core";
-import { generateTreeCommitment, hash3, hashLeftRight } from "@maci-protocol/crypto";
+import { type TCircuitInputs, type IJsonMaciState, MaciState, type Poll, EMode } from "@maci-protocol-extended/core";
+import { generateTreeCommitment, hash3, hashLeftRight } from "@maci-protocol-extended/crypto";
 
 import fs from "fs";
 import path from "path";
@@ -13,7 +13,7 @@ import type {
   TallyData,
 } from "./types";
 import type { Proof } from "../../ts/types";
-import type { IVerifyingKeyObjectParams } from "@maci-protocol/domainobjs";
+import type { IVerifyingKeyObjectParams } from "@maci-protocol-extended/domainobjs";
 import type { BigNumberish } from "ethers";
 
 import { logMagenta, info, logGreen, success } from "../../ts/logger";

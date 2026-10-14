@@ -3,8 +3,8 @@ import { toECDSASigner } from "@zerodev/permissions/signers";
 import { BrowserProvider, Signer } from "ethers";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
-import type { AASigner } from "@maci-protocol/contracts";
-import type { ESupportedChains } from "@maci-protocol/sdk";
+import type { AASigner } from "@maci-protocol-extended/contracts";
+import type { ESupportedChains } from "@maci-protocol-extended/sdk";
 import type { Hex } from "viem";
 
 import { ErrorCodes, getSigner, KernelClientType } from "../common";

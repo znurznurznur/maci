@@ -1,5 +1,5 @@
 import { jest } from "@jest/globals";
-import { Keypair } from "@maci-protocol/domainobjs";
+import { Keypair } from "@maci-protocol-extended/domainobjs";
 import { ZeroAddress } from "ethers";
 import { type Model } from "mongoose";
 

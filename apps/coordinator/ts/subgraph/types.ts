@@ -1,4 +1,4 @@
-import { type ESupportedChains } from "@maci-protocol/sdk";
+import { type ESupportedChains } from "@maci-protocol-extended/sdk";
 
 /**
  * WS events for subgraph

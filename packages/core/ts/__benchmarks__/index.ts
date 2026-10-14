@@ -1,4 +1,4 @@
-import { Keypair, VoteCommand } from "@maci-protocol/domainobjs";
+import { Keypair, VoteCommand } from "@maci-protocol-extended/domainobjs";
 import benny from "benny";
 
 import { EMode, MaciState } from "..";

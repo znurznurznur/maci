@@ -1,4 +1,4 @@
-import { EMode, ESupportedChains } from "@maci-protocol/sdk";
+import { EMode, ESupportedChains } from "@maci-protocol-extended/sdk";
 import { HttpException, HttpStatus } from "@nestjs/common";
 
 import { type IdentityScheduledPollDto, type SchedulePollWithSignerDto } from "../dto";

@@ -1,6 +1,6 @@
 import { jest } from "@jest/globals";
-import { Keypair } from "@maci-protocol/domainobjs";
-import { MACI__factory as MACIFactory, Poll__factory as PollFactory } from "@maci-protocol/sdk";
+import { Keypair } from "@maci-protocol-extended/domainobjs";
+import { MACI__factory as MACIFactory, Poll__factory as PollFactory } from "@maci-protocol-extended/sdk";
 import { HttpException, type ExecutionContext } from "@nestjs/common";
 import { type Reflector } from "@nestjs/core";
 import dotenv from "dotenv";
@@ -10,7 +10,7 @@ import { MessageGuard, PUBLIC_METADATA_KEY, Public } from "../message.guard.js";
 
 dotenv.config();
 
-jest.mock("@maci-protocol/contracts/typechain-types", (): unknown => ({
+jest.mock("@maci-protocol-extended/contracts/typechain-types", (): unknown => ({
   MACI__factory: {
     connect: jest.fn(),
   },

@@ -1,5 +1,5 @@
-import { Keypair, PrivateKey } from "@maci-protocol/domainobjs";
-import { Deployment, EMode, ESupportedChains } from "@maci-protocol/sdk";
+import { Keypair, PrivateKey } from "@maci-protocol-extended/domainobjs";
+import { Deployment, EMode, ESupportedChains } from "@maci-protocol-extended/sdk";
 import dotenv from "dotenv";
 import { zeroAddress } from "viem";
 
@@ -13,8 +13,8 @@ import { ProofGeneratorService } from "../proof.service";
 
 dotenv.config();
 
-jest.mock("@maci-protocol/sdk", (): unknown => ({
-  ...jest.requireActual("@maci-protocol/sdk"),
+jest.mock("@maci-protocol-extended/sdk", (): unknown => ({
+  ...jest.requireActual("@maci-protocol-extended/sdk"),
   Deployment: {
     getInstance: jest.fn(),
   },

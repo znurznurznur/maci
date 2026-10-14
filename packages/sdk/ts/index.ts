@@ -68,7 +68,7 @@ export {
   warning,
   error,
   generateEmptyBallotRoots,
-} from "@maci-protocol/contracts";
+} from "@maci-protocol-extended/contracts";
 
 export type {
   FullProveResult,
@@ -81,6 +81,6 @@ export type {
   SnarkProof,
   IIpfsMessage,
   IDeployCloneArgs,
-} from "@maci-protocol/contracts";
+} from "@maci-protocol-extended/contracts";
 
-export * from "@maci-protocol/contracts/typechain-types";
+export * from "@maci-protocol-extended/contracts/typechain-types";

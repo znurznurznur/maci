@@ -1,5 +1,5 @@
-import { getSigners } from "@maci-protocol/contracts";
-import { Keypair } from "@maci-protocol/domainobjs";
+import { getSigners } from "@maci-protocol-extended/contracts";
+import { Keypair } from "@maci-protocol-extended/domainobjs";
 import {
   getBlockTimestamp,
   getJoinedUserData,
@@ -14,8 +14,8 @@ import {
   generateMaciStateTreeWithEndKey,
   deployConstantInitialVoiceCreditProxyFactory,
   EPolicy,
-} from "@maci-protocol/sdk";
-import { joinPoll as joinPollBrowser } from "@maci-protocol/sdk/browser";
+} from "@maci-protocol-extended/sdk";
+import { joinPoll as joinPollBrowser } from "@maci-protocol-extended/sdk/browser";
 import { expect } from "chai";
 import { type Signer } from "ethers";
 

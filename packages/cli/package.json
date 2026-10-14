@@ -1,5 +1,5 @@
 {
-  "name": "@maci-protocol/cli",
+  "name": "@maci-protocol-extended/cli",
   "version": "3.0.0",
   "private": false,
   "description": "CLI utilities for MACI",
@@ -30,8 +30,8 @@
   },
   "dependencies": {
     "@commander-js/extra-typings": "^14.0.0",
-    "@maci-protocol/domainobjs": "^3.0.0",
-    "@maci-protocol/sdk": "^3.0.0",
+    "@maci-protocol-extended/domainobjs": "^3.0.0",
+    "@maci-protocol-extended/sdk": "^3.0.0",
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "commander": "^14.0.0",
     "dotenv": "^17.2.2",

@@ -1,4 +1,4 @@
-import { Keypair, VoteCommand } from "@maci-protocol/domainobjs";
+import { Keypair, VoteCommand } from "@maci-protocol-extended/domainobjs";
 import { expect } from "chai";
 import { type WitnessTester } from "circomkit";
 
