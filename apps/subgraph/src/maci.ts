@@ -22,18 +22,15 @@ export function handleDeployPoll(event: DeployPollEvent): void {
   const voteOptions = pollContract.voteOptions();
   const treeDepths = pollContract.treeDepths();
 
-  const { startTime } = event.params.pollData;
-  const { endTime } = event.params.pollData;
-
   poll.pollId = event.params.pollData.id;
   poll.messageProcessor = event.params.pollContracts.messageProcessor;
   poll.tally = event.params.pollContracts.tally;
   poll.registrationCount = GraphBN.fromI32(0);
   poll.voteOptions = voteOptions;
   poll.treeDepth = GraphBN.fromI32(treeDepths.value0);
-  poll.duration = endTime.minus(startTime);
-  poll.startDate = startTime;
-  poll.endDate = endTime;
+  poll.duration = event.params.pollData.endTime.minus(event.params.pollData.startTime);
+  poll.startDate = event.params.pollData.startTime;
+  poll.endDate = event.params.pollData.endTime;
   poll.mode = GraphBN.fromI32(event.params.pollData.mode);
   poll.policy = event.params.pollData.policy;
   poll.policyType = GraphBN.fromI32(event.params.pollData.policyType);
