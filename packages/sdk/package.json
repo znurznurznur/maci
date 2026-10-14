@@ -61,5 +61,10 @@
     "nyc": "^17.1.0",
     "ts-jest": "^29.4.1",
     "typescript": "^5.9.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/znurznurznur/maci.git",
+    "directory": "packages/sdk"
   }
 }

@@ -65,5 +65,10 @@
     "functions": ">90%",
     "statements": ">90%",
     "check-coverage": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/znurznurznur/maci.git",
+    "directory": "packages/core"
   }
 }

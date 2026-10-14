@@ -51,5 +51,10 @@
     "@types/chai": "^4.3.11",
     "ethers": "^6.15.0",
     "hardhat": "^2.25.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/znurznurznur/maci.git",
+    "directory": "packages/testing"
   }
 }

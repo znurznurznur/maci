@@ -126,5 +126,10 @@
     ],
     "coverageDirectory": "<rootDir>/coverage",
     "testEnvironment": "node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/znurznurznur/maci.git",
+    "directory": "apps/coordinator"
   }
 }

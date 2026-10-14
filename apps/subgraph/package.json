@@ -38,5 +38,10 @@
     "matchstick-as": "^0.6.0",
     "mustache": "^4.2.0",
     "wabt": "^1.0.37"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/znurznurznur/maci.git",
+    "directory": "apps/subgraph"
   }
 }
