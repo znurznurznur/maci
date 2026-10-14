@@ -4,50 +4,51 @@ on:
   push:
     tags: ["*"]
 
+permissions: {}
+
 jobs:
-  draft-release:
+  release:
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
 
     steps:
-      - uses: actions/checkout@v6
-
-      - name: Draft Release
-        run: |
-          gh release create ${GITHUB_REF##*/} --title "${GITHUB_REF##*/}" --draft --generate-notes --prerelease
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  publish:
-    runs-on: ubuntu-24.04
-
-    steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          version: 9
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        with:
+          version: 10.30.2
 
       - name: Use Node.js 20
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 20
-          registry-url: "https://registry.npmjs.org"
-          cache: "pnpm"
+          package-manager-cache: false
 
       - name: Install
         run: |
+          set -euo pipefail
           git config --global url."https://github.com/".insteadOf git://github.com/
-          pnpm install --frozen-lockfile --prefer-offline
+          pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm run build
+        run: pnpm exec lerna run build --scope @maci-protocol/sdk --include-dependencies
 
-      - name: Publish NPM
+      - name: Pack
         run: |
-          # Prevent `git commit error`
-          # It will not be pushed to GitHub as it is ephemeral
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+          set -euo pipefail
+          for pkg in crypto domainobjs core contracts sdk; do
+            pnpm --filter "@maci-protocol/$pkg" pack --pack-destination "$RUNNER_TEMP/packages"
+          done
+          pnpm exec ts-node .github/scripts/packExtended.ts "$RUNNER_TEMP/packages" "$RUNNER_TEMP/tarballs"
 
-          pnpm exec lerna publish from-package --yes
+      - name: Create release
+        run: |
+          set -euo pipefail
+          gh release create "$TAG" --verify-tag --title "$TAG" --generate-notes --prerelease \
+            "$RUNNER_TEMP"/tarballs/*.tgz
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}

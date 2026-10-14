@@ -30,5 +30,5 @@
     "stripInternal": true
   },
   "exclude": ["node_modules"],
-  "include": ["./**/ts", "./**/typechain-types", ".github/scripts/downloadZkeys.ts"]
+  "include": ["./**/ts", "./**/typechain-types", ".github/scripts/downloadZkeys.ts", ".github/scripts/packExtended.ts"]
 }
